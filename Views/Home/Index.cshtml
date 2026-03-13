@@ -3,35 +3,50 @@
 }
 
 <!-- HERO -->
-<section class="hero">
+<section class="home-hero">
     <div class="container">
-        <div class="row align-items-center">
-
-            <div class="col-lg-6">
-                <h1 class="hero-title">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-7">
+                <div class="hero-badge small">
+                    Trusted by 10,000+ buyers
+                </div>
+                <h1 class="hero-title display-5 fw-bold mt-3 mb-2">
                     Find Your <span>Dream Car</span>
                 </h1>
-
-                <p class="hero-subtitle">
-                    Buy and sell verified used cars with confidence.
+                <p class="hero-subtitle mb-4">
+                    Browse thousands of premium vehicles from trusted sellers. Your next car is just a click away.
                 </p>
 
-                <div class="search-box">
-                    <input type="text" placeholder="Search brand..." />
-                    <select>
-                        <option>Select Budget</option>
-                        <option>Below ₹5L</option>
-                        <option>₹5L - ₹15L</option>
-                        <option>Above ₹15L</option>
-                    </select>
-                    <button>Search</button>
+                <div class="hero-cta d-flex flex-wrap gap-3 mb-4">
+                    <a class="btn btn-warning text-white" asp-controller="Cars" asp-action="Browse">
+                        Browse Cars
+                    </a>
+                    <a class="btn btn-outline-warning" asp-controller="Cars" asp-action="OldBrowse">
+                        View All Listings
+                    </a>
+                </div>
+
+                <div class="hero-perks d-flex flex-wrap gap-4 small">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="perk-dot"></span>
+                        Verified Sellers
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="perk-dot"></span>
+                        Quality Guaranteed
+                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-6 text-end">
-                <img src="~/images/hero-car.svg" class="hero-img" alt="Hero car" />
+            <div class="col-lg-5">
+                <div class="hero-media">
+                    <img src="~/images/2721-inset12-2024-maserati-mc20.png" alt="Featured car" />
+                    <div class="hero-counter">
+                        <div class="h5 mb-0">50+</div>
+                        <div class="small">Cars listed</div>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -42,8 +57,11 @@
     <div class="container">
 
         <div class="section-header">
-            <h2>Latest Listings</h2>
-            <a href="#">View All</a>
+            <div>
+                <div class="section-kicker">Featured</div>
+                <h2>Latest Listings</h2>
+            </div>
+            <a asp-controller="Cars" asp-action="Browse">View all →</a>
         </div>
 
         <div class="car-grid">

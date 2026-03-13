@@ -962,55 +962,61 @@ body {
     }
 }
 
-/* HERO */
-.hero {
-    padding: 80px 0;
+/* HOME HERO (reference UI) */
+.home-hero {
+    padding: 60px 0 40px;
 }
 
-.hero-title {
-    font-size: 48px;
-    font-weight: 700;
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #111827;
+    color: #f9fafb;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
-    .hero-title span {
-        color: var(--cb-accent);
-    }
+.hero-title span {
+    color: var(--cb-accent);
+}
 
 .hero-subtitle {
-    color: #6c757d;
-    margin-top: 15px;
+    color: var(--cb-muted);
+    max-width: 38ch;
 }
 
-.hero-img {
-    max-height: 350px;
+.hero-perks .perk-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--cb-accent);
 }
 
-.search-box {
-    display: flex;
-    gap: 10px;
-    margin-top: 25px;
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+.hero-media {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 22px 50px rgba(15, 23, 42, 0.35);
 }
 
-    .search-box input,
-    .search-box select {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-    }
+.hero-media img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+}
 
-    .search-box button {
-        background: var(--cb-accent);
-        border: none;
-        padding: 10px 20px;
-        border-radius: 6px;
-        color: white;
-        font-weight: 500;
-    }
+.hero-counter {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.30);
+}
 
 /* SECTION */
 .latest-section {
@@ -1026,7 +1032,17 @@ body {
     .section-header a {
         color: var(--cb-accent);
         text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
     }
+
+.section-kicker {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cb-muted);
+    margin-bottom: 4px;
+}
 
 /* GRID */
 .car-grid {
