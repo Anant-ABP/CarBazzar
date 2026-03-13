@@ -1,0 +1,141 @@
+@model CarBazzar.Models.Cars.CarCard
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<section class="py-4">
+    <div class="container">
+        <div class="chat-shell">
+            <aside class="chat-aside">
+                <div class="chat-aside-head">
+                    <div class="fw-semibold">Messages</div>
+                    <div class="chat-search">
+                        <span class="icon">🔍</span>
+                        <input placeholder="Search messages..." />
+                    </div>
+                </div>
+
+                <div class="chat-list">
+                    <button class="chat-item is-active" type="button">
+                        <div class="avatar">M</div>
+                        <div class="meta">
+                            <div class="top">
+                                <div class="name">Marcus</div>
+                                <div class="time">2m</div>
+                            </div>
+                            <div class="sub">Available for a test drive!</div>
+                        </div>
+                    </button>
+
+                    <button class="chat-item" type="button">
+                        <div class="avatar">S</div>
+                        <div class="meta">
+                            <div class="top">
+                                <div class="name">Sarah</div>
+                                <div class="time">2h</div>
+                            </div>
+                            <div class="sub">Thanks for the info!</div>
+                        </div>
+                    </button>
+
+                    <button class="chat-item" type="button">
+                        <div class="avatar">C</div>
+                        <div class="meta">
+                            <div class="top">
+                                <div class="name">Carlos</div>
+                                <div class="time">1d</div>
+                            </div>
+                            <div class="sub">Is the price negotiable?</div>
+                        </div>
+                    </button>
+                </div>
+            </aside>
+
+            <main class="chat-main">
+                <div class="chat-main-head">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="avatar">M</div>
+                        <div>
+                            <div class="fw-semibold">Marcus</div>
+                            <div class="small text-muted">Online</div>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button type="button" class="icon-btn" aria-label="Call">📞</button>
+                        <button type="button" class="icon-btn" aria-label="More">⋮</button>
+                    </div>
+                </div>
+
+                <div class="chat-thread">
+                    <div class="chat-date">Today, 10:23 AM</div>
+
+                    <div class="bubble left">
+                        Hi there! I saw your interest in the Mustang. Do you have any questions?
+                        <div class="t">10:23 AM</div>
+                    </div>
+
+                    <div class="bubble right">
+                        Hey Marcus, yes! Is the car still available? I’m located in Chicago as well.
+                        <div class="t">10:24 AM</div>
+                    </div>
+
+                    <div class="bubble left">
+                        Yes, it’s still available. I’m free this weekend if you want to take a look.
+                        <div class="t">10:26 AM</div>
+                    </div>
+
+                    <div class="bubble right">
+                        That sounds great. Would Saturday morning work for you? Say around 10 AM?
+                        <div class="t">10:30 AM</div>
+                    </div>
+
+                    <div class="bubble left">
+                        Saturday 10 AM works perfectly. We can meet at the coffee shop on Main St.
+                        <div class="t">10:32 AM</div>
+                    </div>
+                </div>
+
+                <div class="chat-compose">
+                    <button class="clip" type="button" aria-label="Attach">📎</button>
+                    <input placeholder="Type a message..." />
+                    <button class="send" type="button" aria-label="Send">➤</button>
+                </div>
+            </main>
+
+            <aside class="chat-detail">
+                <div class="fw-semibold mb-2">Listing Details</div>
+                <div class="detail-card">
+                    <img src="@Model.ImageUrl" alt="@Model.Title" />
+                    <div class="p-3">
+                        <div class="detail-price">@Model.Price</div>
+                        <div class="fw-semibold">@Model.Title</div>
+                        <div class="small text-muted mb-3">Premium</div>
+
+                        <div class="spec">
+                            <div class="k">Mileage</div>
+                            <div class="v">30,000 km</div>
+                        </div>
+                        <div class="spec">
+                            <div class="k">Fuel</div>
+                            <div class="v">Petrol</div>
+                        </div>
+                        <div class="spec">
+                            <div class="k">Transmission</div>
+                            <div class="v">Automatic</div>
+                        </div>
+                        <div class="spec">
+                            <div class="k">Location</div>
+                            <div class="v">Chicago, IL</div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="button" class="btn btn-light border">Schedule Test Drive</button>
+                            <button type="button" class="btn btn-light border">Make an Offer</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+

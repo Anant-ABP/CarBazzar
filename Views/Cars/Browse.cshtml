@@ -1,0 +1,86 @@
+@model IReadOnlyList<CarBazzar.Models.Cars.CarCard>
+@{
+    ViewData["Title"] = "Buy Cars";
+}
+
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
+            <div>
+                <h2 class="mb-1">Buy Cars</h2>
+                <div class="text-muted">Browse verified used cars with transparent pricing.</div>
+            </div>
+            <div class="d-flex gap-2">
+                <input class="form-control" style="min-width:240px" placeholder="Search by brand, model..." />
+                <button class="btn btn-warning text-white">Search</button>
+            </div>
+        </div>
+
+        @if (TempData["Toast"] is string toast && !string.IsNullOrWhiteSpace(toast))
+        {
+            <div class="alert alert-success">@toast</div>
+        }
+
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="bg-white rounded-4 p-3 shadow-sm border">
+                    <h6 class="mb-3">Filters</h6>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted mb-1">Budget</label>
+                        <select class="form-select">
+                            <option>Any</option>
+                            <option>Below ₹5L</option>
+                            <option>₹5L - ₹15L</option>
+                            <option>Above ₹15L</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted mb-1">Fuel</label>
+                        <select class="form-select">
+                            <option>Any</option>
+                            <option>Petrol</option>
+                            <option>Diesel</option>
+                            <option>Electric</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted mb-1">Transmission</label>
+                        <select class="form-select">
+                            <option>Any</option>
+                            <option>Automatic</option>
+                            <option>Manual</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-outline-warning w-100">Apply</button>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="car-grid">
+                    @foreach (var car in Model)
+                    {
+                        <div class="car-card">
+                            <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id">
+                                <button type="submit"
+                                        class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "is-active" : "")"
+                                        aria-label="Toggle wishlist"
+                                        aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id).ToString().ToLowerInvariant())">
+                                    ♥
+                                </button>
+                            </form>
+                            <a class="car-card-link text-decoration-none" asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id">
+                                <img src="@car.ImageUrl" alt="@car.Title" />
+                                <div class="car-info">
+                                    <h6 class="text-dark">@car.Title</h6>
+                                    <p class="mb-2">@car.Specs</p>
+                                    <span>@car.Price</span>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

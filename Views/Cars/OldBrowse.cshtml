@@ -1,0 +1,120 @@
+@model IReadOnlyList<CarBazzar.Models.Cars.CarCard>
+@{
+    ViewData["Title"] = "Browse Old Cars";
+}
+
+<section class="py-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="bg-white rounded-4 p-3 shadow-sm border">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Brands</h6>
+                        <span class="small text-muted">All Brands</span>
+                    </div>
+
+                    <div class="small text-muted mb-2">All Brands</div>
+                    <div class="d-grid gap-2 mb-4">
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" checked />
+                            Mercedes-Benz (14)
+                        </label>
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" checked />
+                            BMW (23)
+                        </label>
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" checked />
+                            Audi (8)
+                        </label>
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" checked />
+                            Tesla (11)
+                        </label>
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" checked />
+                            Porsche (5)
+                        </label>
+                    </div>
+
+                    <h6 class="mb-2">Price Range</h6>
+                    <div class="mb-2">
+                        <input type="range" class="form-range" min="10000" max="80000" value="65000" />
+                    </div>
+                    <div class="d-flex justify-content-between small text-muted mb-4">
+                        <span>$10,000</span>
+                        <span>$80,000</span>
+                    </div>
+
+                    <h6 class="mb-2">Fuel Type</h6>
+                    <div class="d-grid gap-2">
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" checked />
+                            Petrol
+                        </label>
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" />
+                            Diesel
+                        </label>
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" />
+                            Electric
+                        </label>
+                        <label class="d-flex align-items-center gap-2 small">
+                            <input type="checkbox" />
+                            Hybrid
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+                    <div class="flex-grow-1" style="min-width:260px;">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">🔍</span>
+                            <input class="form-control border-start-0" placeholder="Search cars by name, brand or model..." />
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="small text-muted">Sort by:</div>
+                        <select class="form-select" style="min-width:160px;">
+                            <option selected>Newest First</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="old-grid">
+                    @foreach (var car in Model)
+                    {
+                        <div class="old-card">
+                            <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id">
+                                <button type="submit"
+                                        class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "is-active" : "")"
+                                        aria-label="Toggle wishlist"
+                                        aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id).ToString().ToLowerInvariant())">
+                                    ♥
+                                </button>
+                            </form>
+
+                            <a class="text-decoration-none" asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id">
+                                <img class="old-card-img" src="@car.ImageUrl" alt="@car.Title" />
+                                <div class="old-card-body">
+                                    <div class="d-flex justify-content-between align-items-start gap-2">
+                                        <div class="fw-semibold text-dark">@car.Title</div>
+                                        <div class="old-price">@car.Price</div>
+                                    </div>
+                                    <div class="small text-muted">@car.Specs</div>
+                                    <div class="old-cta">View Details</div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

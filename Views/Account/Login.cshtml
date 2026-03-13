@@ -1,0 +1,80 @@
+@model CarBazzar.Models.Auth.LoginViewModel
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Login";
+}
+
+<section class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-left">
+            <div class="auth-left-content">
+                <div class="auth-kicker">Find your next ride</div>
+                <h2 class="auth-left-title">Join the community</h2>
+                <p class="auth-left-subtitle">
+                    Buy and sell verified used cars with confidence on CarBazzar.
+                </p>
+
+                <div class="auth-visual">
+                    <img src="~/images/hero-car.svg" alt="Car" />
+                </div>
+
+                <p class="auth-left-footnote">
+                    Secure logins, verified sellers, and transparent deals in one place.
+                </p>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-brand">
+                <div class="auth-brand-mark"></div>
+                <div class="auth-brand-name">CarBazzar</div>
+            </div>
+
+            <h1 class="auth-title">User Login</h1>
+            <p class="auth-subtitle">Welcome back. Sign in to browse and sell cars.</p>
+
+            <form asp-action="Login" asp-controller="Account" method="post" class="auth-form" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+
+                <div class="auth-field">
+                    <label asp-for="Email" class="form-label auth-label"></label>
+                    <input asp-for="Email" class="form-control auth-input" placeholder="Enter your email" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="auth-field">
+                    <label asp-for="Password" class="form-label auth-label"></label>
+                    <div class="auth-password">
+                        <input asp-for="Password" class="form-control auth-input" placeholder="Enter password" />
+                        <button type="button" class="auth-eye" data-password-toggle aria-label="Toggle password">
+                            <span class="auth-eye-dot"></span>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="auth-row">
+                    <div class="form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label small"></label>
+                    </div>
+                    <a class="auth-link small" href="#" aria-disabled="true">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn auth-btn w-100">Log in</button>
+
+                <div class="auth-foot">
+                    <span class="small text-muted">Don’t have an account?</span>
+                    <a class="auth-link small" asp-controller="Account" asp-action="Register">Sign up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

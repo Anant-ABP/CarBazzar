@@ -1,0 +1,65 @@
+@model CarBazzar.Models.Profile.EditProfileViewModel
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<section class="py-5">
+    <div class="container">
+        <div class="mb-4">
+            <a class="text-decoration-none" asp-controller="Profile" asp-action="Index">← Back to Profile</a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="bg-white rounded-4 p-4 shadow-sm border">
+                    <h6 class="mb-2">Profile settings</h6>
+                    <p class="small text-muted mb-0">
+                        Update your personal details. This is a UI prototype matching the Figma layout.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="bg-white rounded-4 p-4 shadow-sm border">
+                    <form asp-controller="Profile" asp-action="Edit" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FullName" class="form-label"></label>
+                                <input asp-for="FullName" class="form-control" />
+                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Phone" class="form-label"></label>
+                                <input asp-for="Phone" class="form-control" />
+                                <span asp-validation-for="Phone" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Location" class="form-label"></label>
+                                <input asp-for="Location" class="form-control" />
+                                <span asp-validation-for="Location" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a class="btn btn-outline-secondary" asp-controller="Profile" asp-action="Index">Cancel</a>
+                            <button class="btn btn-warning text-white px-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

@@ -1,0 +1,78 @@
+@model CarBazzar.Models.Auth.RegisterViewModel
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Register";
+}
+
+<section class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-left">
+            <div class="auth-left-content">
+                <div class="auth-kicker">Join the community</div>
+                <h2 class="auth-left-title">Create your account</h2>
+                <p class="auth-left-subtitle">
+                    Create an account to start buying and selling verified used cars.
+                </p>
+
+                <div class="auth-visual">
+                    <img src="~/images/hero-car.svg" alt="Car" />
+                </div>
+
+                <p class="auth-left-footnote">
+                    Secure signup, verified sellers, and transparent deals in one place.
+                </p>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-brand">
+                <div class="auth-brand-mark"></div>
+                <div class="auth-brand-name">CarBazzar</div>
+            </div>
+
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Sign up to access exclusive car deals today.</p>
+
+            <form asp-action="Register" asp-controller="Account" method="post" class="auth-form" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+
+                <div class="auth-field">
+                    <label asp-for="FullName" class="form-label auth-label"></label>
+                    <input asp-for="FullName" class="form-control auth-input" placeholder="Enter your full name" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+
+                <div class="auth-field">
+                    <label asp-for="Email" class="form-label auth-label"></label>
+                    <input asp-for="Email" class="form-control auth-input" placeholder="Enter your email" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="auth-field">
+                    <label asp-for="Password" class="form-label auth-label"></label>
+                    <div class="auth-password">
+                        <input asp-for="Password" class="form-control auth-input" placeholder="Create a password" />
+                        <button type="button" class="auth-eye" data-password-toggle aria-label="Toggle password">
+                            <span class="auth-eye-dot"></span>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn auth-btn w-100">Sign up</button>
+
+                <div class="auth-foot">
+                    <span class="small text-muted">Already have an account?</span>
+                    <a class="auth-link small" asp-controller="Account" asp-action="Login">Log in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

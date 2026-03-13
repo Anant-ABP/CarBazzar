@@ -1,0 +1,146 @@
+@{
+    ViewData["Title"] = "Sell Car";
+}
+
+<section class="sell-hero">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <span class="sell-badge">Trusted by 50K+ sellers</span>
+                <h1 class="sell-hero-title">
+                    Turn your car into <span>cash</span> safely.
+                </h1>
+                <p class="sell-hero-subtitle">
+                    Experience the fastest way to sell your used car. No middlemen, no hidden fees, just direct connection with verified buyers.
+                </p>
+
+                <ul class="sell-hero-list">
+                    <li>
+                        <span class="dot"></span>
+                        Verified buyers only
+                    </li>
+                    <li>
+                        <span class="dot"></span>
+                        AI-enhanced listings for better reach
+                    </li>
+                </ul>
+
+                <div class="sell-hero-actions">
+                    <a asp-controller="Cars" asp-action="Sell" class="btn sell-primary-btn">Start Selling Now</a>
+                    <button type="button" class="btn btn-outline-secondary sell-secondary-btn">How it works</button>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="sell-hero-image">
+                    <img src="~/images/hero-car.svg" alt="Car at night" />
+                    <div class="sell-hero-stats">
+                        <div>
+                            <div class="label">Active buyers</div>
+                            <div class="value">12k+</div>
+                        </div>
+                        <div>
+                            <div class="label">Avg. sale time</div>
+                            <div class="value">48h</div>
+                        </div>
+                        <div>
+                            <div class="label">Commission</div>
+                            <div class="value">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="sell-form-shell">
+    <div class="container">
+        <div class="sell-form-card">
+            <aside class="sell-form-aside">
+                <h5 class="mb-3">Details for your listing</h5>
+                <p class="small mb-4">
+                    Provide accurate details to get the best price. Buyers trust listings with
+                    complete information and high‑quality photos.
+                </p>
+
+                <div class="sell-safety">
+                    <div class="small fw-semibold mb-1">Your data is secure.</div>
+                    <p class="small mb-0">
+                        We never share your personal phone number publicly.
+                    </p>
+                </div>
+            </aside>
+
+            <div class="sell-form-main">
+                <h5 class="mb-3">Car information</h5>
+                <form asp-controller="Cars" asp-action="Sell" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Brand &amp; Model</label>
+                            <select class="form-select">
+                                <option>Select Make…</option>
+                                <option>Honda Civic</option>
+                                <option>Toyota Camry</option>
+                                <option>Hyundai i20</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Year of Registration</label>
+                            <input class="form-control" placeholder="e.g. 2021" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">KM Driven</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="0" />
+                                <span class="input-group-text">km</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Fuel Type</label>
+                            <select class="form-select">
+                                <option>Select Fuel…</option>
+                                <option>Petrol</option>
+                                <option>Diesel</option>
+                                <option>Electric</option>
+                                <option>CNG</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Expected Price</label>
+                            <input class="form-control" placeholder="e.g. ₹8,50,000" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Description</label>
+                            <textarea class="form-control" rows="4"
+                                      placeholder="Tell buyers about the condition, features, and history..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="form-label small text-muted">Upload Photos</label>
+                        <div class="sell-upload-area">
+                            <div class="sell-upload-drop">
+                                <div class="icon">⬆</div>
+                                <div class="title">Click to upload or drag and drop</div>
+                                <div class="hint">Max 10 photos, .JPG or .PNG.</div>
+                            </div>
+                            <div class="sell-upload-thumbs">
+                                <div class="thumb thumb-filled"></div>
+                                <div class="thumb thumb-filled"></div>
+                                <button type="button" class="thumb thumb-add">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a class="btn btn-outline-secondary" asp-controller="Cars" asp-action="Browse">Cancel</a>
+                        <button class="btn sell-primary-btn px-4">Post Listing</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

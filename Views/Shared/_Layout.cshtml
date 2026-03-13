@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CarBazzar</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CarBazzar.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="main-header shadow-sm">
+        <nav class="navbar navbar-expand-lg bg-white main-nav">
+            <div class="container d-flex align-items-center">
+                <a class="navbar-brand d-flex align-items-center gap-2 header-brand"
+                   asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark"></span>
+                    <span class="d-flex flex-column">
+                        <span class="brand-title">CarBazaar</span>
+                        <span class="brand-subtitle">Find your perfect ride</span>
+                    </span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto align-items-lg-center header-links">
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+                               asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cars" && ViewContext.RouteData.Values["action"]?.ToString() == "Browse" ? "active" : "")"
+                               asp-controller="Cars" asp-action="Browse">Buy Cars</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle sell-nav-toggle nav-pill" href="#" id="sellDropdown"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Buy Old Car
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end sell-nav-menu" aria-labelledby="sellDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Cars" asp-action="OldBrowse">
+                                        Browse old cars
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Cars" asp-action="Sell">
+                                        Sell your old car
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Wishlist" ? "active" : "")"
+                               asp-controller="Wishlist" asp-action="Index">Wishlist</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Profile" ? "active" : "")"
+                               asp-controller="Profile" asp-action="Index">Profile</a>
+                        </li>
+
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                            <a class="btn btn-outline-dark px-3"
+                               asp-controller="Account" asp-action="Login">
+                                Log Out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="app-shell">
+        <main role="main" class="app-main">
+            @RenderBody()
+        </main>
+
+        <footer class="cb-footer mt-auto">
+            <div class="container py-5">
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <span class="brand-mark"></span>
+                            <div>
+                                <div class="footer-brand">CarBazaar</div>
+                                <div class="small text-muted">Find your perfect ride</div>
+                            </div>
+                        </div>
+                        <p class="small footer-muted mb-0">
+                            The premier marketplace for buying and selling new and used cars.
+                            Trusted by thousands of car enthusiasts worldwide.
+                        </p>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="footer-title">Quick Links</div>
+                        <ul class="list-unstyled small mb-0 footer-links">
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-controller="Cars" asp-action="Browse">New Cars</a></li>
+                            <li><a asp-controller="Cars" asp-action="OldBrowse">Used Cars</a></li>
+                            <li><a asp-controller="Cars" asp-action="Sell">Sell Your Car</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="footer-title">Contact</div>
+                        <div class="small footer-muted">
+                            support@carbazaar.com<br />
+                            +1 (555) 123-4567<br />
+                            123 Auto Mall Dr,<br />
+                            Los Angeles, CA 90210
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cb-footer-bottom">
+                <div class="container d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap">
+                    <div class="small footer-muted">© 2026 CarBazaar. All rights reserved.</div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">𝕏</a>
+                        <a href="#" aria-label="Instagram">⌁</a>
+                        <a href="#" aria-label="YouTube">▶</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

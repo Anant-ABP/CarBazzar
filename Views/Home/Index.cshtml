@@ -1,0 +1,205 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                    Find Your <span>Dream Car</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Buy and sell verified used cars with confidence.
+                </p>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Search brand..." />
+                    <select>
+                        <option>Select Budget</option>
+                        <option>Below ₹5L</option>
+                        <option>₹5L - ₹15L</option>
+                        <option>Above ₹15L</option>
+                    </select>
+                    <button>Search</button>
+                </div>
+            </div>
+
+            <div class="col-lg-6 text-end">
+                <img src="~/images/hero-car.svg" class="hero-img" alt="Hero car" />
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- LATEST LISTINGS -->
+<section class="latest-section">
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Latest Listings</h2>
+            <a href="#">View All</a>
+        </div>
+
+        <div class="car-grid">
+
+            <!-- CARD 1 -->
+            <div class="car-card">
+                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="1">
+                    <button type="submit"
+                            class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(1) ? "is-active" : "")"
+                            aria-label="Toggle wishlist"
+                            aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(1).ToString().ToLowerInvariant())">
+                        ♥
+                    </button>
+                </form>
+                <a class="car-card-link" asp-controller="Cars" asp-action="Details" asp-route-id="1">
+                    <img src="~/images/coupe.jpg" alt="Toyota Camry 2022" />
+                    <div class="car-info">
+                        <h6>Toyota Camry 2022</h6>
+                        <p>Petrol • Automatic • 12,000 km</p>
+                        <span>₹29,50,000</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="car-card">
+                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="2">
+                    <button type="submit"
+                            class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(2) ? "is-active" : "")"
+                            aria-label="Toggle wishlist"
+                            aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(2).ToString().ToLowerInvariant())">
+                        ♥
+                    </button>
+                </form>
+                <a class="car-card-link" asp-controller="Cars" asp-action="Details" asp-route-id="2">
+                    <img src="~/images/images.jpg" alt="Honda Civic 2021" />
+                    <div class="car-info">
+                        <h6>Honda Civic 2021</h6>
+                        <p>Petrol • Manual • 18,000 km</p>
+                        <span>₹24,20,000</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="car-card">
+                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="3">
+                    <button type="submit"
+                            class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(3) ? "is-active" : "")"
+                            aria-label="Toggle wishlist"
+                            aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(3).ToString().ToLowerInvariant())">
+                        ♥
+                    </button>
+                </form>
+                <a class="car-card-link" asp-controller="Cars" asp-action="Details" asp-route-id="3">
+                    <img src="~/images/sedan.jpg" alt="BMW 3 Series" />
+                    <div class="car-info">
+                        <h6>BMW 3 Series</h6>
+                        <p>Diesel • Automatic • 9,000 km</p>
+                        <span>₹42,00,000</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="car-card">
+                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="4">
+                    <button type="submit"
+                            class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(4) ? "is-active" : "")"
+                            aria-label="Toggle wishlist"
+                            aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(4).ToString().ToLowerInvariant())">
+                        ♥
+                    </button>
+                </form>
+                <a class="car-card-link" asp-controller="Cars" asp-action="Details" asp-route-id="4">
+                    <img src="~/images/suv.jpg" alt="Audi A4" />
+                    <div class="car-info">
+                        <h6>Audi A4</h6>
+                        <p>Petrol • Automatic • 15,000 km</p>
+                        <span>₹37,00,000</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CARD 5 -->
+            <div class="car-card">
+                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="5">
+                    <button type="submit"
+                            class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(5) ? "is-active" : "")"
+                            aria-label="Toggle wishlist"
+                            aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(5).ToString().ToLowerInvariant())">
+                        ♥
+                    </button>
+                </form>
+                <a class="car-card-link" asp-controller="Cars" asp-action="Details" asp-route-id="5">
+                    <img src="~/images/truc.jpg" alt="Mustang GT" />
+                    <div class="car-info">
+                        <h6>Mustang GT</h6>
+                        <p>Petrol • Automatic • 5,000 km</p>
+                        <span>₹55,00,000</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- CARD 6 -->
+            <div class="car-card">
+                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="6">
+                    <button type="submit"
+                            class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(6) ? "is-active" : "")"
+                            aria-label="Toggle wishlist"
+                            aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(6).ToString().ToLowerInvariant())">
+                        ♥
+                    </button>
+                </form>
+                <a class="car-card-link" asp-controller="Cars" asp-action="Details" asp-route-id="6">
+                    <img src="~/images/suv.jpg" alt="Mercedes C-Class" />
+                    <div class="car-info">
+                        <h6>Mercedes C-Class</h6>
+                        <p>Diesel • Automatic • 10,000 km</p>
+                        <span>₹48,00,000</span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- BROWSE BY TYPE -->
+<section class="type-section">
+    <div class="container">
+        <h2 class="text-center mb-5">Browse by Type</h2>
+
+        <div class="type-grid">
+
+            <div class="type-card">
+                <img src="~/images/suv.jpg" alt="SUV" />
+                <h6>SUV</h6>
+            </div>
+
+            <div class="type-card">
+                <img src="~/images/sedan.jpg" alt="Sedan" />
+                <h6>Sedan</h6>
+            </div>
+
+            <div class="type-card">
+                <img src="~/images/coupe.jpg" alt="Coupe" />
+                <h6>Coupe</h6>
+            </div>
+
+            <div class="type-card">
+                <img src="~/images/truc.jpg" alt="Hatchback" />
+                <h6>Hatchback</h6>
+            </div>
+
+        </div>
+    </div>
+</section>

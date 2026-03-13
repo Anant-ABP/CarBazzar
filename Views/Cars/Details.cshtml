@@ -1,0 +1,69 @@
+@model CarBazzar.Models.Cars.CarCard
+@{
+    ViewData["Title"] = "Car Details";
+}
+
+<section class="py-5">
+    <div class="container">
+        <div class="mb-4">
+            <a class="text-decoration-none" href="@(Context.Request.Headers["Referer"].ToString() ?? Url.Action("Browse","Cars"))">← Back to Listing</a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="bg-white rounded-4 p-3 shadow-sm border">
+                    <img src="@Model.ImageUrl" alt="@Model.Title" class="w-100" style="height:420px; object-fit:contain;" />
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="bg-white rounded-4 p-4 shadow-sm border">
+                    <h3 class="mb-1">@Model.Title</h3>
+                    <div class="text-muted mb-3">@Model.Specs</div>
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="h4 m-0 text-warning">@Model.Price</div>
+                        <span class="badge text-bg-light border">Verified</span>
+                    </div>
+
+                    <div class="row g-2 mb-4">
+                        <div class="col-6">
+                            <div class="p-3 rounded-4 border bg-light">
+                                <div class="small text-muted">Owner</div>
+                                <div class="fw-semibold">1st</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 rounded-4 border bg-light">
+                                <div class="small text-muted">Location</div>
+                                <div class="fw-semibold">Surat</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 rounded-4 border bg-light">
+                                <div class="small text-muted">Insurance</div>
+                                <div class="fw-semibold">Valid</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 rounded-4 border bg-light">
+                                <div class="small text-muted">Warranty</div>
+                                <div class="fw-semibold">6 months</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-warning text-white btn-lg">Contact Seller</button>
+                        <a class="btn btn-outline-warning btn-lg" asp-controller="Messages" asp-action="Index" asp-route-carId="@Model.Id">Chat with Seller</a>
+                    </div>
+
+                    <div class="small text-muted mt-3">
+                        This is a UI prototype matching the Figma layout. Hook it up to your database and auth to make it functional.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
