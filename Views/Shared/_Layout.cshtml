@@ -7,101 +7,535 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CarBazzar.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f0eb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cb-header {
+            background: #ffffff;
+            border-bottom: 1px solid #f0ece6;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+        }
+
+        .cb-nav {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .cb-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .cb-brand-icon {
+            width: 36px;
+            height: 36px;
+            background: #f07500;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+        }
+
+        .cb-brand:hover .cb-brand-icon {
+            transform: rotate(-8deg) scale(1.08);
+        }
+
+        .cb-brand-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+        }
+
+        .cb-brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .cb-brand-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1a1008;
+            letter-spacing: -0.3px;
+        }
+
+        .cb-brand-sub {
+            font-size: 10.5px;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        .cb-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .cb-nav-links .nav-link,
+            .cb-nav-links a {
+                font-size: 13.5px;
+                font-weight: 600;
+                color: #555;
+                text-decoration: none;
+                padding: 7px 13px;
+                border-radius: 8px;
+                transition: color 0.2s, background 0.2s;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                white-space: nowrap;
+            }
+
+                .cb-nav-links .nav-link:hover,
+                .cb-nav-links a:hover {
+                    color: #f07500;
+                    background: #fff5eb;
+                }
+
+                .cb-nav-links .nav-link.active,
+                .cb-nav-links a.active {
+                    color: #f07500;
+                    background: #fff5eb;
+                }
+
+        .cb-dropdown {
+            position: relative;
+        }
+
+        .cb-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+            padding: 6px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px);
+            transition: all 0.2s ease;
+            z-index: 100;
+            list-style: none;
+            margin: 0;
+        }
+
+        .cb-dropdown:hover .cb-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .cb-dropdown-menu li a {
+            display: block;
+            padding: 9px 14px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #444;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.18s, color 0.18s;
+        }
+
+            .cb-dropdown-menu li a:hover {
+                background: #fff5eb;
+                color: #f07500;
+            }
+
+        .cb-icon-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #555;
+            text-decoration: none;
+            padding: 7px 13px;
+            border-radius: 8px;
+            transition: color 0.2s, background 0.2s;
+            white-space: nowrap;
+        }
+
+            .cb-icon-link:hover {
+                color: #f07500;
+                background: #fff5eb;
+            }
+
+            .cb-icon-link.active {
+                color: #f07500;
+                background: #fff5eb;
+            }
+
+            .cb-icon-link svg {
+                width: 15px;
+                height: 15px;
+                flex-shrink: 0;
+            }
+
+        .cb-logout-btn {
+            background: #e53935;
+            color: #fff !important;
+            font-size: 13.5px;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 9px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.22s, transform 0.15s;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+            .cb-logout-btn:hover {
+                background: #c62828;
+                transform: translateY(-1px);
+                color: #fff !important;
+            }
+
+        .cb-toggler {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+            .cb-toggler span {
+                display: block;
+                width: 22px;
+                height: 2px;
+                background: #1a1a1a;
+                border-radius: 2px;
+                transition: all 0.3s;
+            }
+
+        /* ══ KEY FIX ══ */
+        .app-shell {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .app-main {
+            flex: 1; /* pushes footer to bottom */
+        }
+
+        .cb-footer {
+            background: #1a1a1a;
+            padding: 80px 0 0;
+            color: #ffffff;
+        }
+
+        .cb-footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .cb-footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 80px;
+            padding-bottom: 60px;
+        }
+
+        .cb-footer-brand-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .cb-footer-brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #f07500;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cb-footer-brand-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+        }
+
+        .cb-footer-brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .cb-footer-desc {
+            font-size: 15px;
+            color: #999;
+            line-height: 1.6;
+            max-width: 340px;
+        }
+
+        .cb-footer-col-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 24px;
+        }
+
+        .cb-footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .cb-footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .cb-footer-links a:hover {
+            color: #f07500;
+        }
+
+        .cb-footer-contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .cb-footer-contact-item {
+            font-size: 15px;
+            color: #999;
+            line-height: 1.6;
+        }
+
+        .cb-footer-bottom {
+            border-top: 1px solid #2a2a2a;
+            padding: 30px 0;
+        }
+
+        .cb-footer-bottom-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cb-footer-copy {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cb-footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .cb-social-btn {
+            width: 36px;
+            height: 36px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .cb-social-btn:hover {
+            background: #f07500;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .cb-social-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        @@media (max-width: 900px) {
+            .cb-footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .cb-footer-bottom-inner {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header class="main-header shadow-sm">
-        <nav class="navbar navbar-expand-lg bg-white main-nav">
-            <div class="container d-flex align-items-center">
-                <a class="navbar-brand d-flex align-items-center gap-2 header-brand"
-                   asp-controller="Home" asp-action="Index">
-                    <span class="brand-mark"></span>
-                    <span class="d-flex flex-column">
-                        <span class="brand-title">CarBazaar</span>
-                        <span class="brand-subtitle">Find your perfect ride</span>
-                    </span>
-                </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarContent">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <!-- ══ HEADER ══ -->
+    <header class="cb-header">
+        <nav class="cb-nav" style="position:relative">
 
-                <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav ms-auto align-items-lg-center header-links">
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
-                               asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cars" && ViewContext.RouteData.Values["action"]?.ToString() == "Browse" ? "active" : "")"
-                               asp-controller="Cars" asp-action="Browse">Buy Cars</a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle sell-nav-toggle nav-pill" href="#" id="sellDropdown"
-                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Buy Old Car
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end sell-nav-menu" aria-labelledby="sellDropdown">
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Cars" asp-action="OldBrowse">
-                                        Browse old cars
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Cars" asp-action="Sell">
-                                        Sell your old car
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Wishlist" ? "active" : "")"
-                               asp-controller="Wishlist" asp-action="Index">Wishlist</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Profile" ? "active" : "")"
-                               asp-controller="Profile" asp-action="Index">Profile</a>
-                        </li>
-
-                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                            <a class="btn btn-outline-dark px-3"
-                               asp-controller="Account" asp-action="Login">
-                                Log Out
-                            </a>
-                        </li>
-                    </ul>
+            <a class="cb-brand" asp-controller="Home" asp-action="Index">
+                <div class="cb-brand-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" />
+                    </svg>
                 </div>
+                <div class="cb-brand-text">
+                    <span class="cb-brand-name">CarBazaar</span>
+                    <span class="cb-brand-sub">Find your perfect ride</span>
+                </div>
+            </a>
+
+            <button class="cb-toggler" id="cb-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="cb-nav-collapse" id="cb-nav-collapse">
+                <ul class="cb-nav-links">
+
+                    <li>
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+                           asp-controller="Home" asp-action="Index">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cars" && ViewContext.RouteData.Values["action"]?.ToString() == "Browse" ? "active" : "")"
+                           asp-controller="Cars" asp-action="Browse">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                <circle cx="9" cy="21" r="1" />
+                                <circle cx="20" cy="21" r="1" />
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                            </svg>
+                            Buy Cars
+                        </a>
+                    </li>
+
+                    <li class="cb-dropdown">
+                        <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() is "OldBrowse" or "Sell" ? "active" : "")" href="#">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            </svg>
+                            Sell Car
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11" height="11" style="margin-left:2px">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                        </a>
+                        <ul class="cb-dropdown-menu">
+                            <li><a asp-controller="Cars" asp-action="OldBrowse">Browse Old Cars</a></li>
+                            <li><a asp-controller="Cars" asp-action="Sell">Sell Your Car</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="cb-icon-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Wishlist" ? "active" : "")"
+                           asp-controller="Wishlist" asp-action="Index">
+                            <svg viewBox="0 0 24 24" fill="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Wishlist" ? "#f07500" : "none")" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                            Wishlist
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="cb-icon-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Profile" ? "active" : "")"
+                           asp-controller="Profile" asp-action="Index">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            Profile
+                        </a>
+                    </li>
+
+                    <li style="margin-left:6px">
+                        <a class="cb-logout-btn" asp-controller="Account" asp-action="Login">Log Out</a>
+                    </li>
+
+                </ul>
             </div>
+
         </nav>
     </header>
+
+
     <div class="app-shell">
+
         <main role="main" class="app-main">
             @RenderBody()
         </main>
 
-        <footer class="cb-footer mt-auto">
-            <div class="container py-5">
-                <div class="row g-4">
-                    <div class="col-lg-5">
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <span class="brand-mark"></span>
-                            <div>
-                                <div class="footer-brand">CarBazaar</div>
-                                <div class="small text-muted">Find your perfect ride</div>
+      
+        <footer class="cb-footer">
+            <div class="cb-footer-inner">
+                <div class="cb-footer-grid">
+
+                    <div>
+                        <div class="cb-footer-brand-row">
+                            <div class="cb-footer-brand-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z" />
+                                </svg>
                             </div>
+                            <span class="cb-footer-brand-name">CarBazaar</span>
                         </div>
-                        <p class="small footer-muted mb-0">
-                            The premier marketplace for buying and selling new and used cars.
-                            Trusted by thousands of car enthusiasts worldwide.
+                        <p class="cb-footer-desc">
+                            The premier marketplace for buying and selling new and used cars. Trusted by thousands of car enthusiasts worldwide.
                         </p>
                     </div>
 
-                    <div class="col-lg-3">
-                        <div class="footer-title">Quick Links</div>
-                        <ul class="list-unstyled small mb-0 footer-links">
+                    <div>
+                        <div class="cb-footer-col-title">Quick Links</div>
+                        <ul class="cb-footer-links">
                             <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                             <li><a asp-controller="Cars" asp-action="Browse">New Cars</a></li>
                             <li><a asp-controller="Cars" asp-action="OldBrowse">Used Cars</a></li>
@@ -109,34 +543,53 @@
                         </ul>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="footer-title">Contact</div>
-                        <div class="small footer-muted">
-                            support@carbazaar.com<br />
-                            +1 (555) 123-4567<br />
-                            123 Auto Mall Dr,<br />
-                            Los Angeles, CA 90210
-                        </div>
+                    <div>
+                        <div class="cb-footer-col-title">Contact</div>
+                        <ul class="cb-footer-contact-list">
+                            <li class="cb-footer-contact-item">support@carBazaar.com</li>
+                            <li class="cb-footer-contact-item">+91 (555) 123-4567</li>
+                            <li class="cb-footer-contact-item">123 Rajkot, Gujarat, India 360020</li>
+                        </ul>
                     </div>
+
                 </div>
             </div>
 
             <div class="cb-footer-bottom">
-                <div class="container d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap">
-                    <div class="small footer-muted">© 2026 CarBazaar. All rights reserved.</div>
-                    <div class="footer-social">
-                        <a href="#" aria-label="Facebook">f</a>
-                        <a href="#" aria-label="Twitter">𝕏</a>
-                        <a href="#" aria-label="Instagram">⌁</a>
-                        <a href="#" aria-label="YouTube">▶</a>
+                <div class="cb-footer-bottom-inner">
+                    <div class="cb-footer-copy">
+                        &copy; 2025 CarBazaar. All rights reserved.
+                    </div>
+                    <div class="cb-footer-social">
+                        <a href="#" class="cb-social-btn">
+                            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        </a>
+                        <a href="#" class="cb-social-btn">
+                            <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                        </a>
+                        <a href="#" class="cb-social-btn">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="#" class="cb-social-btn">
+                            <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.11 1 12 1 12s0 3.89.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.89 23 12 23 12s0-3.89-.46-5.58z"></path><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon></svg>
+                        </a>
                     </div>
                 </div>
             </div>
         </footer>
+
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        const toggle = document.getElementById('cb-toggle');
+        const collapse = document.getElementById('cb-nav-collapse');
+        toggle.addEventListener('click', function () {
+            collapse.classList.toggle('open');
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

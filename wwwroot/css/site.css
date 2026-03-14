@@ -7,6 +7,7 @@ body {
     background: #fff7f2;
     display: flex;
     flex-direction: column;
+
 }
 
 .app-shell {
@@ -1154,3 +1155,15 @@ body {
         object-fit: cover;
         border-radius: 10px;
     }
+
+
+
+
+
+
+
+
+
+
+
+

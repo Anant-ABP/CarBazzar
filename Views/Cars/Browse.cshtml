@@ -1,86 +1,320 @@
 @model IReadOnlyList<CarBazzar.Models.Cars.CarCard>
 @{
-    ViewData["Title"] = "Buy Cars";
+    ViewData["Title"] = "Browse Cars";
 }
 
-<section class="py-5">
+<section class="py-5" style="background: #fffaf5; min-height: 100vh;">
     <div class="container">
-        <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
-            <div>
-                <h2 class="mb-1">Buy Cars</h2>
-                <div class="text-muted">Browse verified used cars with transparent pricing.</div>
-            </div>
-            <div class="d-flex gap-2">
-                <input class="form-control" style="min-width:240px" placeholder="Search by brand, model..." />
-                <button class="btn btn-warning text-white">Search</button>
-            </div>
+        
+        <!-- Header -->
+        <div class="mb-5">
+            <h1 class="fw-bold mb-1" style="color: #1a202c; font-size: 36px;">Browse Cars</h1>
+            <p class="text-muted fs-5">Find your perfect vehicle from our collection</p>
         </div>
 
-        @if (TempData["Toast"] is string toast && !string.IsNullOrWhiteSpace(toast))
-        {
-            <div class="alert alert-success">@toast</div>
-        }
-
         <div class="row g-4">
+            <!-- Sidebar Filters -->
             <div class="col-lg-3">
-                <div class="bg-white rounded-4 p-3 shadow-sm border">
-                    <h6 class="mb-3">Filters</h6>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted mb-1">Budget</label>
-                        <select class="form-select">
-                            <option>Any</option>
-                            <option>Below ₹5L</option>
-                            <option>₹5L - ₹15L</option>
-                            <option>Above ₹15L</option>
-                        </select>
+                <div class="filter-sidebar">
+                    
+                    <!-- Brands -->
+                    <div class="filter-group mb-4">
+                        <h6 class="filter-title">Brands</h6>
+                        <div class="filter-options">
+                            <label class="filter-radio">
+                                <input type="radio" name="brand" checked>
+                                <span class="radio-label">All Brands</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">Mercedes-Benz (1)</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">BMW (1)</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">Audi (1)</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">Tesla (1)</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">Porsche (1)</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">Ford (1)</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">Chevrolet (1)</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="brand">
+                                <span class="radio-label">Nissan (1)</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted mb-1">Fuel</label>
-                        <select class="form-select">
-                            <option>Any</option>
-                            <option>Petrol</option>
-                            <option>Diesel</option>
-                            <option>Electric</option>
-                        </select>
+
+                    <!-- Price Range -->
+                    <div class="filter-group mb-4">
+                        <h6 class="filter-title">Price Range</h6>
+                        <div class="price-inputs">
+                            <div class="price-input-wrapper">
+                                <span class="currency">$</span>
+                                <input type="number" value="10000" class="form-control">
+                            </div>
+                            <div class="price-input-wrapper mt-2">
+                                <span class="currency">$</span>
+                                <input type="number" value="120000" class="form-control">
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted mb-1">Transmission</label>
-                        <select class="form-select">
-                            <option>Any</option>
-                            <option>Automatic</option>
-                            <option>Manual</option>
-                        </select>
+
+                    <!-- Fuel Type -->
+                    <div class="filter-group">
+                        <h6 class="filter-title">Fuel Type</h6>
+                        <div class="filter-options">
+                            <label class="filter-radio">
+                                <input type="radio" name="fuel" checked>
+                                <span class="radio-label">All</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="fuel">
+                                <span class="radio-label">Gasoline</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="fuel">
+                                <span class="radio-label">Hybrid</span>
+                            </label>
+                            <label class="filter-radio">
+                                <input type="radio" name="fuel">
+                                <span class="radio-label">Electric</span>
+                            </label>
+                        </div>
                     </div>
-                    <button class="btn btn-outline-warning w-100">Apply</button>
+
                 </div>
             </div>
 
+            <!-- Main Content -->
             <div class="col-lg-9">
-                <div class="car-grid">
+                
+                <!-- Search & Sort Bar -->
+                <div class="search-sort-bar mb-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-7">
+                            <div class="search-wrapper">
+                                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                                </svg>
+                                <input type="text" class="form-control ps-5" placeholder="Search cars by name, brand or model...">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="d-flex align-items-center justify-content-md-end gap-3">
+                                <span class="text-muted small text-nowrap">Sort by:</span>
+                                <select class="form-select w-auto">
+                                    <option>Newest First</option>
+                                    <option>Price: Low to High</option>
+                                    <option>Price: High to Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="results-count fw-medium text-muted">@Model.Count cars found</div>
+                    <button class="btn btn-warning text-white fw-bold d-flex align-items-center gap-2" style="background:#f07500; border:none; border-radius:10px; padding: 10px 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                        </svg>
+                        Reset filters
+                    </button>
+                </div>
+
+                <!-- Car Grid -->
+                <div class="row g-4">
                     @foreach (var car in Model)
                     {
-                        <div class="car-card">
-                            <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id">
-                                <button type="submit"
-                                        class="wishlist-btn @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "is-active" : "")"
-                                        aria-label="Toggle wishlist"
-                                        aria-pressed="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id).ToString().ToLowerInvariant())">
-                                    ♥
-                                </button>
-                            </form>
-                            <a class="car-card-link text-decoration-none" asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id">
-                                <img src="@car.ImageUrl" alt="@car.Title" />
-                                <div class="car-info">
-                                    <h6 class="text-dark">@car.Title</h6>
-                                    <p class="mb-2">@car.Specs</p>
-                                    <span>@car.Price</span>
-                                </div>
-                            </a>
+                        <div class="col-md-4">
+                            <div class="car-card-new">
+                                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id" class="wishlist-form-pos">
+                                    <button type="submit" class="wishlist-btn-new @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "active" : "")">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "#f07500" : "none")" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                                <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="text-decoration-none">
+                                    <img src="@car.ImageUrl" alt="@car.Title" class="car-img-top"/>
+                                    <div class="car-body-new">
+                                        <h5 class="car-title-new mb-1">@car.Title</h5>
+                                        <p class="text-muted small mb-2">M xDrive Coupe</p>
+                                        <div class="car-price-new mb-2">$78,900</div>
+                                        <div class="car-specs-new mb-3">
+                                            <span>2024</span>
+                                            <span>Gasoline</span>
+                                            <span>3k km</span>
+                                        </div>
+                                        <div class="btn w-100" style="background:#fff5eb; color:#8a5e3b; font-weight:700; border-radius:10px; padding:10px">View Details</div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     }
                 </div>
+
             </div>
         </div>
+
     </div>
 </section>
+
+<style>
+    .filter-sidebar {
+        background: #fff;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .filter-title {
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 16px;
+        font-size: 16px;
+    }
+
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-radio {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #4a5568;
+    }
+
+    .filter-radio input {
+        width: 16px;
+        height: 16px;
+        accent-color: #f07500;
+    }
+
+    .price-input-wrapper {
+        position: relative;
+    }
+
+    .price-input-wrapper .currency {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #718096;
+        font-weight: 500;
+    }
+
+    .price-input-wrapper .form-control {
+        padding-left: 28px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .search-wrapper {
+        position: relative;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0aec0;
+    }
+
+    .search-wrapper .form-control {
+        height: 50px;
+        border-radius: 999px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .search-sort-bar .form-select {
+        height: 44px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        min-width: 160px;
+    }
+
+    /* Reuse Car Card Styles from Index */
+    .car-card-new {
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        position: relative;
+        transition: transform 0.3s ease;
+    }
+    .car-card-new:hover {
+        transform: translateY(-8px);
+    }
+    .car-img-top {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .car-body-new {
+        padding: 20px;
+    }
+    .car-title-new {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a202c;
+    }
+    .car-price-new {
+        font-size: 24px;
+        font-weight: 800;
+        color: #f07500;
+    }
+    .car-specs-new {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        color: #718096;
+    }
+    .wishlist-form-pos {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 2;
+    }
+    .wishlist-btn-new {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #fff;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #718096;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: all 0.2s;
+    }
+    .wishlist-btn-new.active {
+        color: #f07500;
+    }
+</style>
 

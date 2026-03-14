@@ -1,64 +1,215 @@
 @model CarBazzar.Models.Profile.ProfileViewModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "My Profile";
 }
 
-<section class="py-5">
+<section class="py-5" style="background: #fffaf5; min-height: 100vh;">
     <div class="container">
-        <div class="d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
-            <div>
-                <h2 class="mb-1">Profile</h2>
-                <div class="text-muted">Manage your account and listings.</div>
-            </div>
-            <a class="btn btn-warning text-white" asp-controller="Profile" asp-action="Edit">Edit Profile</a>
-        </div>
+        
+        <h1 class="fw-bold mb-4" style="color: #1a202c;">My Profile</h1>
 
-        @if (TempData["Toast"] is string toast && !string.IsNullOrWhiteSpace(toast))
-        {
-            <div class="alert alert-success">@toast</div>
-        }
-
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <div class="bg-white rounded-4 p-4 shadow-sm border text-center">
-                    <div class="mx-auto mb-3" style="width:76px;height:76px;border-radius:22px;background:linear-gradient(135deg,#f36b21,#ff8a3d)"></div>
-                    <div class="fw-semibold">@Model.FullName</div>
-                    <div class="small text-muted">@Model.Email</div>
+        <!-- Stats Card -->
+        <div class="profile-stats-card mb-5">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div class="profile-avatar-large">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f07500" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-lg-8">
-                <div class="bg-white rounded-4 p-4 shadow-sm border">
-                    <h6 class="mb-3">Details</h6>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="small text-muted">Full Name</div>
-                            <div class="fw-semibold">@Model.FullName</div>
+                <div class="col">
+                    <div class="row g-4">
+                        <div class="col-auto border-end pe-4">
+                            <div class="stat-value">Total Listings: 0</div>
+                            <div class="stat-label">Monthly active listings</div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="small text-muted">Email</div>
-                            <div class="fw-semibold">@Model.Email</div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="small text-muted">Phone</div>
-                            <div class="fw-semibold">@Model.Phone</div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="small text-muted">Location</div>
-                            <div class="fw-semibold">@Model.Location</div>
+                        <div class="col-auto ps-4">
+                            <div class="stat-value">Cars Wishlisted: 2</div>
+                            <div class="stat-label">Verified sales records</div>
                         </div>
                     </div>
-
-                    <hr />
-
-                    <div class="d-flex flex-wrap gap-2">
-                        <a class="btn btn-outline-warning" asp-controller="Wishlist" asp-action="Index">Wishlist</a>
-                        <a class="btn btn-outline-secondary" asp-controller="Cars" asp-action="Sell">Sell a car</a>
-                        <a class="btn btn-outline-secondary" asp-controller="Cars" asp-action="Browse">Buy cars</a>
-                    </div>
+                </div>
+                <div class="col-auto">
+                    <a asp-controller="Cars" asp-action="Sell" class="btn btn-outline-warning px-4 py-2 fw-bold" style="border-radius: 12px; color: #f07500; border-color: #f07500;">
+                        + List a New car
+                    </a>
                 </div>
             </div>
         </div>
+
+        <!-- Personal Information Section -->
+        <div class="section-container mb-5">
+            <h4 class="fw-bold mb-4" style="color: #1a202c;">Personal Information</h4>
+            <div class="info-card">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold">First Name</label>
+                        <input type="text" class="form-control info-input" value="User" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold">Last Name</label>
+                        <input type="text" class="form-control info-input" value="name" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold">Postal Code</label>
+                        <input type="text" class="form-control info-input" value="360020" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold">Location</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control info-input" value="Rajkot" readonly>
+                            <svg class="input-icon-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold">Address</label>
+                        <textarea class="form-control info-input" rows="2" readonly style="resize: none;">Address</textarea>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end justify-content-end">
+                        <a asp-controller="Profile" asp-action="Edit" class="btn btn-outline-success px-5 py-2 fw-bold" style="border-radius: 12px; border-color: #22c55e; color: #22c55e;">
+                            Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recently Viewed Section -->
+        <div class="section-container">
+            <h4 class="fw-bold mb-4" style="color: #1a202c;">Recently Viewed Cars</h4>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="recent-car-card">
+                        <div class="recent-car-img-wrapper">
+                            <img src="~/images/2721-inset12-2024-maserati-mc20.png" alt="Car" class="recent-car-img">
+                            <button class="wishlist-overlay-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="recent-car-card">
+                        <div class="recent-car-img-wrapper">
+                            <img src="~/images/coupe.jpg" alt="Car" class="recent-car-img">
+                            <button class="wishlist-overlay-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="recent-car-card">
+                        <div class="recent-car-img-wrapper">
+                            <img src="~/images/sedan.jpg" alt="Car" class="recent-car-img">
+                            <button class="wishlist-overlay-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
+
+<style>
+    .profile-stats-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 40px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+
+    .profile-avatar-large {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 4px solid #f07500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fffaf5;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: 800;
+        color: #1a202c;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        color: #718096;
+    }
+
+    .info-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 40px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .info-input {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        color: #1a202c;
+        font-weight: 500;
+    }
+
+    .info-input[readonly] {
+        background: #fff;
+        cursor: default;
+    }
+
+    .input-icon-right {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0aec0;
+    }
+
+    .recent-car-card {
+        border-radius: 20px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .recent-car-img-wrapper {
+        position: relative;
+        padding-top: 65%;
+    }
+
+    .recent-car-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .wishlist-overlay-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.9);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #718096;
+        backdrop-filter: blur(4px);
+    }
+</style>
 
