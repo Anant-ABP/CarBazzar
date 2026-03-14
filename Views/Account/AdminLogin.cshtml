@@ -1,7 +1,7 @@
-@model CarBazzar.Models.Auth.LoginViewModel
+﻿@model CarBazzar.Models.Auth.LoginViewModel
 @{
     Layout = "_AuthLayout";
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Admin Login";
 }
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,7 +20,6 @@
         padding: 0;
     }
 
-    /* Kill any wrapper the layout adds */
     .container, .container-fluid,
     main, [role="main"] {
         padding: 0 !important;
@@ -44,7 +43,7 @@
         display: flex;
         width: 100%;
         max-width: 900px;
-        min-height: 560px;
+        min-height: 540px;
         background: #ffffff;
         border-radius: 18px;
         overflow: hidden;
@@ -64,7 +63,6 @@
         }
     }
 
-    /* ── LEFT ── */
     .cb-left {
         flex: 0 0 43%;
         background: #fdf6ec;
@@ -116,7 +114,6 @@
         line-height: 1.65;
     }
 
-    /* ── RIGHT ── */
     .cb-right {
         flex: 1;
         padding: 44px 48px;
@@ -326,23 +323,6 @@
             box-shadow: none;
         }
 
-    .cb-foot {
-        text-align: center;
-        font-size: 13px;
-        color: #999;
-    }
-
-        .cb-foot a {
-            color: #f07500;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-            .cb-foot a:hover {
-                color: #d86a00;
-            }
-
     .text-danger {
         font-size: 11.5px;
         color: #e03e3e;
@@ -387,19 +367,19 @@
             </div>
 
             <div class="cb-tabs">
-                <a class="cb-tab active" asp-controller="Account" asp-action="Login">User Login</a>
-                <a class="cb-tab" asp-controller="Account" asp-action="AdminLogin">Admin Login</a>
+                <a class="cb-tab" asp-controller="Account" asp-action="Login">User Login</a>
+                <a class="cb-tab active" asp-controller="Account" asp-action="AdminLogin">Admin Login</a>
             </div>
 
-            <h1 class="cb-form-title">User Login</h1>
-            <p class="cb-form-sub">Welcome back. Sign in to continue buying and selling cars.</p>
+            <h1 class="cb-form-title">Admin Login</h1>
+            <p class="cb-form-sub">Welcome, Admin. Sign in to manage the platform.</p>
 
-            <form asp-action="Login" asp-controller="Account" method="post" novalidate>
+            <form asp-action="AdminLogin" asp-controller="Account" method="post" novalidate>
                 @Html.AntiForgeryToken()
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="cb-field">
-                    <label class="cb-label">Email</label>
+                    <label class="cb-label">Admin Email</label>
                     <input asp-for="Email" class="cb-input" placeholder="Enter your email" autocomplete="email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
@@ -424,10 +404,6 @@
                 </div>
 
                 <button type="submit" class="cb-btn">Log in</button>
-
-                <div class="cb-foot">
-                    Don't have an account? <a asp-controller="Account" asp-action="Register">Sign up</a>
-                </div>
             </form>
         </div>
 

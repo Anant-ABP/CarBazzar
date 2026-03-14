@@ -19,7 +19,6 @@ public class AccountController : Controller
         {
             return View(model);
         }
-
         // UI-only scaffold: wire up Identity/auth later.
         return RedirectToAction("Index", "Home");
     }
@@ -38,9 +37,25 @@ public class AccountController : Controller
         {
             return View(model);
         }
-
         // UI-only scaffold: wire up Identity/auth later.
         return RedirectToAction("Index", "Home");
     }
-}
 
+    [HttpGet]
+    public IActionResult AdminLogin()
+    {
+        return View(new LoginViewModel());
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AdminLogin(LoginViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        // UI-only scaffold: wire up admin auth later.
+        return RedirectToAction("Index", "Home");
+    }
+}
