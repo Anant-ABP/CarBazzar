@@ -3,9 +3,402 @@
     ViewData["Title"] = "Messages";
 }
 
+<style>
+    .chat-shell {
+        display: grid;
+        grid-template-columns: 260px 1fr 268px;
+        height: calc(100vh - 120px);
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e8eaf0;
+        overflow: hidden;
+        box-shadow: 0 4px 24px rgba(0,0,0,.07);
+    }
+
+    /* LEFT SIDEBAR */
+    .chat-aside {
+        border-right: 1px solid #e8eaf0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .chat-aside-head {
+        padding: 16px 14px 12px;
+        border-bottom: 1px solid #e8eaf0;
+        flex-shrink: 0;
+    }
+
+        .chat-aside-head .fw-semibold {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+
+    .chat-search {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: #f4f6fb;
+        border-radius: 8px;
+        padding: 7px 10px;
+    }
+
+        .chat-search .icon {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .chat-search input {
+            border: none;
+            background: transparent;
+            font-size: 12.5px;
+            color: #333;
+            outline: none;
+            width: 100%;
+            font-family: inherit;
+        }
+
+            .chat-search input::placeholder {
+                color: #bbb;
+            }
+
+    .chat-list {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .chat-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        border-bottom: 1px solid #f4f6fb;
+        transition: background .12s;
+        text-align: left;
+    }
+
+        .chat-item:hover {
+            background: #fafbff;
+        }
+
+        .chat-item.is-active {
+            background: #fff5ee;
+            border-left: 3px solid #f97316;
+        }
+
+    .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #f97316;
+        color: #fff;
+        font-weight: 800;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+        .avatar.av-g {
+            background: #22c55e;
+        }
+
+        .avatar.av-b {
+            background: #3b82f6;
+        }
+
+        .avatar.av-p {
+            background: #a855f7;
+        }
+
+        .avatar.av-t {
+            background: #06b6d4;
+        }
+
+    .meta {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 2px;
+    }
+
+        .top .name {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .top .time {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+    .meta .sub {
+        font-size: 12px;
+        color: #888;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* MAIN CHAT */
+    .chat-main {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-right: 1px solid #e8eaf0;
+    }
+
+    .chat-main-head {
+        padding: 13px 18px;
+        border-bottom: 1px solid #e8eaf0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+    }
+
+        .chat-main-head .fw-semibold {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .chat-main-head .text-muted {
+            font-size: 11.5px;
+            color: #22c55e !important;
+        }
+
+    .head-actions {
+        display: flex;
+        gap: 6px;
+    }
+
+    .head-btn {
+        background: #f4f6fb;
+        border: none;
+        border-radius: 8px;
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background .12s;
+    }
+
+        .head-btn:hover {
+            background: #e8eaf0;
+        }
+
+    .chat-thread {
+        flex: 1;
+        overflow-y: auto;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .chat-date {
+        text-align: center;
+        font-size: 11px;
+        color: #bbb;
+        margin: 4px 0 6px;
+    }
+
+    .bubble {
+        max-width: 72%;
+        padding: 10px 14px;
+        border-radius: 14px;
+        font-size: 13.5px;
+        line-height: 1.55;
+    }
+
+        .bubble .t {
+            font-size: 10px;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .bubble.left {
+            background: #f4f6fb;
+            color: #1a1a2e;
+            align-self: flex-start;
+            border-bottom-left-radius: 3px;
+        }
+
+            .bubble.left .t {
+                color: #aaa;
+            }
+
+        .bubble.right {
+            background: #f97316;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 3px;
+        }
+
+            .bubble.right .t {
+                color: rgba(255,255,255,.65);
+            }
+
+    .chat-compose {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 14px;
+        border-top: 1px solid #e8eaf0;
+        background: #fff;
+        flex-shrink: 0;
+    }
+
+        .chat-compose .clip {
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .chat-compose input {
+            flex: 1;
+            border: 1.5px solid #e8eaf0;
+            border-radius: 24px;
+            padding: 9px 16px;
+            font-size: 13.5px;
+            outline: none;
+            font-family: inherit;
+            color: #333;
+            transition: border-color .15s;
+        }
+
+            .chat-compose input:focus {
+                border-color: #f97316;
+            }
+
+        .chat-compose .send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f97316;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .12s, transform .1s;
+        }
+
+            .chat-compose .send:hover {
+                background: #ea6a05;
+                transform: scale(1.07);
+            }
+
+    /* RIGHT DETAIL */
+    .chat-detail {
+        padding: 16px 14px;
+        overflow-y: auto;
+    }
+
+    .detail-card {
+        border: 1px solid #e8eaf0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-top: 12px;
+    }
+
+        .detail-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+        }
+
+    .detail-price {
+        font-size: 20px;
+        font-weight: 800;
+        color: #f97316;
+        margin-bottom: 2px;
+    }
+
+    .spec {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12.5px;
+        padding: 5px 0;
+        border-bottom: 1px solid #f4f6fb;
+    }
+
+        .spec:last-of-type {
+            border-bottom: none;
+        }
+
+        .spec .k {
+            color: #888;
+        }
+
+        .spec .v {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+    .cta-btns {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .cta-btn {
+        width: 100%;
+        padding: 9px 0;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-family: inherit;
+        transition: opacity .12s;
+    }
+
+        .cta-btn:hover {
+            opacity: .85;
+        }
+
+    .btn-outline {
+        background: #fff5ee;
+        color: #f97316;
+        border: 1.5px solid #f97316;
+    }
+
+    .btn-filled {
+        background: #f97316;
+        color: #fff;
+    }
+</style>
+
 <section class="py-4">
     <div class="container">
         <div class="chat-shell">
+
+            <!-- LEFT SIDEBAR -->
             <aside class="chat-aside">
                 <div class="chat-aside-head">
                     <div class="fw-semibold">Messages</div>
@@ -16,49 +409,78 @@
                 </div>
 
                 <div class="chat-list">
-                    <button class="chat-item is-active" type="button">
-                        <div class="avatar">M</div>
+
+                    <button class="chat-item is-active" type="button" onclick="switchChat(this,'Arjun','A','')">
+                        <div class="avatar">A</div>
                         <div class="meta">
                             <div class="top">
-                                <div class="name">Marcus</div>
+                                <div class="name">Arjun</div>
                                 <div class="time">2m</div>
                             </div>
                             <div class="sub">Available for a test drive!</div>
                         </div>
                     </button>
 
-                    <button class="chat-item" type="button">
-                        <div class="avatar">S</div>
+                    <button class="chat-item" type="button" onclick="switchChat(this,'Sneha','S','av-g')">
+                        <div class="avatar av-g">S</div>
                         <div class="meta">
                             <div class="top">
-                                <div class="name">Sarah</div>
+                                <div class="name">Sneha</div>
                                 <div class="time">2h</div>
                             </div>
                             <div class="sub">Thanks for the info!</div>
                         </div>
                     </button>
 
-                    <button class="chat-item" type="button">
-                        <div class="avatar">C</div>
+                    <button class="chat-item" type="button" onclick="switchChat(this,'Rahul','R','av-b')">
+                        <div class="avatar av-b">R</div>
                         <div class="meta">
                             <div class="top">
-                                <div class="name">Carlos</div>
+                                <div class="name">Rahul</div>
                                 <div class="time">1d</div>
                             </div>
                             <div class="sub">Is the price negotiable?</div>
                         </div>
                     </button>
+
+                    <button class="chat-item" type="button" onclick="switchChat(this,'Priya','P','av-p')">
+                        <div class="avatar av-p">P</div>
+                        <div class="meta">
+                            <div class="top">
+                                <div class="name">Priya</div>
+                                <div class="time">2d</div>
+                            </div>
+                            <div class="sub">Can we schedule a viewing?</div>
+                        </div>
+                    </button>
+
+                    <button class="chat-item" type="button" onclick="switchChat(this,'Vikram','V','av-t')">
+                        <div class="avatar av-t">V</div>
+                        <div class="meta">
+                            <div class="top">
+                                <div class="name">Vikram</div>
+                                <div class="time">3d</div>
+                            </div>
+                            <div class="sub">What is the last price?</div>
+                        </div>
+                    </button>
+
                 </div>
             </aside>
 
+            <!-- MAIN CHAT -->
             <main class="chat-main">
                 <div class="chat-main-head">
                     <div class="d-flex align-items-center gap-2">
-                        <div class="avatar">M</div>
+                        <div class="avatar" id="hdrAvatar">A</div>
                         <div>
-                            <div class="fw-semibold">Marcus</div>
-                            <div class="small text-muted">Online</div>
+                            <div class="fw-semibold" id="hdrName">Arjun</div>
+                            <div class="small text-muted">● Online</div>
                         </div>
+                    </div>
+                    <div class="head-actions">
+                        <button class="head-btn" type="button">📞</button>
+                        <button class="head-btn" type="button">⋮</button>
                     </div>
                 </div>
 
@@ -66,8 +488,28 @@
                     <div class="chat-date">Today, 10:23 AM</div>
 
                     <div class="bubble left">
-                        Hi there! I saw your interest in the Mustang. Do you have any questions?
+                        Hi there! I saw your listing for the Maruti Swift. Do you have any questions?
                         <div class="t">10:23 AM</div>
+                    </div>
+
+                    <div class="bubble right">
+                        Hey Arjun, yes! Is the car still available? I'm located in Mumbai as well.
+                        <div class="t">10:24 AM</div>
+                    </div>
+
+                    <div class="bubble left">
+                        Yes, it's still available. I'm free this weekend if you want to take a look.
+                        <div class="t">10:26 AM</div>
+                    </div>
+
+                    <div class="bubble right">
+                        That sounds great. Would Saturday morning work for you? Say around 10 AM?
+                        <div class="t">10:30 AM</div>
+                    </div>
+
+                    <div class="bubble left">
+                        Saturday 10 AM works perfectly. We can meet at Andheri Metro Station.
+                        <div class="t">10:32 AM</div>
                     </div>
                 </div>
 
@@ -78,6 +520,7 @@
                 </div>
             </main>
 
+            <!-- RIGHT DETAIL -->
             <aside class="chat-detail">
                 <div class="fw-semibold mb-2">Listing Details</div>
                 <div class="detail-card">
@@ -89,7 +532,7 @@
 
                         <div class="spec">
                             <div class="k">Mileage</div>
-                            <div class="v">30,000 km</div>
+                            <div class="v">28,000 km</div>
                         </div>
                         <div class="spec">
                             <div class="k">Fuel</div>
@@ -97,16 +540,52 @@
                         </div>
                         <div class="spec">
                             <div class="k">Transmission</div>
-                            <div class="v">Automatic</div>
+                            <div class="v">Manual</div>
                         </div>
                         <div class="spec">
                             <div class="k">Location</div>
-                            <div class="v">Chicago, IL</div>
+                            <div class="v">Mumbai, MH</div>
+                        </div>
+
+                        <div class="cta-btns">
+                            <button class="cta-btn btn-outline" type="button">📅 Schedule Test Drive</button>
+                            <button class="cta-btn btn-filled" type="button">₹ Make an Offer</button>
                         </div>
                     </div>
                 </div>
             </aside>
+
         </div>
     </div>
 </section>
 
+@section Scripts {
+    <script>
+        const input  = document.getElementById('chatInput');
+        const thread = document.getElementById('chatThread');
+        const now    = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        function sendMsg() {
+            const txt = input.value.trim();
+            if (!txt) return;
+            const b = document.createElement('div');
+            b.className = 'bubble right';
+            b.innerHTML = txt + '<div class="t">' + now() + '</div>';
+            thread.appendChild(b);
+            input.value = '';
+            thread.scrollTop = thread.scrollHeight;
+        }
+
+        document.getElementById('chatSend').addEventListener('click', sendMsg);
+        input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+
+        function switchChat(btn, name, initial, colorClass) {
+            document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            document.getElementById('hdrName').textContent = name;
+            const av = document.getElementById('hdrAvatar');
+            av.textContent = initial;
+            av.className = 'avatar' + (colorClass ? ' ' + colorClass : '');
+        }
+    </script>
+}
