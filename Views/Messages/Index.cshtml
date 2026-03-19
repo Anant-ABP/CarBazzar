@@ -402,10 +402,6 @@
             <aside class="chat-aside">
                 <div class="chat-aside-head">
                     <div class="fw-semibold">Messages</div>
-                    <div class="chat-search">
-                        <span class="icon">🔍</span>
-                        <input placeholder="Search messages..." />
-                    </div>
                 </div>
 
                 <div class="chat-list">
@@ -473,14 +469,7 @@
                 <div class="chat-main-head">
                     <div class="d-flex align-items-center gap-2">
                         <div class="avatar" id="hdrAvatar">A</div>
-                        <div>
-                            <div class="fw-semibold" id="hdrName">Arjun</div>
-                            <div class="small text-muted">● Online</div>
-                        </div>
-                    </div>
-                    <div class="head-actions">
-                        <button class="head-btn" type="button">📞</button>
-                        <button class="head-btn" type="button">⋮</button>
+                        <div class="fw-semibold" id="hdrName">Arjun</div>
                     </div>
                 </div>
 
@@ -513,11 +502,7 @@
                     </div>
                 </div>
 
-                <div class="chat-compose">
-                    <button class="clip" type="button" aria-label="Attach">📎</button>
-                    <input id="chatInput" placeholder="Type a message..." />
-                    <button class="send" type="button" aria-label="Send" id="chatSend">➤</button>
-                </div>
+               
             </main>
 
             <!-- RIGHT DETAIL -->
@@ -547,10 +532,7 @@
                             <div class="v">Mumbai, MH</div>
                         </div>
 
-                        <div class="cta-btns">
-                            <button class="cta-btn btn-outline" type="button">📅 Schedule Test Drive</button>
-                            <button class="cta-btn btn-filled" type="button">₹ Make an Offer</button>
-                        </div>
+                       
                     </div>
                 </div>
             </aside>
@@ -561,24 +543,6 @@
 
 @section Scripts {
     <script>
-        const input  = document.getElementById('chatInput');
-        const thread = document.getElementById('chatThread');
-        const now    = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        function sendMsg() {
-            const txt = input.value.trim();
-            if (!txt) return;
-            const b = document.createElement('div');
-            b.className = 'bubble right';
-            b.innerHTML = txt + '<div class="t">' + now() + '</div>';
-            thread.appendChild(b);
-            input.value = '';
-            thread.scrollTop = thread.scrollHeight;
-        }
-
-        document.getElementById('chatSend').addEventListener('click', sendMsg);
-        input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
-
         function switchChat(btn, name, initial, colorClass) {
             document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('is-active'));
             btn.classList.add('is-active');
