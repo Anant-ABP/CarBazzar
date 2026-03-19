@@ -56,6 +56,6 @@ public class AccountController : Controller
             return View(model);
         }
         // UI-only scaffold: wire up admin auth later.
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Dashboard", "Admin");
     }
 }
