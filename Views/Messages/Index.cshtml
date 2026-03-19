@@ -502,7 +502,10 @@
                     </div>
                 </div>
 
-               
+                <div class="chat-compose">
+                    <input id="chatInput" placeholder="Type a message..." />
+                    <button class="send" type="button" aria-label="Send" id="chatSend">➤</button>
+                </div>
             </main>
 
             <!-- RIGHT DETAIL -->
@@ -543,6 +546,24 @@
 
 @section Scripts {
     <script>
+        const input = document.getElementById('chatInput');
+        const thread = document.getElementById('chatThread');
+        const now = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        function sendMsg() {
+            const txt = input.value.trim();
+            if (!txt) return;
+            const b = document.createElement('div');
+            b.className = 'bubble right';
+            b.innerHTML = txt + '<div class="t">' + now() + '</div>';
+            thread.appendChild(b);
+            input.value = '';
+            thread.scrollTop = thread.scrollHeight;
+        }
+
+        document.getElementById('chatSend').addEventListener('click', sendMsg);
+        input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+
         function switchChat(btn, name, initial, colorClass) {
             document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('is-active'));
             btn.classList.add('is-active');
