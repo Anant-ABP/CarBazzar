@@ -1,0 +1,142 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Users Management";
+}
+
+<section>
+    <div class="row g-3 mb-3">
+        <div class="col-md-3">
+            <div class="card border-0" style="border-radius:16px;background:#f4f6ff;">
+                <div class="card-body">
+                    <div style="font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#7b8ad9;font-weight:600;margin-bottom:6px;">Total Users</div>
+                    <div style="font-size:24px;font-weight:800;color:#142055;">12,847</div>
+                    <div style="font-size:12px;color:#9ca4d5;">Total platform members</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0" style="border-radius:16px;background:#f3fbf7;">
+                <div class="card-body">
+                    <div style="font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#6ba88a;font-weight:600;margin-bottom:6px;">Active Users</div>
+                    <div style="font-size:24px;font-weight:800;color:#074b33;">9,234</div>
+                    <div style="font-size:12px;color:#7cae91;">Total active users</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0" style="border-radius:18px;box-shadow:0 10px 34px rgba(0,0,0,.06);">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0" style="font-size:15px;font-weight:700;color:#1a1008;">All Users</h5>
+                <div class="d-flex gap-2">
+                    <select class="form-select form-select-sm" style="border-radius:999px;border-color:#e5ded3;font-size:12px;padding:6px 12px;">
+                        <option>All Roles</option>
+                        <option>Admin</option>
+                        <option>User</option>
+                    </select>
+                    <select class="form-select form-select-sm" style="border-radius:999px;border-color:#e5ded3;font-size:12px;padding:6px 12px;">
+                        <option>All Status</option>
+                        <option>Active</option>
+                        <option>Suspended</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                    <thead>
+                        <tr style="font-size:12px;color:#a29a8d;text-transform:uppercase;letter-spacing:.12em;">
+                            <th scope="col">User</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Total Listings</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:13px;color:#40352c;">
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">Sarah Johnson</div>
+                                <div class="text-muted" style="font-size:12px;">sarah.johnson@email.com</div>
+                            </td>
+                            <td><span class="badge rounded-pill" style="background:#f4e5ff;color:#8e3ecc;font-size:11px;">Admin</span></td>
+                            <td>0</td>
+                            <td><span class="badge rounded-pill" style="background:#e6f7ef;color:#138a4a;font-size:11px;">Active</span></td>
+                            <td class="text-end text-muted">
+                                <span style="cursor:pointer;margin-right:8px;">✏️</span>
+                                <span style="cursor:pointer;">🗑️</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">Mike Chen</div>
+                                <div class="text-muted" style="font-size:12px;">mike.chen@email.com</div>
+                            </td>
+                            <td><span class="badge rounded-pill" style="background:#e9f2ff;color:#276fd0;font-size:11px;">User</span></td>
+                            <td>24</td>
+                            <td><span class="badge rounded-pill" style="background:#e6f7ef;color:#138a4a;font-size:11px;">Active</span></td>
+                            <td class="text-end text-muted">
+                                <span style="cursor:pointer;margin-right:8px;">✏️</span>
+                                <span style="cursor:pointer;">🗑️</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">Alex Rodriguez</div>
+                                <div class="text-muted" style="font-size:12px;">alex.rod@email.com</div>
+                            </td>
+                            <td><span class="badge rounded-pill" style="background:#e9f2ff;color:#276fd0;font-size:11px;">User</span></td>
+                            <td>2</td>
+                            <td><span class="badge rounded-pill" style="background:#e6f7ef;color:#138a4a;font-size:11px;">Active</span></td>
+                            <td class="text-end text-muted">
+                                <span style="cursor:pointer;margin-right:8px;">✏️</span>
+                                <span style="cursor:pointer;">🗑️</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">Emma Wilson</div>
+                                <div class="text-muted" style="font-size:12px;">emma.wilson@email.com</div>
+                            </td>
+                            <td><span class="badge rounded-pill" style="background:#e9f2ff;color:#276fd0;font-size:11px;">User</span></td>
+                            <td>18</td>
+                            <td><span class="badge rounded-pill" style="background:#e6f7ef;color:#138a4a;font-size:11px;">Active</span></td>
+                            <td class="text-end text-muted">
+                                <span style="cursor:pointer;margin-right:8px;">✏️</span>
+                                <span style="cursor:pointer;">🗑️</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">David Park</div>
+                                <div class="text-muted" style="font-size:12px;">david.park@email.com</div>
+                            </td>
+                            <td><span class="badge rounded-pill" style="background:#e9f2ff;color:#276fd0;font-size:11px;">User</span></td>
+                            <td>1</td>
+                            <td><span class="badge rounded-pill" style="background:#e6f7ef;color:#138a4a;font-size:11px;">Active</span></td>
+                            <td class="text-end text-muted">
+                                <span style="cursor:pointer;margin-right:8px;">✏️</span>
+                                <span style="cursor:pointer;">🗑️</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">Lisa Thompson</div>
+                                <div class="text-muted" style="font-size:12px;">lisa.thompson@email.com</div>
+                            </td>
+                            <td><span class="badge rounded-pill" style="background:#e9f2ff;color:#276fd0;font-size:11px;">User</span></td>
+                            <td>0</td>
+                            <td><span class="badge rounded-pill" style="background:#e6f7ef;color:#138a4a;font-size:11px;">Active</span></td>
+                            <td class="text-end text-muted">
+                                <span style="cursor:pointer;margin-right:8px;">✏️</span>
+                                <span style="cursor:pointer;">🗑️</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+

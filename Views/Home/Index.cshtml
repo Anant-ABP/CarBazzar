@@ -220,6 +220,159 @@
     </div>
 </section>
 
+<!-- WHY CHOOSE US -->
+<section style="padding: 60px 0 48px; background: #fffaf5;">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:#f07500; margin-bottom:8px">Why CarBazzar</div>
+            <h2 class="fw-bold" style="color:#1a202c">Buy or Sell with <span style="color:#f07500">Confidence</span></h2>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-lg-4 col-md-6">
+                <div class="wc-card">
+                    <div class="wc-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f07500" stroke-width="1.8">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <polyline points="9 12 11 14 15 10" />
+                        </svg>
+                    </div>
+                    <h5 class="wc-card-title">Verified sellers only</h5>
+                    <p class="wc-card-text">Every buyer and seller is identity-checked before listing. Browse 50+ live cars from trusted, verified profiles.</p>
+                    <div class="wc-stat-row">
+                        <span class="wc-stat">10K+</span>
+                        <span class="wc-stat-label">verified users</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="wc-card">
+                    <div class="wc-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f07500" stroke-width="1.8">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                    </div>
+                    <h5 class="wc-card-title">Chat directly, close fast</h5>
+                    <p class="wc-card-text">No middlemen. Message buyers or sellers right on CarBazzar — negotiate and close deals in real time.</p>
+                    <div class="wc-stat-row">
+                        <span class="wc-stat">&lt;5 min</span>
+                        <span class="wc-stat-label">avg. first response</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="wc-card">
+                    <div class="wc-icon-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f07500" stroke-width="1.8">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                    </div>
+                    <h5 class="wc-card-title">List your car in 3 minutes</h5>
+                    <p class="wc-card-text">Upload photos, set your price, go live. Reach 50,000+ active buyers browsing CarBazzar right now.</p>
+                    <div class="wc-stat-row">
+                        <span class="wc-stat">3 min</span>
+                        <span class="wc-stat-label">to post a listing</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .wc-card {
+        background: #fff;
+        border: 1px solid #ede8e3;
+        border-radius: 16px;
+        padding: 28px 24px 22px;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.28s cubic-bezier(0.23,1,0.32,1), border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+        .wc-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(240,117,0,0.06) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.28s ease;
+            pointer-events: none;
+        }
+
+        .wc-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(240,117,0,0.35);
+            box-shadow: 0 16px 40px rgba(240,117,0,0.09);
+        }
+
+            .wc-card:hover::before {
+                opacity: 1;
+            }
+
+    .wc-icon-box {
+        width: 44px;
+        height: 44px;
+        background: #fff5eb;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        transition: transform 0.28s ease;
+    }
+
+    .wc-card:hover .wc-icon-box {
+        transform: scale(1.08) rotate(4deg);
+    }
+
+    .wc-card-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 8px;
+        transition: color 0.2s;
+    }
+
+    .wc-card:hover .wc-card-title {
+        color: #f07500;
+    }
+
+    .wc-card-text {
+        font-size: 13.5px;
+        color: #718096;
+        line-height: 1.65;
+        margin-bottom: 0;
+    }
+
+    .wc-stat-row {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        padding-top: 14px;
+        margin-top: 16px;
+        border-top: 1px solid #f0ece7;
+    }
+
+    .wc-stat {
+        font-size: 18px;
+        font-weight: 800;
+        color: #f07500;
+    }
+
+    .wc-stat-label {
+        font-size: 12px;
+        color: #a0aec0;
+    }
+</style>
+
+
 <style>
     .hero-badge-light {
         display: inline-flex;
