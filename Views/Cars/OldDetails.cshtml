@@ -15,20 +15,18 @@
 
         <div class="row g-4">
 
-            <!-- Left: Image + Description + Features -->
             <div class="col-lg-7">
-
                 <div class="gallery-box">
-                    <div id="carGallery" class="carousel slide">
+                    <div id="carMain" class="carousel slide">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="@Model.ImageUrl" alt="@Model.Title" class="gallery-img" />
                             </div>
                         </div>
-                        <button class="gal-arrow gal-prev" type="button" data-bs-target="#carGallery" data-bs-slide="prev">
+                        <button class="gal-arrow gal-prev" type="button" data-bs-target="#carMain" data-bs-slide="prev">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
                         </button>
-                        <button class="gal-arrow gal-next" type="button" data-bs-target="#carGallery" data-bs-slide="next">
+                        <button class="gal-arrow gal-next" type="button" data-bs-target="#carMain" data-bs-slide="next">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
                         </button>
                         <div class="gal-dots">
@@ -43,9 +41,9 @@
 
                 <div class="detail-box mt-4">
                     <h5 class="box-heading">Description</h5>
-                    <p style="line-height:1.8; font-size:15px; color:#4a5568;">
+                    <p class="text-muted" style="line-height:1.8; font-size:15px;">
                         @(string.IsNullOrEmpty(Model.Description)
-                            ? "Stunning vehicle in excellent condition with full service history. Factory warranty remaining. Ready for immediate delivery."
+                            ? "Well-maintained pre-owned vehicle in excellent condition. Full service history available. Ready for immediate transfer."
                             : Model.Description)
                     </p>
                 </div>
@@ -69,10 +67,8 @@
                         }
                     </div>
                 </div>
-
             </div>
 
-            <!-- Right: Info Panel -->
             <div class="col-lg-5">
                 <div class="info-panel">
 
@@ -92,7 +88,6 @@
                         </button>
                     </form>
 
-                    <!-- Specs -->
                     <div class="panel-section">
                         <h5 class="box-heading">Specifications</h5>
                         <div class="specs-grid">
@@ -102,7 +97,7 @@
                             </div>
                             <div class="spec-cell">
                                 <div class="spec-icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f07500" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
-                                <div><div class="spec-lbl">Mileage</div><div class="spec-val">@(string.IsNullOrEmpty(Model.Mileage) ? "3,200 mi" : Model.Mileage)</div></div>
+                                <div><div class="spec-lbl">Mileage</div><div class="spec-val">@(string.IsNullOrEmpty(Model.Mileage) ? "3,200 km" : Model.Mileage)</div></div>
                             </div>
                             <div class="spec-cell">
                                 <div class="spec-icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f07500" stroke-width="2"><path d="M3 22V8l9-6 9 6v14H3z"/></svg></div>
@@ -123,7 +118,6 @@
                         </div>
                     </div>
 
-                    <!-- Seller Info -->
                     <div class="panel-section">
                         <h5 class="box-heading">Seller Information</h5>
                         <div class="seller-card">
@@ -142,15 +136,14 @@
                         </div>
                     </div>
 
-                    <!-- Contact Button -->
-                    <button asp-controller="Messages" asp-action="Index" asp-route-carId="@Model.Id" class="contact-btn">
+                    <a asp-controller="Messages" asp-action="Index" asp-route-carId="@Model.Id" class="chat-seller-btn">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        Contact Seller
-                    </button>
+                        Chat With Seller
+                        <span class="online-dot"></span>
+                    </a>
 
                 </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -168,10 +161,10 @@
     .gallery-img { width: 100%; height: 380px; object-fit: cover; display: block; }
 
     .gal-arrow {
-        width: 40px; height: 40px; border-radius: 50%; background: #fff !important;
-        border: none; display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12); color: #2d3748 !important;
-        opacity: 1 !important; position: absolute; top: 50%; transform: translateY(-50%);
+        width: 40px; height: 40px; border-radius: 50%; background: #fff !important; border: none;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12); color: #2d3748 !important; opacity: 1 !important;
+        position: absolute; top: 50%; transform: translateY(-50%);
     }
     .gal-prev { left: 14px; } .gal-next { right: 14px; }
     .gal-arrow:hover { background: #f07500 !important; color: #fff !important; }
@@ -200,8 +193,7 @@
     .wish-action-btn {
         display: inline-flex; align-items: center; gap: 8px;
         border: 1.5px solid #e2e8f0; background: #fff; border-radius: 10px;
-        padding: 9px 18px; font-size: 14px; font-weight: 600; color: #4a5568;
-        cursor: pointer; transition: all 0.2s;
+        padding: 9px 18px; font-size: 14px; font-weight: 600; color: #4a5568; cursor: pointer; transition: all 0.2s;
     }
     .wish-action-btn:hover { border-color: #f07500; color: #f07500; }
 
@@ -217,11 +209,20 @@
     .seller-icon { width: 28px; height: 28px; background: #fff5eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .seller-txt { font-size: 14px; color: #4a5568; font-weight: 500; }
 
-    .contact-btn {
+    .chat-seller-btn {
         display: flex; align-items: center; justify-content: center; gap: 10px;
         width: 100%; background: #f07500; color: #fff; font-weight: 700; font-size: 16px;
         border-radius: 14px; padding: 16px; text-decoration: none; margin-top: 20px;
-        transition: background 0.2s, transform 0.2s;
+        transition: background 0.2s, transform 0.2s; position: relative;
     }
-    .contact-btn:hover { background: #d96800; color: #fff; transform: translateY(-2px); }
+    .chat-seller-btn:hover { background: #d96800; color: #fff; transform: translateY(-2px); }
+
+    .online-dot {
+        width: 9px; height: 9px; background: #48bb78; border-radius: 50%;
+        position: absolute; right: 20px; animation: blink 2s infinite;
+    }
+    @@keyframes blink {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.3); }
+    }
 </style>

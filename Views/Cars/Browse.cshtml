@@ -5,106 +5,60 @@
 
 <section class="py-5" style="background: #fffaf5; min-height: 100vh;">
     <div class="container">
-        
-        <!-- Header -->
+
         <div class="mb-5">
             <h1 class="fw-bold mb-1" style="color: #1a202c; font-size: 36px;">Browse Cars</h1>
             <p class="text-muted fs-5">Find your perfect vehicle from our collection</p>
         </div>
 
         <div class="row g-4">
-            <!-- Sidebar Filters -->
+            <!-- Sidebar -->
             <div class="col-lg-3">
                 <div class="filter-sidebar">
-                    
-                    <!-- Brands -->
+
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Brands</h6>
                         <div class="filter-options">
-                            <label class="filter-radio">
-                                <input type="radio" name="brand" checked>
-                                <span class="radio-label">All Brands</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">Mercedes-Benz</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">BMW</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">Audi</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">Tesla</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">Porsche</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">Ford</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">Chevrolet</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="brand">
-                                <span class="radio-label">Nissan</span>
-                            </label>
+                            <label class="filter-radio"><input type="radio" name="brand" checked> <span class="radio-label">All Brands</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Mercedes-Benz</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">BMW</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Audi</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Tesla</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Porsche</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Ford</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Chevrolet</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Nissan</span></label>
                         </div>
                     </div>
 
-                    <!-- Price Range -->
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Price Range</h6>
-                        <div class="price-inputs">
-                            <div class="price-input-wrapper">
-                                <span class="currency">?</span>
-                                <input type="number" value="10000" class="form-control">
-                            </div>
-                            <div class="price-input-wrapper mt-2">
-                                <span class="currency">?</span>
-                                <input type="number" value="120000" class="form-control">
-                            </div>
+                        <div class="price-input-wrapper">
+                            <span class="currency">₹</span>
+                            <input type="number" value="10000" class="form-control">
+                        </div>
+                        <div class="price-input-wrapper mt-2">
+                            <span class="currency">₹</span>
+                            <input type="number" value="120000" class="form-control">
                         </div>
                     </div>
 
-                    <!-- Fuel Type -->
                     <div class="filter-group">
                         <h6 class="filter-title">Fuel Type</h6>
                         <div class="filter-options">
-                            <label class="filter-radio">
-                                <input type="radio" name="fuel" checked>
-                                <span class="radio-label">All</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="fuel">
-                                <span class="radio-label">Gasoline</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="fuel">
-                                <span class="radio-label">Hybrid</span>
-                            </label>
-                            <label class="filter-radio">
-                                <input type="radio" name="fuel">
-                                <span class="radio-label">Electric</span>
-                            </label>
+                            <label class="filter-radio"><input type="radio" name="fuel" checked> <span class="radio-label">All</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel"> <span class="radio-label">Gasoline</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel"> <span class="radio-label">Hybrid</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel"> <span class="radio-label">Electric</span></label>
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Main Content -->
+            <!-- Main -->
             <div class="col-lg-9">
-                
-                <!-- Search & Sort Bar -->
+
                 <div class="search-sort-bar mb-4">
                     <div class="row g-3 align-items-center">
                         <div class="col-md-7">
@@ -129,40 +83,43 @@
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="results-count fw-medium text-muted">@Model.Count cars found</div>
-                    <button class="btn btn-warning text-white fw-bold d-flex align-items-center gap-2" style="background:#f07500; border:none; border-radius:10px; padding: 10px 20px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <div class="fw-medium text-muted">@Model.Count cars found</div>
+                    <button class="reset-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
                         </svg>
                         Reset filters
                     </button>
                 </div>
 
-                <!-- Car Grid -->
                 <div class="row g-4">
                     @foreach (var car in Model)
                     {
                         <div class="col-md-4">
-                            <div class="car-card-new">
-                                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id" class="wishlist-form-pos">
-                                    <button type="submit" class="wishlist-btn-new @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "active" : "")">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "#f07500" : "none")" stroke="currentColor" stroke-width="2">
+                            <div class="car-card">
+                                <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id" class="wish-pos">
+                                    <button type="submit" class="wish-btn @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "active" : "")">
+                                        <svg width="17" height="17" viewBox="0 0 24 24"
+                                             fill="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "#f07500" : "none")"
+                                             stroke="currentColor" stroke-width="2">
                                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                                         </svg>
                                     </button>
                                 </form>
                                 <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="text-decoration-none">
-                                    <img src="@car.ImageUrl" alt="@car.Title" class="car-img-top"/>
-                                    <div class="car-body-new">
-                                        <h5 class="car-title-new mb-1">@car.Title</h5>
-                                        <p class="text-muted small mb-2">M xDrive Coupe</p>
-                                        <div class="car-price-new mb-2">?78,900</div>
-                                        <div class="car-specs-new mb-3">
-                                            <span>2026</span>
-                                            <span>Gasoline</span>
-                                            <span>3k km</span>
+                                    <div class="card-img-wrap">
+                                        <img src="@car.ImageUrl" alt="@car.Title" class="card-car-img" />
+                                    </div>
+                                    <div class="card-body-inner">
+                                        <h5 class="card-car-title">@car.Title</h5>
+                                        <p class="card-car-sub">@car.Specs</p>
+                                        <div class="card-car-price">@car.Price</div>
+                                        <div class="card-car-specs">
+                                            <span>@car.Year</span>
+                                            <span>@car.FuelType</span>
+                                            <span>@car.Mileage</span>
                                         </div>
-                                        <div class="btn w-100" style="background:#fff5eb; color:#8a5e3b; font-weight:700; border-radius:10px; padding:10px">View Details</div>
+                                        <div class="card-view-btn">View Details</div>
                                     </div>
                                 </a>
                             </div>
@@ -172,149 +129,73 @@
 
             </div>
         </div>
-
     </div>
 </section>
 
 <style>
+    /* Sidebar */
     .filter-sidebar {
-        background: #fff;
-        border-radius: 20px;
-        padding: 24px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        background: #fff; border-radius: 20px; padding: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04); position: sticky; top: 20px;
     }
+    .filter-title { font-weight: 700; color: #1a202c; margin-bottom: 16px; font-size: 16px; }
+    .filter-options { display: flex; flex-direction: column; gap: 10px; }
+    .filter-radio { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: #4a5568; }
+    .filter-radio input { width: 16px; height: 16px; accent-color: #f07500; }
+    .radio-label { font-size: 14px; }
 
-    .filter-title {
-        font-weight: 700;
-        color: #1a202c;
-        margin-bottom: 16px;
-        font-size: 16px;
-    }
+    .price-input-wrapper { position: relative; }
+    .currency { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #718096; font-weight: 500; }
+    .price-input-wrapper .form-control { padding-left: 28px; border-radius: 10px; border: 1px solid #e2e8f0; }
 
-    .filter-options {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+    /* Search */
+    .search-wrapper { position: relative; }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #a0aec0; }
+    .search-wrapper .form-control { height: 50px; border-radius: 999px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .search-wrapper .form-control:focus { border-color: #f07500; box-shadow: 0 0 0 3px rgba(240,117,0,0.1); outline: none; }
+    .search-sort-bar .form-select { height: 44px; border-radius: 10px; border: 1px solid #e2e8f0; min-width: 160px; }
 
-    .filter-radio {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        color: #4a5568;
+    /* Reset button */
+    .reset-btn {
+        display: flex; align-items: center; gap: 8px;
+        background: #f07500; color: #fff; font-weight: 700; font-size: 14px;
+        border: none; border-radius: 10px; padding: 10px 20px; cursor: pointer;
+        transition: background 0.2s;
     }
+    .reset-btn:hover { background: #d96800; }
 
-    .filter-radio input {
-        width: 16px;
-        height: 16px;
-        accent-color: #f07500;
+    /* Card */
+    .car-card {
+        background: #fff; border-radius: 20px; overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .car-card:hover { transform: translateY(-8px); box-shadow: 0 16px 36px rgba(0,0,0,0.1); }
 
-    .price-input-wrapper {
-        position: relative;
-    }
+    .card-img-wrap { overflow: hidden; }
+    .card-car-img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.4s; }
+    .car-card:hover .card-car-img { transform: scale(1.04); }
 
-    .price-input-wrapper .currency {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #718096;
-        font-weight: 500;
+    .wish-pos { position: absolute; top: 14px; right: 14px; z-index: 2; }
+    .wish-btn {
+        width: 36px; height: 36px; border-radius: 50%; background: #fff; border: none;
+        display: flex; align-items: center; justify-content: center;
+        color: #718096; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.2s;
     }
+    .wish-btn:hover, .wish-btn.active { color: #f07500; transform: scale(1.1); }
 
-    .price-input-wrapper .form-control {
-        padding-left: 28px;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
+    .card-body-inner { padding: 20px; }
+    .card-car-title { font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 4px; }
+    .card-car-sub { font-size: 13px; color: #a0aec0; margin-bottom: 8px; }
+    .card-car-price { font-size: 24px; font-weight: 800; color: #f07500; margin-bottom: 8px; }
+    .card-car-specs {
+        display: flex; align-items: center; gap: 12px;
+        font-size: 13px; color: #718096; margin-bottom: 14px;
     }
-
-    .search-wrapper {
-        position: relative;
+    .card-view-btn {
+        background: #fff5eb; color: #8a5e3b; font-weight: 700;
+        border-radius: 10px; padding: 10px; text-align: center; font-size: 14px;
+        transition: background 0.2s, color 0.2s;
     }
-
-    .search-icon {
-        position: absolute;
-        left: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #a0aec0;
-    }
-
-    .search-wrapper .form-control {
-        height: 50px;
-        border-radius: 999px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    }
-
-    .search-sort-bar .form-select {
-        height: 44px;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-        min-width: 160px;
-    }
-
-    /* Reuse Car Card Styles from Index */
-    .car-card-new {
-        background: #fff;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-        position: relative;
-        transition: transform 0.3s ease;
-    }
-    .car-card-new:hover {
-        transform: translateY(-8px);
-    }
-    .car-img-top {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-    }
-    .car-body-new {
-        padding: 20px;
-    }
-    .car-title-new {
-        font-size: 18px;
-        font-weight: 700;
-        color: #1a202c;
-    }
-    .car-price-new {
-        font-size: 24px;
-        font-weight: 800;
-        color: #f07500;
-    }
-    .car-specs-new {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 13px;
-        color: #718096;
-    }
-    .wishlist-form-pos {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        z-index: 2;
-    }
-    .wishlist-btn-new {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: #fff;
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #718096;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        transition: all 0.2s;
-    }
-    .wishlist-btn-new.active {
-        color: #f07500;
-    }
+    .car-card:hover .card-view-btn { background: #f07500; color: #fff; }
 </style>
-
