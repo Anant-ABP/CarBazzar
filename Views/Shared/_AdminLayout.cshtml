@@ -1,254 +1,284 @@
-@{
-    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
-    var action = ViewContext.RouteData.Values["action"]?.ToString();
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CarBazaar Admin</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        html, body {
-            height: 100%;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background: #f5f0eb; /* light orange */
-        }
-
-        .admin-shell {
-            display: grid;
-            grid-template-columns: 240px 1fr;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f7f4f1;
+            display: flex;
             min-height: 100vh;
         }
 
-        .admin-sidebar {
+        /* ───── SIDEBAR ───── */
+        .sidebar {
+            width: 200px;
+            min-height: 100vh;
             background: #ffffff;
-            border-right: 1px solid #f0ece6;
-            padding: 18px 18px;
+            border-right: 1px solid #f0ece7;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 100;
         }
 
-        .admin-logo {
+        /* Logo */
+        .sidebar-logo {
             display: flex;
             align-items: center;
             gap: 10px;
+            padding: 20px 20px 24px 20px;
+            text-decoration: none;
         }
-
-        .admin-logo-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
+        .logo-icon {
+            width: 38px; height: 38px;
             background: #f97316;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
-
-        .admin-logo-icon svg {
-            width: 19px;
-            height: 19px;
-            fill: #fff;
-        }
-
-        .admin-logo-text {
+        .logo-icon svg { display: block; }
+        .logo-text {
             font-size: 16px;
             font-weight: 800;
             color: #1a1008;
+            letter-spacing: -.3px;
         }
 
-        .admin-nav-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #a29a8d;
-            margin-bottom: 8px;
-            padding-left: 4px;
-        }
-
-        .admin-nav {
+        /* Nav */
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 12px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
         }
-
-        .admin-nav a {
+        .nav-link {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 9px 10px;
+            padding: 10px 12px;
             border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #5a5450;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b5f54;
             text-decoration: none;
-            transition: background 0.18s, color 0.18s;
+            transition: background .15s, color .15s;
         }
-
-        .admin-nav a svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .admin-nav a.active {
-            background: #fff5eb;
+        .nav-link:hover {
+            background: #fef3e7;
             color: #f97316;
         }
+        .nav-link.active {
+            background: #f97316;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .nav-link.active svg { stroke: #ffffff; }
+        .nav-link:hover svg { stroke: #f97316; }
+        .nav-link svg { stroke: #9e8e80; flex-shrink: 0; transition: stroke .15s; }
 
-        .admin-nav a:hover {
-            background: #faf4ec;
-            color: #f97316;
+        /* Logout */
+        .sidebar-footer {
+            padding: 16px 12px 24px;
+        }
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b5f54;
+            text-decoration: none;
+            width: 100%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: background .15s, color .15s;
+        }
+        .logout-btn:hover {
+            background: #fdeae9;
+            color: #d9534f;
+        }
+        .logout-btn svg { stroke: #9e8e80; flex-shrink: 0; transition: stroke .15s; }
+        .logout-btn:hover svg { stroke: #d9534f; }
+
+        /* ───── MAIN AREA ───── */
+        .main-wrapper {
+            margin-left: 200px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        .admin-main {
-            background: #f5f0eb;
-            padding: 22px 26px;
-        }
-
-        .admin-topbar {
+        /* ───── HEADER ───── */
+        .topbar {
+            height: 64px;
+            background: #ffffff;
+            border-bottom: 1px solid #f0ece7;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 18px;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 90;
         }
-
-        .admin-topbar-title {
-            font-size: 18px;
+        .topbar-title {
+            font-size: 20px;
             font-weight: 700;
             color: #1a1008;
+            letter-spacing: -.3px;
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .admin-user {
+
+
+
+        /* Admin Avatar */
+        .admin-profile {
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
-
         .admin-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 999px;
-            background: #fde7cf;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: #f97316;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
             font-weight: 700;
-            color: #f97316;
+            color: #fff;
+            flex-shrink: 0;
         }
-
-        .admin-user-meta small {
+        .admin-info { line-height: 1.2; }
+        .admin-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1008;
+        }
+        .admin-role {
             font-size: 11px;
             color: #a29a8d;
         }
 
-        .admin-user-meta div {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1008;
-        }
-
-        .admin-spacer {
+        /* ───── PAGE CONTENT ───── */
+        .page-content {
             flex: 1;
-        }
-
-        .admin-logout {
-            margin-top: 12px;
-        }
-
-        .admin-logout a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 120px;
-            height: 40px;
-            border-radius: 999px;
-            background: #ef4444;
-            color: #fff;
-            font-weight: 700;
-            text-decoration: none;
-            transition: opacity .15s ease, transform .12s ease;
-        }
-
-        .admin-logout a:hover {
-            opacity: .92;
-            transform: translateY(-1px);
-            color: #fff;
+            padding: 28px;
         }
     </style>
 </head>
 <body>
-    <div class="admin-shell">
-        <aside class="admin-sidebar">
-            <div class="admin-logo">
-                <div class="admin-logo-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z" />
-                    </svg>
-                </div>
-                <div class="admin-logo-text">CarBazaar</div>
-            </div>
-            <div>
-                <div class="admin-nav-label">Main</div>
-                <nav class="admin-nav">
-                    <a asp-controller="Admin" asp-action="Dashboard"
-                       class="@(controller == "Admin" && action == "Dashboard" ? "active" : "")">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="9" rx="2" />
-                            <rect x="14" y="3" width="7" height="5" rx="2" />
-                            <rect x="14" y="11" width="7" height="10" rx="2" />
-                            <rect x="3" y="15" width="7" height="6" rx="2" />
-                        </svg>
-                        Dashboard
-                    </a>
-                    <a asp-controller="Admin" asp-action="Listings"
-                       class="@(controller == "Admin" && action == "Listings" ? "active" : "")">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 4h18M3 10h18M3 16h18" />
-                        </svg>
-                        Listings
-                    </a>
-                    <a asp-controller="Admin" asp-action="Users"
-                       class="@(controller == "Admin" && action == "Users" ? "active" : "")">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        </svg>
-                        Users
-                    </a>
-                </nav>
-            </div>
 
-            <div class="admin-spacer"></div>
+    <!-- ═══════════ SIDEBAR ═══════════ -->
+    <aside class="sidebar">
 
-            <div class="admin-logout">
-                <a asp-controller="Account" asp-action="AdminLogin">Log Out</a>
+        <!-- Logo -->
+        <a class="sidebar-logo" href="/Admin/Dashboard">
+            <div class="logo-icon">
+                <!-- Car SVG icon matching screenshot -->
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/>
+        <circle cx="7.5" cy="14.5" r="1.5"/>
+        <circle cx="16.5" cy="14.5" r="1.5"/>
+      </svg>
             </div>
-        </aside>
-        <main class="admin-main">
-            <div class="admin-topbar">
-                <div class="admin-topbar-title">@ViewData["Title"]</div>
-                <div class="admin-user">
-                    <div class="admin-user-meta text-end">
-                        <div>John Admin</div>
-                        <small>Administrator</small>
+            <span class="logo-text">CarBazaar</span>
+        </a>
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+            <a class="nav-link @(ViewData["Title"]?.ToString()?.Contains("Dashboard") == true ? "active" : "")"
+               href="/Admin/Dashboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                Dashboard
+            </a>
+
+            <a class="nav-link @(ViewData["Title"]?.ToString()?.Contains("Listing") == true ? "active" : "")"
+               href="/Admin/Listings">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+                    <line x1="8" y1="18" x2="21" y2="18"/>
+                    <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+                Listings
+            </a>
+
+            <a class="nav-link @(ViewData["Title"]?.ToString()?.Contains("User") == true ? "active" : "")"
+               href="/Admin/Users">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Users
+            </a>
+        </nav>
+
+        <!-- Logout-->
+        <div class="sidebar-footer">
+            <a class="logout-btn" asp-controller="Account" asp-action="Login">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Logout
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- ═══════════ MAIN ═══════════ -->
+    <div class="main-wrapper">
+
+        <!-- Top Header -->
+        <header class="topbar">
+            <h1 class="topbar-title">@ViewData["Title"]</h1>
+
+            <div class="topbar-right">
+
+
+
+                <!-- Admin Profile -->
+                <div class="admin-profile">
+                    <div class="admin-avatar">JA</div>
+                    <div class="admin-info">
+                        <div class="admin-name">Jayesh</div>
+                        <div class="admin-role">Administrator</div>
                     </div>
-                    <div class="admin-avatar">J</div>
                 </div>
+
             </div>
+        </header>
+
+        <!-- Page Body -->
+        <main class="page-content">
             @RenderBody()
         </main>
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
