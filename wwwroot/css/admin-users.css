@@ -1,0 +1,238 @@
+/* admin-users.css */
+
+/* ========================
+   STAT CARDS
+   ======================== */
+
+.stat-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    transition: box-shadow .2s;
+}
+
+.stat-card:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,.10);
+}
+
+.stat-card-bg {
+    background: #ffffff;
+}
+
+.stat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #7b8ad9;
+    font-weight: 600;
+}
+
+.stat-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #e0e6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: 800;
+    color: #142055;
+    line-height: 1;
+}
+
+.stat-description {
+    font-size: 12px;
+    color: #9ca4d5;
+    margin-top: 4px;
+}
+
+/* ========================
+   SECTION CARDS
+   ======================== */
+
+.section-card {
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,.06);
+}
+
+/* ========================
+   TABLE STYLES
+   ======================== */
+
+.table thead tr th {
+    font-size: 11px;
+    color: #a29a8d;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 600;
+    border-bottom: 1px solid #f0ece7;
+    padding-bottom: 10px;
+}
+
+.table tbody tr td {
+    font-size: 13px;
+    color: #40352c;
+    padding: 13px 12px;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #f7f4f1;
+}
+
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* ========================
+   BADGES
+   ======================== */
+
+.role-badge, .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-admin {
+    background: #f4e5ff;
+    color: #8e3ecc;
+}
+
+.badge-user {
+    background: #e9f2ff;
+    color: #276fd0;
+}
+
+.badge-active {
+    background: #e6f7ef;
+    color: #138a4a;
+}
+
+.badge-suspended {
+    background: #fdeae9;
+    color: #d9534f;
+}
+
+/* ========================
+   ACTION BUTTONS
+   ======================== */
+
+.action-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+    transition: background .15s;
+}
+
+.action-btn:hover {
+    background: #f5f0eb;
+}
+
+/* ========================
+   FORM SELECT
+   ======================== */
+
+.form-select {
+    border-radius: 999px !important;
+    border-color: #e5ded3 !important;
+    font-size: 12px !important;
+    padding: 6px 14px !important;
+    box-shadow: none !important;
+}
+
+.form-select:focus {
+    border-color: #f97316 !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,.12) !important;
+}
+
+/* ========================
+   AVATAR CIRCLE
+   ======================== */
+
+.avatar-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+/* ========================
+   HEADINGS
+   ======================== */
+
+.section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1008;
+}
+
+/* ========================
+   TABLE USER ROW
+   ======================== */
+
+.user-info-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-email-text {
+    font-size: 12px;
+}
+
+.listing-count-bold {
+    font-weight: 600;
+}
+
+/* ========================
+   AVATAR CIRCLES
+   ======================== */
+
+.avatar-bg-orange {
+    background: #f97316;
+}
+
+.avatar-bg-cyan {
+    background: #0891b2;
+}
+
+.avatar-bg-green {
+    background: #16a34a;
+}
+
+.avatar-bg-amber {
+    background: #d97706;
+}
+
+.avatar-bg-blue {
+    background: #4f6ef7;
+}

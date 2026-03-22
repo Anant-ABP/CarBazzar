@@ -1,0 +1,81 @@
+/* cars-details.css */
+
+.details-section {
+    background: #fffaf5;
+    min-height: 100vh;
+}
+
+.details-description {
+    line-height: 1.8;
+    font-size: 15px;
+    color: #4a5568;
+}
+
+.back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 999px;
+    padding: 8px 18px; font-size: 14px; font-weight: 600; color: #4a5568;
+    text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.back-link:hover { background: #f07500; color: #fff; border-color: #f07500; }
+
+.gallery-box { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); position: relative; }
+.gallery-img { width: 100%; height: 380px; object-fit: cover; display: block; }
+
+.gal-arrow {
+    width: 40px; height: 40px; border-radius: 50%; background: #fff !important;
+    border: none; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12); color: #2d3748 !important;
+    opacity: 1 !important; position: absolute; top: 50%; transform: translateY(-50%);
+}
+.gal-prev { left: 14px; } .gal-next { right: 14px; }
+.gal-arrow:hover { background: #f07500 !important; color: #fff !important; }
+
+.gal-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+.gdot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); display: inline-block; }
+.gdot.active { width: 22px; border-radius: 4px; background: #f07500; }
+
+.detail-box { background: #fff; border-radius: 16px; padding: 20px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+.box-heading { font-weight: 700; color: #1a202c; font-size: 16px; margin-bottom: 14px; }
+
+.feat-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4a5568; padding: 5px 0; }
+.feat-dot { width: 8px; height: 8px; border-radius: 50%; border: 2px solid #f07500; flex-shrink: 0; }
+
+.info-panel { background: #fff; border-radius: 20px; padding: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); position: sticky; top: 20px; }
+.info-title { font-size: 22px; font-weight: 800; color: #1a202c; line-height: 1.3; }
+.info-price { font-size: 30px; font-weight: 900; color: #f07500; }
+
+.share-btn {
+    width: 36px; height: 36px; border-radius: 50%; border: 1px solid #e2e8f0;
+    background: #fff; display: flex; align-items: center; justify-content: center;
+    color: #718096; cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+}
+.share-btn:hover { background: #f07500; color: #fff; border-color: #f07500; }
+
+.wish-action-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1.5px solid #e2e8f0; background: #fff; border-radius: 10px;
+    padding: 9px 18px; font-size: 14px; font-weight: 600; color: #4a5568;
+    cursor: pointer; transition: all 0.2s;
+}
+.wish-action-btn:hover { border-color: #f07500; color: #f07500; }
+
+.panel-section { border-top: 1px solid #f0ebe3; padding-top: 18px; margin-top: 18px; }
+.specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.spec-cell { display: flex; align-items: flex-start; gap: 10px; }
+.spec-icon-wrap { width: 32px; height: 32px; background: #fff5eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.spec-lbl { font-size: 11px; color: #a0aec0; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+.spec-val { font-size: 14px; font-weight: 700; color: #2d3748; margin-top: 2px; }
+
+.seller-card { background: #fffaf5; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.seller-row { display: flex; align-items: center; gap: 10px; }
+.seller-icon { width: 28px; height: 28px; background: #fff5eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.seller-txt { font-size: 14px; color: #4a5568; font-weight: 500; }
+
+.contact-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; background: #f07500; color: #fff; font-weight: 700; font-size: 16px;
+    border-radius: 14px; padding: 16px; text-decoration: none; margin-top: 20px;
+    transition: background 0.2s, transform 0.2s;
+}
+.contact-btn:hover { background: #d96800; color: #fff; transform: translateY(-2px); }

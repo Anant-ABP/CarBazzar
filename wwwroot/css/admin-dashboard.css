@@ -1,0 +1,97 @@
+/* Extracted styles from Views/Admin/Dashboard.cshtml */
+
+.stat-card-new {
+    background: #ffffff;
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 1px 10px rgba(0,0,0,.06);
+    padding: 16px 18px;
+    transition: box-shadow .2s, transform .2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.stat-card-new:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,.10);
+    transform: translateY(-1px);
+}
+.stat-icon-box {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.stat-card-label {
+    font-size: 12px;
+    color: #a29a8d;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+.stat-card-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1008;
+    line-height: 1;
+    letter-spacing: -.4px;
+}
+
+.section-card {
+    border-radius: 18px; border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,.06);
+    background: #fff;
+}
+.section-card .card-body { padding: 24px; }
+.table thead tr th {
+    font-size: 11px; color: #a29a8d;
+    text-transform: uppercase; letter-spacing: .12em;
+    font-weight: 600; border-bottom: 1px solid #f0ece7; padding-bottom: 10px;
+}
+.table tbody tr td { font-size: 13px; color: #40352c; padding: 13px 12px; vertical-align: middle; }
+.table tbody tr { border-bottom: 1px solid #f7f4f1; }
+.table tbody tr:last-child { border-bottom: none; }
+.table tbody tr:hover { background: #fdfaf8; }
+.avatar-circle {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+}
+.status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.badge-approved { background: #e6f7ef; color: #138a4a; }
+.badge-pending  { background: #fff5eb; color: #f97316; }
+.badge-rejected { background: #fdeae9; color: #d9534f; }
+.action-btn {
+    width: 28px; height: 28px; border-radius: 8px; border: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; background: transparent; transition: background .15s;
+}
+.action-btn:hover { background: #f5f0eb; }
+.action-btn.del:hover { background: #fdeae9; }
+
+/* Inline styles converted to classes */
+.stat-icon-box-orange { background: #fff1e0; }
+.stat-icon-box-green { background: #e0f6ea; }
+
+.recent-listings-title { font-size: 15px; font-weight: 700; color: #1a1008; }
+
+.view-all-btn { background: #fff5eb; color: #f97316; font-weight: 600; border-radius: 999px; padding: 6px 18px; border: none; font-size: 13px; }
+
+.car-info { display: flex; align-items: center; gap: 10px; }
+
+.car-image { width: 44px; height: 34px; border-radius: 8px; background: #f5f0eb; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+.car-details { font-size: 12px; }
+
+.seller-info { display: flex; align-items: center; gap: 8px; }
+
+.avatar-orange { background: #f97316; }
+.avatar-blue { background: #4f6ef7; }
+.avatar-green { background: #16a34a; }
+.avatar-purple { background: #8e3ecc; }
+.avatar-cyan { background: #0891b2; }
+
+.price { color: #e65100; font-weight: 700; }
+
+.date { color: #8a7d72; }

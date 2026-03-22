@@ -3,48 +3,12 @@
     ViewData["Title"] = "Listings Management";
 }
 
-<style>
-    .section-card { border-radius: 18px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
-    .table thead tr th {
-        font-size: 11px; color: #a29a8d; text-transform: uppercase;
-        letter-spacing: .12em; font-weight: 600; border-bottom: 1px solid #f0ece7; padding-bottom: 10px;
-    }
-    .table tbody tr td { font-size: 13px; color: #40352c; padding: 13px 12px; vertical-align: middle; }
-    .table tbody tr { border-bottom: 1px solid #f7f4f1; }
-    .table tbody tr:last-child { border-bottom: none; }
-    .status-badge {
-        display: inline-flex; align-items: center; gap: 5px;
-        padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
-    }
-    .badge-approved { background: #e6f7ef; color: #138a4a; }
-    .badge-pending  { background: #fff5eb; color: #f97316; }
-    .badge-rejected { background: #fdeae9; color: #d9534f; }
-    .action-btn {
-        width: 28px; height: 28px; border-radius: 8px; border: none;
-        display: inline-flex; align-items: center; justify-content: center;
-        cursor: pointer; background: transparent; transition: background .15s;
-    }
-    .action-btn:hover { background: #f5f0eb; }
-    .form-control, .form-select {
-        border-radius: 999px !important; border-color: #e5ded3 !important;
-        font-size: 13px !important; padding: 9px 16px !important;
-        box-shadow: none !important;
-    }
-    .form-control:focus, .form-select:focus {
-        border-color: #f97316 !important; box-shadow: 0 0 0 3px rgba(249,115,22,.12) !important;
-    }
-    .search-wrap { position: relative; }
-    .search-wrap .search-icon {
-        position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none;
-    }
-    .search-wrap input { padding-left: 38px !important; }
-</style>
+<link rel="stylesheet" href="~/css/admin-listings.css" />
 
 <section>
     <div class="mb-3 d-flex justify-content-end">
         <a asp-controller="Admin" asp-action="AddListing"
-           class="btn d-inline-flex align-items-center gap-2"
-           style="background:#f97316;color:#fff;font-weight:600;border-radius:999px;padding:8px 20px;border:none;font-size:13px;">
+           class="btn d-inline-flex align-items-center gap-2 btn-add-listing">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Add Listing
         </a>
@@ -97,22 +61,22 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <img src="~/images/2721-inset12-2024-maserati-mc20.png" style="width:46px;height:34px;border-radius:8px;object-fit:cover;" />
+                                    <img src="~/images/2721-inset12-2024-maserati-mc20.png" class="car-thumbnail" />
                                     <div>
                                         <div class="fw-semibold">Toyota Camry</div>
-                                        <div class="text-muted" style="font-size:12px;">2022 • Sedan</div>
+                                        <div class="text-muted car-description">2022 • Sedan</div>
                                     </div>
                                 </div>
                             </td>
                             <td>Ajay Shah</td>
-                            <td style="color:#e65100;font-weight:700;">₹28,50,000</td>
+                            <td class="price-text">₹28,50,000</td>
                             <td>
                                 <span class="status-badge badge-approved">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#138a4a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                                     Approved
                                 </span>
                             </td>
-                            <td style="color:#8a7d72;">Mar 15, 2024</td>
+                            <td class="date-text">Mar 15, 2024</td>
                             <td class="text-end">
                                 <button class="action-btn" title="View">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -128,22 +92,22 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <img src="~/images/Car Hero.png" style="width:46px;height:34px;border-radius:8px;object-fit:cover;" />
+                                    <img src="~/images/Car Hero.png" class="car-thumbnail" />
                                     <div>
                                         <div class="fw-semibold">Honda Civic</div>
-                                        <div class="text-muted" style="font-size:12px;">2023 • Hatchback</div>
+                                        <div class="text-muted car-description">2023 • Hatchback</div>
                                     </div>
                                 </div>
                             </td>
                             <td>Mansi Verma</td>
-                            <td style="color:#e65100;font-weight:700;">₹22,24,900</td>
+                            <td class="price-text">₹22,24,900</td>
                             <td>
                                 <span class="status-badge badge-pending">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="3"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
                                     Pending
                                 </span>
                             </td>
-                            <td style="color:#8a7d72;">Mar 14, 2024</td>
+                            <td class="date-text">Mar 14, 2024</td>
                             <td class="text-end">
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
@@ -153,22 +117,22 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <img src="~/images/Car Hero.png" style="width:46px;height:34px;border-radius:8px;object-fit:cover;" />
+                                    <img src="~/images/Car Hero.png" class="car-thumbnail" />
                                     <div>
                                         <div class="fw-semibold">BMW X5</div>
-                                        <div class="text-muted" style="font-size:12px;">2021 • SUV</div>
+                                        <div class="text-muted car-description">2021 • SUV</div>
                                     </div>
                                 </div>
                             </td>
                             <td>Vikram Nair</td>
-                            <td style="color:#e65100;font-weight:700;">₹52,00,000</td>
+                            <td class="price-text">₹52,00,000</td>
                             <td>
                                 <span class="status-badge badge-rejected">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d9534f" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                                     Rejected
                                 </span>
                             </td>
-                            <td style="color:#8a7d72;">Mar 13, 2024</td>
+                            <td class="date-text">Mar 13, 2024</td>
                             <td class="text-end">
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
@@ -178,22 +142,22 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <img src="~/images/Car Hero.png" style="width:46px;height:34px;border-radius:8px;object-fit:cover;" />
+                                    <img src="~/images/Car Hero.png" class="car-thumbnail" />
                                     <div>
                                         <div class="fw-semibold">Mercedes C-Class</div>
-                                        <div class="text-muted" style="font-size:12px;">2022 • Sedan</div>
+                                        <div class="text-muted car-description">2022 • Sedan</div>
                                     </div>
                                 </div>
                             </td>
                             <td>Arjun Singh</td>
-                            <td style="color:#e65100;font-weight:700;">₹45,80,000</td>
+                            <td class="price-text">₹45,80,000</td>
                             <td>
                                 <span class="status-badge badge-approved">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#138a4a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                                     Approved
                                 </span>
                             </td>
-                            <td style="color:#8a7d72;">Mar 12, 2024</td>
+                            <td class="date-text">Mar 12, 2024</td>
                             <td class="text-end">
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
@@ -203,22 +167,22 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <img src="~/images/Car Hero.png" style="width:46px;height:34px;border-radius:8px;object-fit:cover;" />
+                                    <img src="~/images/Car Hero.png" class="car-thumbnail" />
                                     <div>
                                         <div class="fw-semibold">Audi A4</div>
-                                        <div class="text-muted" style="font-size:12px;">2023 • Sedan</div>
+                                        <div class="text-muted car-description">2023 • Sedan</div>
                                     </div>
                                 </div>
                             </td>
                             <td>Rajesh Kumar</td>
-                            <td style="color:#e65100;font-weight:700;">₹38,20,000</td>
+                            <td class="price-text">₹38,20,000</td>
                             <td>
                                 <span class="status-badge badge-pending">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="3"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
                                     Pending
                                 </span>
                             </td>
-                            <td style="color:#8a7d72;">Mar 11, 2024</td>
+                            <td class="date-text">Mar 11, 2024</td>
                             <td class="text-end">
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                                 <button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9e8e80" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>

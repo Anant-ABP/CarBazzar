@@ -1158,9 +1158,18 @@ body {
 
 
 
+.sell-form-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* or however it's aligned */
+    justify-content: flex-start; /* ← this is the key fix */
+}
 
-
-
+.sell-form-aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
 
 

@@ -1,0 +1,144 @@
+/* Section Card */
+.section-card {
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .06);
+}
+
+/* Table Styles */
+.table thead tr th {
+    font-size: 11px;
+    color: #a29a8d;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 600;
+    border-bottom: 1px solid #f0ece7;
+    padding-bottom: 10px;
+}
+
+.table tbody tr td {
+    font-size: 13px;
+    color: #40352c;
+    padding: 13px 12px;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #f7f4f1;
+}
+
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* Status Badge Styles */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-approved {
+    background: #e6f7ef;
+    color: #138a4a;
+}
+
+.badge-pending {
+    background: #fff5eb;
+    color: #f97316;
+}
+
+.badge-rejected {
+    background: #fdeae9;
+    color: #d9534f;
+}
+
+/* Action Buttons */
+.action-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+    transition: background .15s;
+}
+
+.action-btn:hover {
+    background: #f5f0eb;
+}
+
+/* Form Elements */
+.form-control,
+.form-select {
+    border-radius: 999px !important;
+    border-color: #e5ded3 !important;
+    font-size: 13px !important;
+    padding: 9px 16px !important;
+    box-shadow: none !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #f97316 !important;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, .12) !important;
+}
+
+/* Search Wrap */
+.search-wrap {
+    position: relative;
+}
+
+.search-wrap .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.search-wrap input {
+    padding-left: 38px !important;
+}
+
+/* Add Listing Button */
+.btn-add-listing {
+    background: #f97316 !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    border-radius: 999px !important;
+    padding: 8px 20px !important;
+    border: none !important;
+    font-size: 13px !important;
+}
+
+/* Car Thumbnail */
+.car-thumbnail {
+    width: 46px;
+    height: 34px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Car Description */
+.car-description {
+    font-size: 12px;
+}
+
+/* Price Text */
+.price-text {
+    color: #e65100;
+    font-weight: 700;
+}
+
+/* Date Text */
+.date-text {
+    color: #8a7d72;
+}

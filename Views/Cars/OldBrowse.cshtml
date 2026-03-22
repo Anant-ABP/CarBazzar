@@ -2,12 +2,13 @@
 @{
     ViewData["Title"] = "Buy Old Car";
 }
+<link rel="stylesheet" href="~/css/cars-oldbrowse.css" />
 
-<section class="py-5" style="background: #fffaf5; min-height: 100vh;">
+<section class="py-5 oldbrowse-section">
     <div class="container">
 
         <div class="mb-5">
-            <h1 class="fw-bold mb-1" style="color: #1a202c; font-size: 36px;">Buy Old Car</h1>
+            <h1 class="fw-bold mb-1 oldbrowse-title">Buy Old Car</h1>
             <p class="text-muted fs-5">Explore quality pre-owned vehicles at great prices</p>
         </div>
 
@@ -131,73 +132,3 @@
     </div>
 </section>
 
-<style>
-    .filter-sidebar {
-        background: #fff; border-radius: 20px; padding: 24px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 20px;
-    }
-    .filter-title { font-weight: 700; color: #1a202c; font-size: 15px; margin-bottom: 14px; }
-    .filter-options { display: flex; flex-direction: column; gap: 10px; }
-    .filter-divider { border-color: #f0ebe3; margin: 4px 0 16px; }
-    .filter-check { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: #4a5568; }
-    .filter-check input[type="checkbox"] { width: 16px; height: 16px; accent-color: #f07500; }
-    .check-label { display: flex; align-items: center; gap: 6px; }
-    .cnt { font-size: 12px; color: #a0aec0; }
-
-    .price-range {
-        -webkit-appearance: none; width: 100%; height: 4px;
-        border-radius: 2px; outline: none;
-        background: linear-gradient(to right, #f07500 53%, #e2e8f0 53%);
-    }
-    .price-range::-webkit-slider-thumb {
-        -webkit-appearance: none; width: 18px; height: 18px;
-        border-radius: 50%; background: #f07500; cursor: pointer;
-        box-shadow: 0 2px 6px rgba(240,117,0,0.35);
-    }
-    .price-box { position: relative; flex: 1; }
-    .cur { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: #718096; font-size: 13px; }
-    .price-inp { width: 100%; padding: 8px 8px 8px 20px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 13px; color: #2d3748; background: #fafafa; }
-
-    .search-wrap { position: relative; }
-    .s-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #a0aec0; }
-    .search-wrap .form-control { height: 48px; border-radius: 999px; border: 1px solid #e2e8f0; font-size: 14px; padding-left: 46px; }
-    .search-wrap .form-control:focus { border-color: #f07500; box-shadow: 0 0 0 3px rgba(240,117,0,0.1); outline: none; }
-    .sort-sel { height: 44px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 14px; min-width: 150px; }
-    .sort-sel:focus { border-color: #f07500; box-shadow: none; }
-
-    .old-card {
-        background: #fff; border-radius: 18px; overflow: hidden;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.06); position: relative;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .old-card:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(0,0,0,0.1); }
-    .card-img-wrap { overflow: hidden; }
-    .old-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.4s; }
-    .old-card:hover .old-img { transform: scale(1.04); }
-
-    .wish-form { position: absolute; top: 12px; right: 12px; z-index: 2; }
-    .wish-btn {
-        width: 34px; height: 34px; border-radius: 50%;
-        background: #fff; border: none;
-        display: flex; align-items: center; justify-content: center;
-        color: #718096; box-shadow: 0 2px 8px rgba(0,0,0,0.12); cursor: pointer; transition: all 0.2s;
-    }
-    .wish-btn:hover, .wish-btn.active { color: #f07500; transform: scale(1.1); }
-
-    .old-body { padding: 16px 18px 18px; }
-    .old-title { font-size: 16px; font-weight: 700; color: #1a202c; margin-bottom: 2px; }
-    .old-sub { font-size: 13px; color: #a0aec0; margin-bottom: 8px; }
-    .old-price { font-size: 20px; font-weight: 800; color: #f07500; margin-bottom: 10px; }
-    .old-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-    .meta-pill {
-        display: flex; align-items: center; gap: 4px;
-        background: #f7f7f7; border-radius: 6px; padding: 4px 8px;
-        font-size: 12px; color: #718096; font-weight: 500;
-    }
-    .view-details-btn {
-        background: #fff5eb; color: #8a5e3b; font-weight: 700;
-        border-radius: 10px; padding: 10px; text-align: center; font-size: 14px;
-        transition: background 0.2s, color 0.2s;
-    }
-    .old-card:hover .view-details-btn { background: #f07500; color: #fff; }
-</style>

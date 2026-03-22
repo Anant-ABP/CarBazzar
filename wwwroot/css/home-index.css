@@ -1,0 +1,362 @@
+/* Home Index Page Styles */
+
+/* Orange color theme */
+.text-orange {
+    color: #f07500;
+}
+
+.bg-orange {
+    background: #f07500;
+}
+
+.border-orange {
+    border-color: #f07500;
+}
+
+/* Light orange background */
+.bg-light-orange {
+    background: #fffaf5;
+}
+
+/* Dark text */
+.text-dark {
+    color: #1a202c;
+}
+
+.text-darker {
+    color: #1a1008;
+}
+
+/* Hero section styles */
+.hero-svg-margin {
+    margin-right: 6px;
+}
+
+.hero-svg-margin-8 {
+    margin-right: 8px;
+}
+
+.hero-btn-primary {
+    border-radius: 10px;
+    background: #f07500;
+    border: none;
+}
+
+.hero-btn-secondary {
+    border-radius: 10px;
+    border: 1px solid #eee;
+    background: #fff;
+}
+
+.hero-image {
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+
+/* Section styles */
+.section-kicker {
+    color: #f07500;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.section-title {
+    color: #1a202c;
+}
+
+.section-link {
+    color: #f07500;
+}
+
+/* Why Choose Us section */
+.wcu-section {
+    padding: 64px 0 56px;
+    background: #fffaf5;
+}
+
+.wcu-title-custom {
+    color: #1a1008;
+    font-size: 28px;
+    letter-spacing: -0.3px;
+}
+
+/* Why Choose Us item hover effect */
+.wcu-item {
+    padding: 8px 4px;
+    transition: transform 0.2s;
+}
+
+.wcu-item:hover {
+    transform: translateY(-3px);
+}
+
+.wcu-icon {
+    width: 56px;
+    height: 56px;
+    border: 1.5px solid #e8e3de;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.wcu-item:hover .wcu-icon {
+    border-color: #f07500;
+    background: #fff5eb;
+}
+
+.wcu-item:hover .wcu-icon svg {
+    stroke: #f07500;
+}
+
+.wcu-icon svg {
+    transition: stroke 0.2s;
+}
+
+.wcu-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1008;
+    margin-bottom: 8px;
+}
+
+.wcu-text {
+    font-size: 13.5px;
+    color: #718096;
+    line-height: 1.65;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wc-card {
+    background: #fff;
+    border: 1px solid #ede8e3;
+    border-radius: 16px;
+    padding: 28px 24px 22px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.28s cubic-bezier(0.23,1,0.32,1), border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+.wc-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(240,117,0,0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    pointer-events: none;
+}
+
+.wc-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(240,117,0,0.35);
+    box-shadow: 0 16px 40px rgba(240,117,0,0.09);
+}
+
+.wc-card:hover::before {
+    opacity: 1;
+}
+
+.wc-icon-box {
+    width: 44px;
+    height: 44px;
+    background: #fff5eb;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: transform 0.28s ease;
+}
+
+.wc-card:hover .wc-icon-box {
+    transform: scale(1.08) rotate(4deg);
+}
+
+.wc-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+}
+
+.wc-card:hover .wc-card-title {
+    color: #f07500;
+}
+
+.wc-card-text {
+    font-size: 13.5px;
+    color: #718096;
+    line-height: 1.65;
+    margin-bottom: 0;
+}
+
+.wc-stat-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding-top: 14px;
+    margin-top: 16px;
+    border-top: 1px solid #f0ece7;
+}
+
+.wc-stat {
+    font-size: 18px;
+    font-weight: 800;
+    color: #f07500;
+}
+
+.wc-stat-label {
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+.hero-badge-light {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    background: #fff5eb;
+    color: #8a5e3b;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hero-stat-badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background: #fff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #1a202c;
+}
+
+.hero-media-wrapper {
+    position: relative;
+}
+
+/* New Car Card Styles */
+.car-card-new {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.car-card-new:hover {
+    transform: translateY(-8px);
+}
+
+.car-img-top {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+}
+
+.car-body-new {
+    padding: 20px;
+}
+
+.car-title-new {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 8px;
+}
+
+.car-price-new {
+    font-size: 24px;
+    font-weight: 800;
+    color: #f07500;
+    margin-bottom: 12px;
+}
+
+.car-specs-new {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    color: #718096;
+}
+
+.car-specs-new .dot {
+    width: 4px;
+    height: 4px;
+    background: #cbd5e0;
+    border-radius: 50%;
+}
+
+.wishlist-form-pos {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+}
+
+.wishlist-btn-new {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #718096;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+.wishlist-btn-new:hover {
+    transform: scale(1.1);
+}
+
+.wishlist-btn-new.active {
+    color: #f07500;
+}
+
+/* Category Card Styles */
+.category-card-new {
+    position: relative;
+    height: 200px;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.category-card-new img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.category-card-new:hover img {
+    transform: scale(1.1);
+}
+
+.category-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 50%, rgba(0,0,0,0.8));
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    color: #fff;
+}
