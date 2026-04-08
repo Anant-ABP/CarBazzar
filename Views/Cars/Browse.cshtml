@@ -1,6 +1,7 @@
 @model IReadOnlyList<CarBazzar.Models.Cars.CarCard>
 @{
     ViewData["Title"] = "Browse Cars";
+    var wishlistIds = ViewBag.WishlistCarIds as List<int> ?? new List<int>();
 }
 <link rel="stylesheet" href="~/css/cars-browse.css" />
 
@@ -15,20 +16,20 @@
         <div class="row g-4">
             <!-- Sidebar -->
             <div class="col-lg-3">
-                <div class="filter-sidebar">
+                <form method="get" asp-action="Browse" class="filter-sidebar">
 
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Brands</h6>
                         <div class="filter-options">
-                            <label class="filter-radio"><input type="radio" name="brand" checked> <span class="radio-label">All Brands</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Mercedes-Benz</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">BMW</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Audi</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Tesla</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Porsche</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Ford</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Chevrolet</span></label>
-                            <label class="filter-radio"><input type="radio" name="brand"> <span class="radio-label">Nissan</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="" checked> <span class="radio-label">All Brands</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Mercedes-Benz"> <span class="radio-label">Mercedes-Benz</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="BMW"> <span class="radio-label">BMW</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Audi"> <span class="radio-label">Audi</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Tesla"> <span class="radio-label">Tesla</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Porsche"> <span class="radio-label">Porsche</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Ford"> <span class="radio-label">Ford</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Chevrolet"> <span class="radio-label">Chevrolet</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Nissan"> <span class="radio-label">Nissan</span></label>
                         </div>
                     </div>
 
@@ -36,25 +37,28 @@
                         <h6 class="filter-title">Price Range</h6>
                         <div class="price-input-wrapper">
                             <span class="currency">₹</span>
-                            <input type="number" value="10000" class="form-control">
+                            <input type="number" name="minPrice" placeholder="Min" class="form-control">
                         </div>
                         <div class="price-input-wrapper mt-2">
                             <span class="currency">₹</span>
-                            <input type="number" value="120000" class="form-control">
+                            <input type="number" name="maxPrice" placeholder="Max" class="form-control">
                         </div>
                     </div>
 
-                    <div class="filter-group">
+                    <div class="filter-group mb-4">
                         <h6 class="filter-title">Fuel Type</h6>
                         <div class="filter-options">
-                            <label class="filter-radio"><input type="radio" name="fuel" checked> <span class="radio-label">All</span></label>
-                            <label class="filter-radio"><input type="radio" name="fuel"> <span class="radio-label">Gasoline</span></label>
-                            <label class="filter-radio"><input type="radio" name="fuel"> <span class="radio-label">Hybrid</span></label>
-                            <label class="filter-radio"><input type="radio" name="fuel"> <span class="radio-label">Electric</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="" checked> <span class="radio-label">All</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Petrol"> <span class="radio-label">Petrol</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Diesel"> <span class="radio-label">Diesel</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Electric"> <span class="radio-label">Electric</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Hybrid"> <span class="radio-label">Hybrid</span></label>
                         </div>
                     </div>
 
-                </div>
+                    <button type="submit" class="btn btn-warning w-100 fw-bold text-white" style="background:#f07500; border-color:#f07500;">Apply Filter</button>
+
+                </form>
             </div>
 
             <!-- Main -->
@@ -96,15 +100,23 @@
                 <div class="row g-4">
                     @foreach (var car in Model)
                     {
+                        bool isSaved = wishlistIds.Contains(car.Id);
                         <div class="col-md-4">
                             <div class="car-card">
                                 <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id" class="wish-pos">
-                                    <button type="submit" class="wish-btn @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "active" : "")">
-                                        <svg width="17" height="17" viewBox="0 0 24 24"
-                                             fill="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "#f07500" : "none")"
-                                             stroke="currentColor" stroke-width="2">
-                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                                        </svg>
+                                    <button type="submit" class="wish-btn @(isSaved ? "active" : "")">
+                                        @if (isSaved)
+                                        {
+                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="#f07500" stroke="#f07500" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                            </svg>
+                                        }
+                                        else
+                                        {
+                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                            </svg>
+                                        }
                                     </button>
                                 </form>
                                 <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="text-decoration-none">

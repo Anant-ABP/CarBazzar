@@ -144,10 +144,18 @@
                     </div>
 
                     <!-- Contact Button -->
-                    <button asp-controller="Messages" asp-action="Index" asp-route-carId="@Model.Id" class="contact-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        Contact Seller
-                    </button>
+                    @if (ViewBag.CurrentUserId != Model.SellerId)
+                    {
+                        var targetEmail = string.IsNullOrEmpty(Model.DealerEmail) ? "carbazaar@gmail.com" : Model.DealerEmail;
+                        var subject = Uri.EscapeDataString("Inquiry about your " + Model.Title);
+                        var body = Uri.EscapeDataString("I am interested in this car");
+                        var mailtoLink = $"mailto:{targetEmail}?subject={subject}&body={body}";
+                        
+                        <a href="@mailtoLink" target="_blank" rel="noopener noreferrer" class="contact-btn text-decoration-none d-flex justify-content-center align-items-center">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            <span class="ms-2">Contact Seller</span>
+                        </a>
+                    }
 
                 </div>
             </div>

@@ -1,46 +1,115 @@
+@model CarBazzar.Models.Cars.SellViewModel
 @{
     Layout = "_AdminLayout";
-    ViewData["Title"] = "Add Car";
+    ViewData["Title"] = "Add Listing";
 }
-<link rel="stylesheet" href="~/css/admin-addlisting.css" />
+<link rel="stylesheet" href="~/css/cars-sell.css" />
 
-<section class="add-shell">
-    <div class="add-title">Add Car</div>
+<section class="sell-form-shell m-4">
+    <div class="container-fluid">
+        <div class="sell-form-card">
+            <aside class="sell-form-aside">
+                <h5 class="mb-3">New Inventory Listing</h5><br/>
+                <p class="small mb-0">
+                    Provide accurate details to correctly map this vehicle into the global inventory system. Admin-added listings immediately become active.
+                </p>
 
-    <div class="add-grid">
-        <div class="add-field">
-            <label>Car name</label>
-            <input class="add-input" placeholder="eg. BMW" />
-        </div>
-        <div class="add-field">
-            <label>Car Model</label>
-            <input class="add-input" placeholder="eg. M3" />
-        </div>
-        <div class="add-field">
-            <label>Year</label>
-            <input class="add-input" placeholder="eg. 2023" />
-        </div>
-        <div class="add-field">
-            <label>Price</label>
-            <input class="add-input" placeholder="eg. $2000000" />
-        </div>
-    </div>
+                <div class="sell-safety mt-auto">
+                    <div class="small fw-semibold mb-1">Admin Authorized Entry</div>
+                        <p class="small mb-0">
+                          This entry will bypass standard moderation.
+                        </p>
+                    </div>
+            </aside>
 
-    <div class="add-image-row">
-        <div class="add-field add-field-margin">
-            <label class="label-margin">Add Car Image</label>
-        </div>
-        <label class="add-upload">
-            <div class="large-minus">−</div>
-            <strong>Upload Car Image</strong>
-            <input type="file" accept="image/*" class="hidden-input" />
-        </label>
-    </div>
+            <div class="sell-form-main">
+                <h5 class="mb-3">Vehicle Details</h5>
+                <form asp-action="AddListing" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-    <div class="add-actions">
-        <button class="add-btn primary" type="button">Add Car</button>
-        <a class="add-btn secondary d-flex align-items-center justify-content-center text-decoration-none white-text"
-           asp-controller="Admin" asp-action="Listings">Cancel</a>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label small text-muted">Title / Tagline</label>
+                            <input asp-for="Title" class="form-control" placeholder="e.g. BMW M4 Competition Coupe" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Brand / Make</label>
+                            <input asp-for="Brand" class="form-control" placeholder="e.g. Honda" />
+                            <span asp-validation-for="Brand" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Model</label>
+                            <input asp-for="Model" class="form-control" placeholder="e.g. Civic" />
+                            <span asp-validation-for="Model" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Year of Registration</label>
+                            <input asp-for="Year" class="form-control" placeholder="e.g. 2021" type="number" />
+                            <span asp-validation-for="Year" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">KM Driven</label>
+                            <div class="input-group">
+                                <input asp-for="Mileage" class="form-control" placeholder="0" type="number" />
+                                <span class="input-group-text">km</span>
+                            </div>
+                            <span asp-validation-for="Mileage" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Fuel Type</label>
+                            <select asp-for="FuelType" class="form-select">
+                                <option value="">Select Fuel…</option>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                            <span asp-validation-for="FuelType" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Transmission</label>
+                            <select asp-for="Transmission" class="form-select">
+                                <option value="">Select Transmission…</option>
+                                <option value="Automatic">Automatic</option>
+                                <option value="Manual">Manual</option>
+                                <option value="PDK">PDK</option>
+                            </select>
+                            <span asp-validation-for="Transmission" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Listing Price</label>
+                            <input asp-for="Price" class="form-control" placeholder="e.g. 850000" type="number" />
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small text-muted">Location</label>
+                            <input asp-for="Location" class="form-control" placeholder="e.g. Beverly Hills, CA" />
+                            <span asp-validation-for="Location" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="4"
+                                      placeholder="Tell buyers about the condition, features, and history..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="form-label small text-muted">Upload Photo (1 Slot)</label>
+                        <div class="mt-2">
+                            <input asp-for="Image" type="file" class="form-control" accept="image/*" />
+                            <span asp-validation-for="Image" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a class="btn btn-outline-secondary" asp-controller="Admin" asp-action="Listings">Cancel</a>
+                        <button type="submit" class="btn sell-primary-btn px-4">Post Inventory</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </section>
-
