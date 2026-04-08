@@ -2,55 +2,146 @@
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "User Details";
+    var userCars = ViewBag.UserCars as IEnumerable<CarBazzar.Models.Entity.Car> ?? new List<CarBazzar.Models.Entity.Car>();
+    var userBookings = ViewBag.UserBookings as IEnumerable<CarBazzar.Models.Booking> ?? new List<CarBazzar.Models.Booking>();
 }
 
-<section class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-white border-bottom p-4">
-            <h4 class="mb-0">User Details</h4>
-        </div>
-        <div class="card-body p-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="avatar-circle avatar-bg-orange mb-3" style="width: 100px; height: 100px; font-size: 3rem; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; background-color: #f07500;">
-                        @(!string.IsNullOrEmpty(Model.FirstName) ? Model.FirstName[0].ToString() : "U")
-                    </div>
-                    <h5 class="fw-bold">@Model.FirstName @Model.LastName</h5>
-                    <p class="text-muted">@Model.Email</p>
-                    
-                    @if (Model.IsHidden)
-                    {
-                        <span class="badge bg-danger mb-3">HIDDEN</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-success mb-3">ACTIVE</span>
-                    }
-                </div>
-                <div class="col-md-8">
-                    <h5 class="border-bottom pb-2 mb-3">Contact & Log Information</h5>
-                    <div class="mb-3">
-                        <label class="fw-bold text-muted small">Phone Number</label>
-                        <div>@(Model.PhoneNumber ?? "Not provided")</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="fw-bold text-muted small">Location</label>
-                        <div>@(Model.Location ?? "Not provided")</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="fw-bold text-muted small">Address</label>
-                        <div>@(Model.Address ?? "Not provided")</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="fw-bold text-muted small">Date Joined</label>
-                        <div>@Model.CreatedAt.ToString("MMMM dd, yyyy")</div>
-                    </div>
+<style>
+.section-title { font-weight: 700; color: #1e293b; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.5rem; }
+.card-border { border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); border: 1px solid #f1f5f9; }
+</style>
 
-                    <div class="mt-4 pt-3 border-top">
-                        <a asp-action="Users" class="btn btn-outline-secondary">Back to Users</a>
-                    </div>
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <h3 class="fw-bold" style="color:#1e293b;">User Profile Hub</h3>
+    <a asp-action="Users" class="btn btn-outline-secondary">← Back to Users</a>
+</div>
+
+<div class="row">
+    <!-- User Meta sidebar -->
+    <div class="col-md-4 mb-4">
+        <div class="card card-border p-4 text-center">
+            <div class="avatar-circle avatar-bg-orange mx-auto mb-3" style="width: 100px; height: 100px; font-size: 3rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; background-color: #f07500;">
+                @(!string.IsNullOrEmpty(Model.FirstName) ? Model.FirstName[0].ToString() : "U")
+            </div>
+            <h4 class="fw-bold mb-1">@Model.FirstName @Model.LastName</h4>
+            <p class="text-muted mb-3">@Model.Email</p>
+            
+            @if (Model.IsHidden)
+            {
+                <span class="badge bg-danger rounded-pill px-3 py-2 mb-4">SUSPENDED</span>
+            }
+            else
+            {
+                <span class="badge bg-success rounded-pill px-3 py-2 mb-4">ACTIVE</span>
+            }
+
+            <div class="text-start mt-2">
+                <div class="mb-3">
+                    <label class="text-secondary small fw-bold text-uppercase">Phone</label>
+                    <div class="text-dark">@(Model.PhoneNumber ?? "Not provided")</div>
+                </div>
+                <div class="mb-3">
+                    <label class="text-secondary small fw-bold text-uppercase">Location</label>
+                    <div class="text-dark">@(Model.Location ?? "Not provided")</div>
+                </div>
+                <div class="mb-3">
+                    <label class="text-secondary small fw-bold text-uppercase">Address</label>
+                    <div class="text-dark">@(Model.Address ?? "Not provided")</div>
+                </div>
+                <div class="mb-3">
+                    <label class="text-secondary small fw-bold text-uppercase">Joined Date</label>
+                    <div class="text-dark">@Model.CreatedAt.ToString("MMMM dd, yyyy")</div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+
+    <!-- Data Tables -->
+    <div class="col-md-8">
+        <!-- User's Bookings -->
+        <div class="card card-border p-4 mb-4">
+            <div class="section-title">Vehicles Booked by this User (@userBookings.Count())</div>
+            @if (!userBookings.Any())
+            {
+                <div class="text-muted text-center py-4">No bookings made by this user yet.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Car Details</th>
+                                <th>Contact Method</th>
+                                <th>Booking Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var booking in userBookings)
+                            {
+                                <tr>
+                                    <td>
+                                        @if(booking.Car != null) {
+                                            <div class="fw-bold text-dark">@booking.Car.Title</div>
+                                            <a href="/Cars/Details/@booking.CarId" class="text-decoration-none small" style="color: #f07500;">View Car →</a>
+                                        } else {
+                                            <span class="text-danger">Car Deleted</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="small text-muted">Mob: @booking.MobileNumber</div>
+                                    </td>
+                                    <td>@booking.BookingDate.ToString("MMM dd, yyyy HH:mm")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+        <!-- User's Listings -->
+        <div class="card card-border p-4">
+            <div class="section-title">Active Platform Listings (@userCars.Count())</div>
+            @if (!userCars.Any())
+            {
+                <div class="text-muted text-center py-4">This user hasn't sold any cars yet.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Vehicle</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Listed On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var car in userCars)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold">@car.Title</div>
+                                        <div class="small text-muted">@car.Brand @car.Model</div>
+                                    </td>
+                                    <td>₹@car.Price.ToString("N0")</td>
+                                    <td>
+                                        @if(car.IsHidden) {
+                                            <span class="badge bg-secondary">Hidden/Sold</span>
+                                        } else {
+                                            <span class="badge bg-success">Active</span>
+                                        }
+                                    </td>
+                                    <td>@car.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -3,148 +3,207 @@
     ViewData["Title"] = "Messages";
 }
 
+<style>
+    /* ── Make this page fill the full viewport with no footer or extra gaps ── */
+    .cb-footer      { display: none !important; }
+    .app-shell      { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .app-main       { flex: 1; overflow: hidden; padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
+    header + br, header + br + br { display: none !important; }
+    body            { background: #fff !important; overflow: hidden; }
+</style>
+
 <link rel="stylesheet" href="~/css/messages-index.css" />
 
-<section class="py-4">
-    <div class="container">
-        <div class="chat-shell">
+<div class="chat-viewport">
+    <div class="chat-shell">
 
-            <!-- LEFT SIDEBAR -->
-            <aside class="chat-aside">
-                <div class="chat-aside-head">
-                    <div class="fw-semibold">Messages</div>
+        <!-- LEFT SIDEBAR -->
+        <aside class="chat-sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Messages</h2>
+                <div class="sidebar-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input type="text" placeholder="Search messages..." />
                 </div>
+            </div>
 
-                <div class="chat-list">
-                    @if (Model.Conversations.Count == 0)
-                    {
-                        <div class="text-muted small p-3 text-center">No active conversations.</div>
-                    }
-                    @foreach (var conv in Model.Conversations)
-                    {
-                        string initial = !string.IsNullOrEmpty(conv.OtherUserName) && conv.OtherUserName.Length > 0 ? conv.OtherUserName.Substring(0,1) : "U";
-                        string activeClass = conv.IsActive ? "is-active" : "";
+            <div class="sidebar-list custom-scrollbar">
+                @if (Model.Conversations.Count == 0)
+                {
+                    <div class="chat-empty-msg">No active conversations.</div>
+                }
+                @foreach (var conv in Model.Conversations)
+                {
+                    string initial = !string.IsNullOrEmpty(conv.OtherUserName) && conv.OtherUserName.Length > 0 ? conv.OtherUserName.Substring(0, 1).ToUpper() : "U";
+                    string activeClass = conv.IsActive ? "active" : "";
 
-                        <button class="chat-item @activeClass" type="button" onclick="location.href='@Url.Action("Index", "Messages", new { carId = conv.CarId, otherUserId = conv.OtherUserId })'">
-                            <div class="avatar bg-primary text-white" style="display:flex;align-items:center;justify-content:center;border-radius:50%;">@initial</div>
-                            <div class="meta text-start">
-                                <div class="top w-100 d-flex justify-content-between align-items-center">
-                                    <div class="name fw-bold" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;">@conv.OtherUserName</div>
-                                </div>
-                                <div class="sub text-muted small" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@conv.CarTitle</div>
+                    <div class="chat-nav-item @activeClass" onclick="location.href='@Url.Action("Index", "Messages", new { carId = conv.CarId, otherUserId = conv.OtherUserId })'">
+                        <div class="chat-nav-avatar">@initial</div>
+                        <div class="chat-nav-content">
+                            <div class="chat-nav-row">
+                                <span class="chat-nav-name">@conv.OtherUserName</span>
+                                <span class="chat-nav-time">now</span>
                             </div>
+                            <div class="chat-nav-sub">@conv.CarTitle</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </aside>
+
+        <!-- MAIN CHAT WINDOW -->
+        <main class="chat-window">
+            @if (Model.ActiveConversation != null)
+            {
+                var active = Model.ActiveConversation;
+                <div class="chat-window-header">
+                    <div class="chat-header-identity">
+                        <div class="chat-avatar-sm">@(active.OtherUserName?[0].ToString().ToUpper() ?? "U")</div>
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">@active.OtherUserName</div>
+                            <div class="chat-header-status">Online</div>
+                        </div>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="header-action-btn" title="Call">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                         </button>
+                        <button class="header-action-btn" title="More">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-thread custom-scrollbar" id="chatThread">
+                    <div class="thread-divider">Conversation Start</div>
+
+                    @foreach (var msg in active.Messages)
+                    {
+                        string bubbleSide = msg.SenderId == Model.CurrentUserId ? "sent" : "received";
+                        <div class="message-row @bubbleSide">
+                            <div class="message-bubble">
+                                @msg.MessageText
+                                <div class="message-time">@msg.SentAtStr</div>
+                            </div>
+                        </div>
                     }
                 </div>
-            </aside>
 
-            <!-- MAIN CHAT -->
-            <main class="chat-main">
-                @if (Model.ActiveConversation != null)
-                {
-                    string ai = !string.IsNullOrEmpty(Model.ActiveConversation.OtherUserName) && Model.ActiveConversation.OtherUserName.Length > 0 ? Model.ActiveConversation.OtherUserName.Substring(0,1) : "U";
-                    <div class="chat-main-head">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="avatar bg-primary text-white" style="display:flex;align-items:center;justify-content:center;border-radius:50%;width:40px;height:40px;">@ai</div>
-                            <div class="fw-semibold">Chatting with @Model.ActiveConversation.OtherUserName</div>
-                        </div>
+                <div class="chat-composer">
+                    <div class="composer-container">
+                        <input id="chatInput" type="text" placeholder="Type a message..." autocomplete="off" />
+                        <button class="send-submit-btn" id="chatSend" title="Send">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                        </button>
                     </div>
+                </div>
+            }
+            else
+            {
+                <div class="chat-placeholder">
+                    <div class="placeholder-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="72" height="72"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <h3>Your Inbox</h3>
+                    <p>Select a conversation or click <strong>Chat With Seller</strong> on any car listing to start talking.</p>
+                </div>
+            }
+        </main>
 
-                    <div class="chat-thread" id="chatThread">
-                        <div class="chat-date">Conversation Start</div>
-
-                        @foreach(var msg in Model.ActiveConversation.Messages)
-                        {
-                            string bubbleClass = msg.SenderId == Model.CurrentUserId ? "bubble right" : "bubble left";
-                            <div class="@bubbleClass">
-                                @msg.MessageText
-                                <div class="t" style="font-size:0.65rem;opacity:0.7;text-align:right;margin-top:4px;">@msg.SentAtStr</div>
+        <!-- RIGHT PANEL: Car Info -->
+        <aside class="chat-listing-panel">
+            @if (Model.ActiveConversation != null)
+            {
+                var cinfo = Model.ActiveConversation.CarInfo;
+                <div class="panel-header">Listing Details</div>
+                <div class="panel-body custom-scrollbar">
+                    <div class="listing-box">
+                        <img src="@cinfo.ImageUrl" alt="@cinfo.Title" class="listing-img" />
+                        <div class="listing-details">
+                            <div class="listing-price">@cinfo.Price</div>
+                            <h4 class="listing-title">@cinfo.Title</h4>
+                            <div class="listing-specs">
+                                <div class="spec-row"><span>Mileage</span><span>@cinfo.Mileage</span></div>
+                                <div class="spec-row"><span>Fuel</span><span>@cinfo.FuelType</span></div>
+                                <div class="spec-row"><span>Transmission</span><span>@cinfo.Transmission</span></div>
+                                <div class="spec-row"><span>Location</span><span>@cinfo.DealerLocation</span></div>
                             </div>
-                        }
-                    </div>
-
-                    <div class="chat-compose">
-                        <input id="chatInput" placeholder="Type a message..." />
-                        <button class="send" type="button" aria-label="Send" id="chatSend">➤</button>
-                    </div>
-                }
-                else
-                {
-                    <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                        Select a conversation to start messaging.
-                    </div>
-                }
-            </main>
-
-            <!-- RIGHT DETAIL -->
-            <aside class="chat-detail">
-                @if (Model.ActiveConversation != null)
-                {
-                    var cinfo = Model.ActiveConversation.CarInfo;
-                    <div class="fw-semibold mb-2">Listing Details</div>
-                    <div class="detail-card">
-                        <img src="@cinfo.ImageUrl" alt="@cinfo.Title" style="width:100%;border-radius:8px 8px 0 0;" />
-                        <div class="p-3">
-                            <div class="detail-price text-danger fw-bold fs-5 mb-1">@cinfo.Price</div>
-                            <div class="fw-semibold mb-3">@cinfo.Title</div>
-
-                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Mileage</div><div class="v">@cinfo.Mileage</div></div>
-                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Fuel</div><div class="v">@cinfo.FuelType</div></div>
-                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Transmission</div><div class="v">@cinfo.Transmission</div></div>
-                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Location</div><div class="v text-end">@cinfo.DealerLocation</div></div>
                         </div>
                     </div>
-                }
-            </aside>
+                </div>
+            }
+            else
+            {
+                <div class="panel-empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="48" height="48"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+                    <p>Listing details will appear here when you open a conversation.</p>
+                </div>
+            }
+        </aside>
 
-        </div>
     </div>
-</section>
-</>
+</div>
+</br></br>
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script>
         @if (Model.ActiveConversation != null)
         {
             <text>
-            const activeCarId = @Model.ActiveConversation.CarId;
+            const activeCarId      = @Model.ActiveConversation.CarId;
             const activeReceiverId = '@Model.ActiveConversation.OtherUserId';
-            const currentUserId = '@Model.CurrentUserId';
-            
-            const thread = document.getElementById('chatThread');
-            if (thread) {
-                thread.scrollTop = thread.scrollHeight;
-            }
+            const currentUserId    = '@Model.CurrentUserId';
 
+            // Scroll to bottom on load
+            const thread = document.getElementById('chatThread');
+            if (thread) thread.scrollTop = thread.scrollHeight;
+
+            // SignalR connection
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("/chatHub")
+                .withAutomaticReconnect()
                 .build();
 
+            // ── Only handle messages from the OTHER person.
+            // Your own messages are appended optimistically in sendMsg() below.
             connection.on("ReceiveMessage", function (carId, senderId, messageText, sentAtStr) {
-                if (carId === activeCarId && (senderId === activeReceiverId || senderId === currentUserId)) {
-                    const b = document.createElement('div');
-                    b.className = senderId === currentUserId ? 'bubble right' : 'bubble left';
-                    b.innerHTML = messageText + '<div class="t" style="font-size:0.65rem;opacity:0.7;text-align:right;margin-top:4px;">' + sentAtStr + '</div>';
-                    thread.appendChild(b);
+                if (carId === activeCarId && senderId === activeReceiverId) {
+                    const row = document.createElement('div');
+                    row.className = 'message-row received';
+                    row.innerHTML = `
+                        <div class="message-bubble">
+                            ${messageText}
+                            <div class="message-time">${sentAtStr}</div>
+                        </div>`;
+                    thread.appendChild(row);
                     thread.scrollTop = thread.scrollHeight;
                 }
             });
 
-            connection.start().catch(function (err) {
-                return console.error(err.toString());
-            });
+            connection.start().catch(err => console.error('SignalR error:', err));
 
             const input = document.getElementById('chatInput');
+
             function sendMsg() {
                 const txt = input.value.trim();
                 if (!txt) return;
 
+                // Optimistically show the message immediately (no waiting for server echo)
+                const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const row = document.createElement('div');
+                row.className = 'message-row sent';
+                row.innerHTML = `
+                    <div class="message-bubble">
+                        ${txt}
+                        <div class="message-time">${now}</div>
+                    </div>`;
+                thread.appendChild(row);
+                thread.scrollTop = thread.scrollHeight;
                 input.value = '';
 
-                // Fire and rely on WebSockets for UI building across all tabs
-                connection.invoke("SendMessage", activeCarId, activeReceiverId, txt).catch(function (err) {
-                    return console.error(err.toString());
-                });
+                // Send to server (SignalR will deliver to receiver only)
+                connection.invoke("SendMessage", activeCarId, activeReceiverId, txt)
+                    .catch(err => console.error(err));
             }
 
             document.getElementById('chatSend').addEventListener('click', sendMsg);

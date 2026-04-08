@@ -26,8 +26,10 @@ public class RecentlyViewedApiController : ControllerBase
             .Include(r => r.Car)
             .ThenInclude(c => c.Seller)
             .Where(r => r.UserId == userId)
+            .GroupBy(r => r.CarId)
+            .Select(g => g.OrderByDescending(x => x.ViewedAt).First())
             .OrderByDescending(r => r.ViewedAt)
-            .Take(10) // Let's limit to top 10
+            .Take(10)
             .Select(r => r.Car)
             .ToListAsync();
 

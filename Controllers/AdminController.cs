@@ -100,7 +100,27 @@ public class AdminController : Controller
     {
         var user = await _userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
+        
+        ViewBag.UserCars = await _context.Cars.Where(c => c.SellerId == id).ToListAsync();
+        ViewBag.UserBookings = await _context.Bookings
+            .Include(b => b.Car)
+            .Where(b => b.UserId == id)
+            .OrderByDescending(b => b.BookingDate)
+            .ToListAsync();
+            
         return View(user);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Bookings()
+    {
+        var bookings = await _context.Bookings
+            .Include(b => b.Car)
+            .Include(b => b.User)
+            .OrderByDescending(b => b.BookingDate)
+            .ToListAsync();
+            
+        return View(bookings);
     }
 
     [HttpPost]

@@ -10,11 +10,13 @@ public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IConfiguration _config;
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration config)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _config = config;
     }
 
     [HttpGet]
@@ -106,6 +108,13 @@ public class AccountController : Controller
     {
         if (!ModelState.IsValid)
         {
+            return View(model);
+        }
+
+        var adminEmail = _config["EmailSettings:AdminEmail"];
+        if (model.Email != adminEmail)
+        {
+            ModelState.AddModelError(string.Empty, "Access Denied: You are not authorized to login as an Administrator.");
             return View(model);
         }
 

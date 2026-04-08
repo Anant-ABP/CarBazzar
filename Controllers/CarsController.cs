@@ -1,32 +1,41 @@
 using CarBazzar.Models.Cars;
 using CarBazzar.Models.Entity;
+using CarBazzar.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarBazzar.Controllers;
 
 public class CarsController : Controller
 {
+    private readonly CarBazaarContext _context;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly EmailService _emailService;
 
-    public CarsController(IHttpClientFactory httpClientFactory, UserManager<ApplicationUser> userManager)
+    public CarsController(CarBazaarContext context, IHttpClientFactory httpClientFactory, UserManager<ApplicationUser> userManager, EmailService emailService)
     {
+        _context = context;
         _httpClientFactory = httpClientFactory;
         _userManager = userManager;
+        _emailService = emailService;
     }
 
     private async Task<List<int>> GetUserWishlistAsync(string userId)
     {
         if (string.IsNullOrEmpty(userId)) return new List<int>();
-        var client = _httpClientFactory.CreateClient("CarBazaarApi");
-        return await client.GetFromJsonAsync<List<int>>($"/api/WishlistApi/user/{userId}") ?? new List<int>();
+        return await _context.Wishlists
+            .Where(w => w.UserId == userId)
+            .Select(w => w.CarId)
+            .ToListAsync();
     }
 
     [HttpGet]
@@ -35,13 +44,16 @@ public class CarsController : Controller
         var userId = _userManager.GetUserId(User);
         ViewBag.WishlistCarIds = await GetUserWishlistAsync(userId);
 
-        var client = _httpClientFactory.CreateClient("CarBazaarApi");
-        var qs = $"?matchCondition=New&brand={brand}&minPrice={minPrice}&maxPrice={maxPrice}&fuel={fuel}";
-        if (userId != null) qs += $"&excludeSellerId={userId}";
+        var query = _context.Cars.Include(c => c.Seller)
+            .Where(c => !c.IsHidden && c.Condition == "New");
 
-        var rawCars = await client.GetFromJsonAsync<List<ApiCarDto>>($"/api/CarsApi{qs}");
-        
-        return View(rawCars?.Select(MapToCard).ToList() ?? new List<CarCard>());
+        if (!string.IsNullOrEmpty(brand)) query = query.Where(c => c.Brand == brand);
+        if (!string.IsNullOrEmpty(fuel))  query = query.Where(c => c.FuelType == fuel);
+        if (minPrice.HasValue) query = query.Where(c => c.Price >= minPrice.Value);
+        if (maxPrice.HasValue) query = query.Where(c => c.Price <= maxPrice.Value);
+
+        var cars = await query.OrderByDescending(c => c.CreatedAt).ToListAsync();
+        return View(cars.Select(MapCarToCard).ToList());
     }
 
     [HttpGet]
@@ -50,61 +62,75 @@ public class CarsController : Controller
         var userId = _userManager.GetUserId(User);
         ViewBag.WishlistCarIds = await GetUserWishlistAsync(userId);
 
-        var client = _httpClientFactory.CreateClient("CarBazaarApi");
-        var qs = $"?matchCondition=Old&brand={brand}&minPrice={minPrice}&maxPrice={maxPrice}&fuel={fuel}";
-        if (userId != null) qs += $"&excludeSellerId={userId}";
+        var query = _context.Cars.Include(c => c.Seller)
+            .Where(c => !c.IsHidden && c.Condition == "Old");
 
-        var rawCars = await client.GetFromJsonAsync<List<ApiCarDto>>($"/api/CarsApi{qs}");
-        
-        return View(rawCars?.Select(MapToCard).ToList() ?? new List<CarCard>());
+        if (!string.IsNullOrEmpty(userId)) query = query.Where(c => c.SellerId != userId);
+        if (!string.IsNullOrEmpty(brand)) query = query.Where(c => c.Brand == brand);
+        if (!string.IsNullOrEmpty(fuel))  query = query.Where(c => c.FuelType == fuel);
+        if (minPrice.HasValue) query = query.Where(c => c.Price >= minPrice.Value);
+        if (maxPrice.HasValue) query = query.Where(c => c.Price <= maxPrice.Value);
+
+        var cars = await query.OrderByDescending(c => c.CreatedAt).ToListAsync();
+        return View(cars.Select(MapCarToCard).ToList());
     }
 
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
-        var client = _httpClientFactory.CreateClient("CarBazaarApi");
-        var response = await client.GetAsync($"/api/CarsApi/{id}");
-        if (!response.IsSuccessStatusCode) return NotFound();
+        var c = await _context.Cars.Include(x => x.Seller).FirstOrDefaultAsync(x => x.Id == id);
+        if (c == null) return NotFound();
 
-        var car = await response.Content.ReadFromJsonAsync<ApiCarDto>();
-        ViewBag.CurrentUserId = _userManager.GetUserId(User);
+        string currentUserId = _userManager.GetUserId(User);
+        ViewBag.CurrentUserId = currentUserId;
 
         // Record recently viewed
-        if (ViewBag.CurrentUserId != null)
+        if (currentUserId != null)
         {
-            var content = new FormUrlEncodedContent(new[]
+            var alreadyViewed = await _context.RecentlyViewedCars
+                .AnyAsync(r => r.UserId == currentUserId && r.CarId == id);
+            if (!alreadyViewed)
             {
-                new KeyValuePair<string, string>("userId", ViewBag.CurrentUserId),
-                new KeyValuePair<string, string>("carId", id.ToString())
-            });
-            await client.PostAsync("/api/RecentlyViewedApi", content);
+                _context.RecentlyViewedCars.Add(new RecentlyViewed
+                {
+                    UserId   = currentUserId,
+                    CarId    = id,
+                    ViewedAt = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+            }
         }
-        
-        return View(MapToCard(car));
+
+        return View(MapCarToCard(c));
     }
 
     [HttpGet]
     public async Task<IActionResult> OldDetails(int id)
     {
-        var client = _httpClientFactory.CreateClient("CarBazaarApi");
-        var response = await client.GetAsync($"/api/CarsApi/{id}");
-        if (!response.IsSuccessStatusCode) return NotFound();
+        var c = await _context.Cars.Include(x => x.Seller).FirstOrDefaultAsync(x => x.Id == id);
+        if (c == null) return NotFound();
 
-        var car = await response.Content.ReadFromJsonAsync<ApiCarDto>();
-        ViewBag.CurrentUserId = _userManager.GetUserId(User);
-        
+        string currentUserId = _userManager.GetUserId(User);
+        ViewBag.CurrentUserId = currentUserId;
+
         // Record recently viewed
-        if (ViewBag.CurrentUserId != null)
+        if (currentUserId != null)
         {
-            var content = new FormUrlEncodedContent(new[]
+            var alreadyViewed = await _context.RecentlyViewedCars
+                .AnyAsync(r => r.UserId == currentUserId && r.CarId == id);
+            if (!alreadyViewed)
             {
-                new KeyValuePair<string, string>("userId", ViewBag.CurrentUserId),
-                new KeyValuePair<string, string>("carId", id.ToString())
-            });
-            await client.PostAsync("/api/RecentlyViewedApi", content);
+                _context.RecentlyViewedCars.Add(new RecentlyViewed
+                {
+                    UserId   = currentUserId,
+                    CarId    = id,
+                    ViewedAt = DateTime.UtcNow
+                });
+                await _context.SaveChangesAsync();
+            }
         }
 
-        return View(MapToCard(car));
+        return View(MapCarToCard(c));
     }
 
     [HttpGet]
@@ -137,42 +163,54 @@ public class CarsController : Controller
             return View(sellModel);
         }
 
-        var userId = _userManager.GetUserId(User);
+        var newCar = new Car
+        {
+            Title        = sellModel.Title,
+            Brand        = sellModel.Brand,
+            Model        = sellModel.Model,
+            Year         = sellModel.Year,
+            Price        = sellModel.Price,
+            Mileage      = sellModel.Mileage,
+            FuelType     = sellModel.FuelType,
+            Transmission = sellModel.Transmission,
+            Description  = sellModel.Description,
+            Location     = sellModel.Location,
+            Condition    = "Old",
+            SellerId     = _userManager.GetUserId(User),
+            CreatedAt    = DateTime.UtcNow
+        };
 
-        byte[] imgData = null;
-        string imgContentType = null;
         if (sellModel.Image != null && sellModel.Image.Length > 0)
         {
             using var ms = new MemoryStream();
             await sellModel.Image.CopyToAsync(ms);
-            imgData = ms.ToArray();
-            imgContentType = sellModel.Image.ContentType;
+            newCar.CarImages.Add(new CarImage
+            {
+                ImageData   = ms.ToArray(),
+                ContentType = sellModel.Image.ContentType
+            });
         }
 
-        var dto = new CarBazzar.Controllers.Api.ApiCarCreateDto
-        {
-            Title = sellModel.Title,
-            Brand = sellModel.Brand,
-            Model = sellModel.Model,
-            Year = sellModel.Year,
-            Price = sellModel.Price,
-            Mileage = sellModel.Mileage, // Removed ?? 0 because Mileage is int
-            FuelType = sellModel.FuelType,
-            Transmission = sellModel.Transmission,
-            Description = sellModel.Description,
-            Location = sellModel.Location,
-            Condition = "Old",
-            SellerId = userId,
-            ImageData = imgData,
-            ImageContentType = imgContentType
-        };
+        _context.Cars.Add(newCar);
+        await _context.SaveChangesAsync();
 
-        var client = _httpClientFactory.CreateClient("CarBazaarApi");
-        var res = await client.PostAsJsonAsync("/api/CarsApi", dto);
-        
-        if (res.IsSuccessStatusCode)
+        TempData["Toast"] = "Your car listing was submitted successfully.";
+
+        // Send confirmation email to the seller
+        if (user != null && !string.IsNullOrEmpty(user.Email))
         {
-            TempData["Toast"] = "Your car listing was submitted successfully.";
+            await _emailService.SendEmailAsync(
+                toEmail: user.Email,
+                subject: "Car Listing Posted Successfully",
+                htmlBody: $@"
+                    <div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;'>
+                        <h2 style='color:#1a73e8;'>Listing Posted! 🚗</h2>
+                        <p>Hello <strong>{user.FirstName}</strong>,</p>
+                        <p>Your car has been successfully listed for sale on CarBazaar.</p>
+                        <p>We will notify you when buyers show interest.</p>
+                        <p style='margin-top:20px;color:#555;'>Thank you!</p>
+                    </div>"
+            );
         }
 
         return RedirectToAction("OldBrowse");
@@ -198,30 +236,30 @@ public class CarsController : Controller
         return NotFound();
     }
 
-    private CarCard MapToCard(ApiCarDto c)
+    private CarCard MapCarToCard(Car c)
     {
         return new CarCard
         {
-            Id = c.Id,
-            Title = c.Title,
-            Specs = c.Model,
-            Price = "₹" + c.Price.ToString("N0"),
-            ImageUrl = Url.Action("GetImage", "Cars", new { id = c.Id }) ?? "",
-            Year = c.Year,
-            FuelType = c.FuelType,
-            Mileage = c.Mileage + " km",
+            Id           = c.Id,
+            Title        = c.Title,
+            Specs        = c.Model,
+            Price        = "₹" + c.Price.ToString("N0"),
+            ImageUrl     = Url.Action("GetImage", "Cars", new { id = c.Id }) ?? "",
+            Year         = c.Year,
+            FuelType     = c.FuelType,
+            Mileage      = c.Mileage + " km",
             Transmission = c.Transmission,
-            BodyType = c.Brand,
-            Color = "Unknown",
-            Description = c.Description ?? "",
-            Features = new List<string>(),
-            DealerName = !string.IsNullOrEmpty(c.SellerFirstName) 
-                ? $"{c.SellerFirstName} {c.SellerLastName}" 
+            BodyType     = c.Brand,
+            Color        = "Unknown",
+            Description  = c.Description ?? "",
+            Features     = new List<string>(),
+            DealerName   = (c.Seller != null && !string.IsNullOrEmpty(c.Seller.FirstName))
+                ? $"{c.Seller.FirstName} {c.Seller.LastName}"
                 : "Unknown Seller",
-            DealerPhone = c.SellerPhoneNumber ?? "",
-            DealerEmail = c.SellerEmail ?? "",
+            DealerPhone    = c.Seller?.PhoneNumber ?? "",
+            DealerEmail    = c.Seller?.Email ?? "",
             DealerLocation = c.Location,
-            SellerId = c.SellerId ?? ""
+            SellerId       = c.SellerId ?? ""
         };
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CarBazzar.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ public partial class CarBazaarContext : IdentityDbContext<ApplicationUser>
     public virtual DbSet<Message> Messages { get; set; }
     public virtual DbSet<Wishlist> Wishlists { get; set; }
     public virtual DbSet<RecentlyViewed> RecentlyViewedCars { get; set; }
+    public virtual DbSet<Booking> Bookings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -81,6 +83,24 @@ public partial class CarBazaarContext : IdentityDbContext<ApplicationUser>
             entity.HasOne(d => d.User).WithMany(p => p.Wishlists)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Booking: one user can book a exact car only once; one car can have many bookings
+        modelBuilder.Entity<Booking>(entity =>
+        {
+            entity.HasIndex(e => new { e.CarId, e.UserId }).IsUnique(); // prevents duplicate booking of the same car by the same user
+            entity.HasIndex(e => e.CarId);
+            entity.HasIndex(e => e.UserId);
+
+            entity.HasOne(b => b.Car)
+                  .WithMany()
+                  .HasForeignKey(b => b.CarId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(b => b.User)
+                  .WithMany()
+                  .HasForeignKey(b => b.UserId)
+                  .OnDelete(DeleteBehavior.NoAction);
         });
     }
 }

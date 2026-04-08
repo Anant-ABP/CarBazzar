@@ -1,0 +1,75 @@
+@model IEnumerable<CarBazzar.Models.Booking>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Platform Bookings";
+}
+<link href="~/css/admin-listings.css" rel="stylesheet" />
+<style>
+.table th { background: transparent; color: #64748b; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; }
+.card { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); }
+.message-cell { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.badge-secondary { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; }
+</style>
+
+<div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+        <h3 class="mb-0 fw-bold" style="color: #1e293b;">Booking Management</h3>
+        <p class="text-muted mb-0">Overview of all vehicle bookings across the platform.</p>
+    </div>
+</div>
+
+<div class="card p-0 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4 py-3">Car Details</th>
+                    <th class="py-3">Booked By</th>
+                    <th class="py-3">Contact Details</th>
+                    <th class="py-3">Message</th>
+                    <th class="py-3">Booking Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(!Model.Any()) {
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">No bookings found on the platform yet.</td>
+                    </tr>
+                }
+                @foreach(var booking in Model)
+                {
+                    <tr>
+                        <td class="ps-4 min-w-250">
+                            @if(booking.Car != null) {
+                                <div class="fw-bold" style="color: #1e293b;">@booking.Car.Title</div>
+                                <div class="text-muted small">@booking.Car.Year • @booking.Car.Transmission</div>
+                                <div><a href="/Cars/Details/@booking.CarId" target="_blank" class="text-decoration-none" style="font-size: 13px; color: #f07500;">View Car →</a></div>
+                            } else {
+                                <span class="text-danger">Car Deleted</span>
+                            }
+                        </td>
+                        <td>
+                            @if(booking.User != null) {
+                                <div class="fw-semibold">@booking.User.FirstName @booking.User.LastName</div>
+                                <a href="/Admin/UserDetails/@booking.UserId" class="badge-secondary text-decoration-none">View Profile</a>
+                            } else {
+                                <span class="text-muted">User Deleted</span>
+                            }
+                        </td>
+                        <td>
+                            <div style="font-size: 14px;"><strong>Log:</strong> @(booking.User?.Email ?? "N/A")</div>
+                            <div style="font-size: 14px;"><strong>Mob:</strong> @booking.MobileNumber</div>
+                        </td>
+                        <td class="message-cell" title="@booking.Message">
+                            @(string.IsNullOrEmpty(booking.Message) ? "-" : booking.Message)
+                        </td>
+                        <td>
+                            <div class="fw-medium text-dark">@booking.BookingDate.ToString("MMM dd, yyyy")</div>
+                            <div class="text-muted small">@booking.BookingDate.ToString("HH:mm") UTC</div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
