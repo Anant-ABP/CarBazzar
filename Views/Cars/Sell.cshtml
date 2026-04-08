@@ -1,3 +1,4 @@
+@model CarBazzar.Models.Cars.SellViewModel
 @{
     ViewData["Title"] = "Sell Car";
 }
@@ -57,7 +58,7 @@
     <div class="container">
         <div class="sell-form-card">
             <aside class="sell-form-aside">
-                <h5 class="mb-3">Details for your listing</h5></br>
+                <h5 class="mb-3">Details for your listing</h5><br/>
                 <p class="small mb-0">
                     Provide accurate details to get the best price. Buyers trust listings with
                     complete information and high‑quality photos.
@@ -73,72 +74,92 @@
 
             <div class="sell-form-main">
                 <h5 class="mb-3">Car information</h5>
-                <form asp-controller="Cars" asp-action="Sell" method="post">
+                <form asp-controller="Cars" asp-action="Sell" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                     <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label small text-muted">Title / Tagline</label>
+                            <input asp-for="Title" class="form-control" placeholder="e.g. BMW M4 Competition Coupe" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
                         <div class="col-md-6">
-                            <label class="form-label small text-muted">Brand &amp; Model</label>
-                            <select class="form-select">
-                                <option>Select Make…</option>
-                                <option>Honda Civic</option>
-                                <option>Toyota Camry</option>
-                                <option>Hyundai i20</option>
-                            </select>
+                            <label class="form-label small text-muted">Brand / Make</label>
+                            <input asp-for="Brand" class="form-control" placeholder="e.g. Honda" />
+                            <span asp-validation-for="Brand" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Model</label>
+                            <input asp-for="Model" class="form-control" placeholder="e.g. Civic" />
+                            <span asp-validation-for="Model" class="text-danger small"></span>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small text-muted">Year of Registration</label>
-                            <input class="form-control" placeholder="e.g. 2021" />
+                            <input asp-for="Year" class="form-control" placeholder="e.g. 2021" type="number" />
+                            <span asp-validation-for="Year" class="text-danger small"></span>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label small text-muted">KM Driven</label>
                             <div class="input-group">
-                                <input class="form-control" placeholder="0" />
+                                <input asp-for="Mileage" class="form-control" placeholder="0" type="number" />
                                 <span class="input-group-text">km</span>
                             </div>
+                            <span asp-validation-for="Mileage" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small text-muted">Fuel Type</label>
-                            <select class="form-select">
-                                <option>Select Fuel…</option>
-                                <option>Petrol</option>
-                                <option>Diesel</option>
-                                <option>Electric</option>
-                                <option>CNG</option>
+                            <select asp-for="FuelType" class="form-select">
+                                <option value="">Select Fuel…</option>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
                             </select>
+                            <span asp-validation-for="FuelType" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Transmission</label>
+                            <select asp-for="Transmission" class="form-select">
+                                <option value="">Select Transmission…</option>
+                                <option value="Automatic">Automatic</option>
+                                <option value="Manual">Manual</option>
+                                <option value="PDK">PDK</option>
+                            </select>
+                            <span asp-validation-for="Transmission" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small text-muted">Expected Price</label>
-                            <input class="form-control" placeholder="e.g. ₹8,50,000" />
+                            <input asp-for="Price" class="form-control" placeholder="e.g. 850000" type="number" />
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label small text-muted">Location</label>
+                            <input asp-for="Location" class="form-control" placeholder="e.g. Beverly Hills, CA" />
+                            <span asp-validation-for="Location" class="text-danger small"></span>
                         </div>
                         <div class="col-12">
                             <label class="form-label small text-muted">Description</label>
-                            <textarea class="form-control" rows="4"
+                            <textarea asp-for="Description" class="form-control" rows="4"
                                       placeholder="Tell buyers about the condition, features, and history..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
                         </div>
                     </div>
 
                     <div class="mt-4">
-                        <label class="form-label small text-muted">Upload Photos</label>
-                        <div class="sell-upload-area">
-                            <div class="sell-upload-drop">
-                                <div class="icon">⬆</div>
-                                <div class="title">Click to upload or drag and drop</div>
-                                <div class="hint">Max 10 photos, .JPG or .PNG.</div>
-                            </div>
-                            <div class="sell-upload-thumbs">
-                                <button type="button" class="thumb thumb-add">+</button>
-                            </div>
+                        <label class="form-label small text-muted">Upload Photo (1 Slot)</label>
+                        <div class="mt-2">
+                            <input asp-for="Image" type="file" class="form-control" accept="image/*" />
+                            <span asp-validation-for="Image" class="text-danger small"></span>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-2 mt-4">
                         <a class="btn btn-outline-secondary" asp-controller="Cars" asp-action="Browse">Cancel</a>
-                        <button class="btn sell-primary-btn px-4">Post Listing</button>
+                        <button type="submit" class="btn sell-primary-btn px-4">Post Listing</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </section>
-

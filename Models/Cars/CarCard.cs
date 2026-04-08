@@ -23,5 +23,7 @@ public sealed class CarCard
     // Seller info
     public string DealerName { get; init; } = "";
     public string DealerPhone { get; init; } = "";
+    public string DealerEmail { get; init; } = "";
     public string DealerLocation { get; init; } = "";
+    public string SellerId { get; init; } = "";
 }

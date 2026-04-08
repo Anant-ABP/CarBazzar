@@ -1,11 +1,9 @@
-@model CarBazzar.Models.Cars.CarCard
+@model CarBazzar.Models.Messages.MessagesViewModel
 @{
     ViewData["Title"] = "Messages";
 }
 
 <link rel="stylesheet" href="~/css/messages-index.css" />
-
-
 
 <section class="py-4">
     <div class="container">
@@ -18,139 +16,85 @@
                 </div>
 
                 <div class="chat-list">
+                    @if (Model.Conversations.Count == 0)
+                    {
+                        <div class="text-muted small p-3 text-center">No active conversations.</div>
+                    }
+                    @foreach (var conv in Model.Conversations)
+                    {
+                        string initial = !string.IsNullOrEmpty(conv.OtherUserName) && conv.OtherUserName.Length > 0 ? conv.OtherUserName.Substring(0,1) : "U";
+                        string activeClass = conv.IsActive ? "is-active" : "";
 
-                    <button class="chat-item is-active" type="button" onclick="switchChat(this,'Arjun','A','')">
-                        <div class="avatar">A</div>
-                        <div class="meta">
-                            <div class="top">
-                                <div class="name">Arjun</div>
-                                <div class="time">2m</div>
+                        <button class="chat-item @activeClass" type="button" onclick="location.href='@Url.Action("Index", "Messages", new { carId = conv.CarId, otherUserId = conv.OtherUserId })'">
+                            <div class="avatar bg-primary text-white" style="display:flex;align-items:center;justify-content:center;border-radius:50%;">@initial</div>
+                            <div class="meta text-start">
+                                <div class="top w-100 d-flex justify-content-between align-items-center">
+                                    <div class="name fw-bold" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;">@conv.OtherUserName</div>
+                                </div>
+                                <div class="sub text-muted small" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@conv.CarTitle</div>
                             </div>
-                            <div class="sub">Available for a test drive!</div>
-                        </div>
-                    </button>
-
-                    <button class="chat-item" type="button" onclick="switchChat(this,'Sneha','S','av-g')">
-                        <div class="avatar av-g">S</div>
-                        <div class="meta">
-                            <div class="top">
-                                <div class="name">Sneha</div>
-                                <div class="time">2h</div>
-                            </div>
-                            <div class="sub">Thanks for the info!</div>
-                        </div>
-                    </button>
-
-                    <button class="chat-item" type="button" onclick="switchChat(this,'Rahul','R','av-b')">
-                        <div class="avatar av-b">R</div>
-                        <div class="meta">
-                            <div class="top">
-                                <div class="name">Rahul</div>
-                                <div class="time">1d</div>
-                            </div>
-                            <div class="sub">Is the price negotiable?</div>
-                        </div>
-                    </button>
-
-                    <button class="chat-item" type="button" onclick="switchChat(this,'Priya','P','av-p')">
-                        <div class="avatar av-p">P</div>
-                        <div class="meta">
-                            <div class="top">
-                                <div class="name">Priya</div>
-                                <div class="time">2d</div>
-                            </div>
-                            <div class="sub">Can we schedule a viewing?</div>
-                        </div>
-                    </button>
-
-                    <button class="chat-item" type="button" onclick="switchChat(this,'Vikram','V','av-t')">
-                        <div class="avatar av-t">V</div>
-                        <div class="meta">
-                            <div class="top">
-                                <div class="name">Vikram</div>
-                                <div class="time">3d</div>
-                            </div>
-                            <div class="sub">What is the last price?</div>
-                        </div>
-                    </button>
-
+                        </button>
+                    }
                 </div>
             </aside>
 
             <!-- MAIN CHAT -->
             <main class="chat-main">
-                <div class="chat-main-head">
-                    <div class="d-flex align-items-center gap-2">
-                        <div class="avatar" id="hdrAvatar">A</div>
-                        <div class="fw-semibold" id="hdrName">Arjun</div>
-                    </div>
-                </div>
-
-                <div class="chat-thread" id="chatThread">
-                    <div class="chat-date">Today, 10:23 AM</div>
-
-                    <div class="bubble left">
-                        Hi there! I saw your listing for the Maruti Swift. Do you have any questions?
-                        <div class="t">10:23 AM</div>
+                @if (Model.ActiveConversation != null)
+                {
+                    string ai = !string.IsNullOrEmpty(Model.ActiveConversation.OtherUserName) && Model.ActiveConversation.OtherUserName.Length > 0 ? Model.ActiveConversation.OtherUserName.Substring(0,1) : "U";
+                    <div class="chat-main-head">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="avatar bg-primary text-white" style="display:flex;align-items:center;justify-content:center;border-radius:50%;width:40px;height:40px;">@ai</div>
+                            <div class="fw-semibold">Chatting with @Model.ActiveConversation.OtherUserName</div>
+                        </div>
                     </div>
 
-                    <div class="bubble right">
-                        Hey Arjun, yes! Is the car still available? I'm located in Mumbai as well.
-                        <div class="t">10:24 AM</div>
+                    <div class="chat-thread" id="chatThread">
+                        <div class="chat-date">Conversation Start</div>
+
+                        @foreach(var msg in Model.ActiveConversation.Messages)
+                        {
+                            string bubbleClass = msg.SenderId == Model.CurrentUserId ? "bubble right" : "bubble left";
+                            <div class="@bubbleClass">
+                                @msg.MessageText
+                                <div class="t" style="font-size:0.65rem;opacity:0.7;text-align:right;margin-top:4px;">@msg.SentAtStr</div>
+                            </div>
+                        }
                     </div>
 
-                    <div class="bubble left">
-                        Yes, it's still available. I'm free this weekend if you want to take a look.
-                        <div class="t">10:26 AM</div>
+                    <div class="chat-compose">
+                        <input id="chatInput" placeholder="Type a message..." />
+                        <button class="send" type="button" aria-label="Send" id="chatSend">➤</button>
                     </div>
-
-                    <div class="bubble right">
-                        That sounds great. Would Saturday morning work for you? Say around 10 AM?
-                        <div class="t">10:30 AM</div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                        Select a conversation to start messaging.
                     </div>
-
-                    <div class="bubble left">
-                        Saturday 10 AM works perfectly. We can meet at Andheri Metro Station.
-                        <div class="t">10:32 AM</div>
-                    </div>
-                </div>
-
-                <div class="chat-compose">
-                    <input id="chatInput" placeholder="Type a message..." />
-                    <button class="send" type="button" aria-label="Send" id="chatSend">➤</button>
-                </div>
+                }
             </main>
 
             <!-- RIGHT DETAIL -->
             <aside class="chat-detail">
-                <div class="fw-semibold mb-2">Listing Details</div>
-                <div class="detail-card">
-                    <img src="@Model.ImageUrl" alt="@Model.Title" />
-                    <div class="p-3">
-                        <div class="detail-price">@Model.Price</div>
-                        <div class="fw-semibold">@Model.Title</div>
-                        <div class="small text-muted mb-3">Premium</div>
+                @if (Model.ActiveConversation != null)
+                {
+                    var cinfo = Model.ActiveConversation.CarInfo;
+                    <div class="fw-semibold mb-2">Listing Details</div>
+                    <div class="detail-card">
+                        <img src="@cinfo.ImageUrl" alt="@cinfo.Title" style="width:100%;border-radius:8px 8px 0 0;" />
+                        <div class="p-3">
+                            <div class="detail-price text-danger fw-bold fs-5 mb-1">@cinfo.Price</div>
+                            <div class="fw-semibold mb-3">@cinfo.Title</div>
 
-                        <div class="spec">
-                            <div class="k">Mileage</div>
-                            <div class="v">28,000 km</div>
+                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Mileage</div><div class="v">@cinfo.Mileage</div></div>
+                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Fuel</div><div class="v">@cinfo.FuelType</div></div>
+                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Transmission</div><div class="v">@cinfo.Transmission</div></div>
+                            <div class="spec d-flex justify-content-between mb-2 small"><div class="k text-muted">Location</div><div class="v text-end">@cinfo.DealerLocation</div></div>
                         </div>
-                        <div class="spec">
-                            <div class="k">Fuel</div>
-                            <div class="v">Petrol</div>
-                        </div>
-                        <div class="spec">
-                            <div class="k">Transmission</div>
-                            <div class="v">Manual</div>
-                        </div>
-                        <div class="spec">
-                            <div class="k">Location</div>
-                            <div class="v">Mumbai, MH</div>
-                        </div>
-
-                       
                     </div>
-                </div>
+                }
             </aside>
 
         </div>
@@ -158,32 +102,54 @@
 </section>
 </>
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script>
-        const input = document.getElementById('chatInput');
-        const thread = document.getElementById('chatThread');
-        const now = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        @if (Model.ActiveConversation != null)
+        {
+            <text>
+            const activeCarId = @Model.ActiveConversation.CarId;
+            const activeReceiverId = '@Model.ActiveConversation.OtherUserId';
+            const currentUserId = '@Model.CurrentUserId';
+            
+            const thread = document.getElementById('chatThread');
+            if (thread) {
+                thread.scrollTop = thread.scrollHeight;
+            }
 
-        function sendMsg() {
-            const txt = input.value.trim();
-            if (!txt) return;
-            const b = document.createElement('div');
-            b.className = 'bubble right';
-            b.innerHTML = txt + '<div class="t">' + now() + '</div>';
-            thread.appendChild(b);
-            input.value = '';
-            thread.scrollTop = thread.scrollHeight;
-        }
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/chatHub")
+                .build();
 
-        document.getElementById('chatSend').addEventListener('click', sendMsg);
-        input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+            connection.on("ReceiveMessage", function (carId, senderId, messageText, sentAtStr) {
+                if (carId === activeCarId && (senderId === activeReceiverId || senderId === currentUserId)) {
+                    const b = document.createElement('div');
+                    b.className = senderId === currentUserId ? 'bubble right' : 'bubble left';
+                    b.innerHTML = messageText + '<div class="t" style="font-size:0.65rem;opacity:0.7;text-align:right;margin-top:4px;">' + sentAtStr + '</div>';
+                    thread.appendChild(b);
+                    thread.scrollTop = thread.scrollHeight;
+                }
+            });
 
-        function switchChat(btn, name, initial, colorClass) {
-            document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('is-active'));
-            btn.classList.add('is-active');
-            document.getElementById('hdrName').textContent = name;
-            const av = document.getElementById('hdrAvatar');
-            av.textContent = initial;
-            av.className = 'avatar' + (colorClass ? ' ' + colorClass : '');
+            connection.start().catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            const input = document.getElementById('chatInput');
+            function sendMsg() {
+                const txt = input.value.trim();
+                if (!txt) return;
+
+                input.value = '';
+
+                // Fire and rely on WebSockets for UI building across all tabs
+                connection.invoke("SendMessage", activeCarId, activeReceiverId, txt).catch(function (err) {
+                    return console.error(err.toString());
+                });
+            }
+
+            document.getElementById('chatSend').addEventListener('click', sendMsg);
+            input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+            </text>
         }
     </script>
 }

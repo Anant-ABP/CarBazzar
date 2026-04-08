@@ -1,6 +1,7 @@
 @model IReadOnlyList<CarBazzar.Models.Cars.CarCard>
 @{
     ViewData["Title"] = "Buy Old Car";
+    var wishlistIds = ViewBag.WishlistCarIds as List<int> ?? new List<int>();
 }
 <link rel="stylesheet" href="~/css/cars-oldbrowse.css" />
 
@@ -14,7 +15,7 @@
 
         <div class="row g-4">
             <div class="col-lg-3">
-                <div class="filter-sidebar">
+                <form method="get" asp-action="OldBrowse" class="filter-sidebar">
 
                     <div class="filter-group mb-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -22,12 +23,12 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a0aec0" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
                         </div>
                         <div class="filter-options">
-                            <label class="filter-check"><input type="checkbox" checked> <span class="check-label">All Brands</span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Mercedes-Benz <span class="cnt">14</span></span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">BMW <span class="cnt">23</span></span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Audi <span class="cnt">8</span></span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Tesla <span class="cnt">11</span></span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Porsche <span class="cnt">5</span></span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="" checked> <span class="check-label">All Brands</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Mercedes-Benz"> <span class="check-label">Mercedes-Benz</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="BMW"> <span class="check-label">BMW</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Audi"> <span class="check-label">Audi</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Tesla"> <span class="check-label">Tesla</span></label>
+                            <label class="filter-radio"><input type="radio" name="brand" value="Porsche"> <span class="check-label">Porsche</span></label>
                         </div>
                     </div>
 
@@ -35,28 +36,28 @@
 
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Price Range</h6>
-                        <div class="range-wrap mb-3">
-                            <input type="range" class="price-range" id="priceRange" min="5000" max="150000" value="80000" step="1000">
-                        </div>
-                        <div class="d-flex gap-2">
-                            <div class="price-box"><span class="cur">₹</span><input type="text" id="minPrice" value="10,000" class="price-inp" readonly></div>
-                            <div class="price-box"><span class="cur">₹</span><input type="text" id="maxPrice" value="80,000" class="price-inp" readonly></div>
+                        <div class="d-flex gap-2 mt-3">
+                            <div class="price-box"><span class="cur">₹</span><input type="number" name="minPrice" placeholder="Min" class="price-inp"></div>
+                            <div class="price-box"><span class="cur">₹</span><input type="number" name="maxPrice" placeholder="Max" class="price-inp"></div>
                         </div>
                     </div>
 
                     <hr class="filter-divider" />
 
-                    <div class="filter-group">
+                    <div class="filter-group mb-4">
                         <h6 class="filter-title">Fuel Type</h6>
                         <div class="filter-options">
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Petrol</span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Diesel</span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Electric</span></label>
-                            <label class="filter-check"><input type="checkbox"> <span class="check-label">Hybrid</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="" checked> <span class="check-label">All</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Petrol"> <span class="check-label">Petrol</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Diesel"> <span class="check-label">Diesel</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Electric"> <span class="check-label">Electric</span></label>
+                            <label class="filter-radio"><input type="radio" name="fuel" value="Hybrid"> <span class="check-label">Hybrid</span></label>
                         </div>
                     </div>
+                    
+                    <button type="submit" class="btn btn-warning w-100 fw-bold text-white" style="background:#f07500; border-color:#f07500;">Apply Filter</button>
 
-                </div>
+                </form>
             </div>
 
             <div class="col-lg-9">
@@ -87,15 +88,23 @@
                 <div class="row g-4">
                     @foreach (var car in Model)
                     {
+                        bool isSaved = wishlistIds.Contains(car.Id);
                         <div class="col-md-4">
                             <div class="old-card">
                                 <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id" class="wish-form">
-                                    <button type="submit" class="wish-btn @(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "active" : "")">
-                                        <svg width="15" height="15" viewBox="0 0 24 24"
-                                             fill="@(CarBazzar.Models.WishlistStore.IsSaved(car.Id) ? "#f07500" : "none")"
-                                             stroke="currentColor" stroke-width="2">
-                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                                        </svg>
+                                    <button type="submit" class="wish-btn @(isSaved ? "active" : "")">
+                                        @if (isSaved)
+                                        {
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="#f07500" stroke="#f07500" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                            </svg>
+                                        }
+                                        else
+                                        {
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                            </svg>
+                                        }
                                     </button>
                                 </form>
                                 <a asp-controller="Cars" asp-action="OldDetails" asp-route-id="@car.Id" class="text-decoration-none">

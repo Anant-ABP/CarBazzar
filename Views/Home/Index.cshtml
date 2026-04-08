@@ -81,6 +81,45 @@
         </div>
 
         <div class="row g-4">
+            @if(ViewBag.LatestCars != null)
+            {
+                foreach (var car in ViewBag.LatestCars as List<CarBazzar.Controllers.ApiCarDto>)
+                {
+                    <div class="col-md-4">
+                        <div class="car-card-new">
+                            <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-id="@car.Id" class="wishlist-form-pos">
+                                <button type="submit" class="wishlist-btn-new @(wishlistIds.Contains(car.Id) ? "active" : "")">
+                                    @if(wishlistIds.Contains(car.Id)){
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#f07500" stroke="#f07500" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    } else {
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    }
+                                </button>
+                            </form>
+                            <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="text-decoration-none">
+                                <img src="@Url.Action("GetImage", "Cars", new { id = car.Id })" alt="@car.Title" class="car-img-top"/>
+                                <div class="car-body-new">
+                                    <h5 class="car-title-new">@car.Title</h5>
+                                    <div class="car-price-new">₹@car.Price.ToString("N0")</div>
+                                    <div class="car-specs-new">
+                                        <span>@car.Year</span>
+                                        <span class="dot"></span>
+                                        <span>@car.Mileage</span>
+                                        <span class="dot"></span>
+                                        <span>@(string.IsNullOrEmpty(car.FuelType) ? "Gasoline" : car.FuelType)</span>
+                                        <span class="dot"></span>
+                                        <span>@(string.IsNullOrEmpty(car.Location) ? "Unknown" : car.Location)</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
             @if (ViewBag.LatestCars != null)
             {
                 foreach (var car in ViewBag.LatestCars as List<CarBazzar.Controllers.ApiCarDto>)
