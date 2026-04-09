@@ -23,7 +23,7 @@ public class SellViewModel
     public string Transmission { get; set; } = "";
     public string Description { get; set; } = "";
     public string Location { get; set; } = "";
+    public string Condition { get; set; } = "";
 
-    [Required(ErrorMessage = "Please select a car image.")]
     public IFormFile? Image { get; set; }
 }

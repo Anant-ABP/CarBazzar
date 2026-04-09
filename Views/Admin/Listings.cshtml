@@ -7,39 +7,63 @@
 <link rel="stylesheet" href="~/css/admin-listings.css" />
 
 <section>
-    <div class="mb-3 d-flex justify-content-end">
-        <a asp-controller="Admin" asp-action="AddListing"
-           class="btn d-inline-flex align-items-center gap-2 btn-add-listing">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add Listing
-        </a>
+<section>
+    <div class="mb-4">
+        <h4 class="fw-bold" style="color: #1a1008; margin-bottom: 2px;">Listings Management</h4>
+        <p style="color: #a29a8d; font-size: 14px; margin-bottom: 0;">Manage and review car listings</p>
     </div>
 
     <div class="card section-card">
         <div class="card-body p-4">
 
-            <!-- Filters -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <div class="search-wrap">
-                        <span class="search-icon">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b39b7c" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        </span>
-                        <input class="form-control" placeholder="Search listings..." />
-                    </div>
+            <!-- Action Bar -->
+            <form method="get" asp-action="Listings" class="d-flex align-items-center mb-4 gap-3">
+                <!-- Search -->
+                <div class="search-wrap" style="width: 260px;">
+                    <span class="search-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b39b7c" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </span>
+                    <input name="search" class="form-control" placeholder="Search listings..." value="@ViewBag.Search" />
                 </div>
-            </div>
+
+                <!-- Filters -->
+                <select name="status" class="form-select" style="width: 130px;" onchange="this.form.submit()">
+                    @if(ViewBag.Status == "All Status" || string.IsNullOrEmpty(ViewBag.Status)) { <option selected>All Status</option> } else { <option>All Status</option> }
+                    @if(ViewBag.Status == "Approved") { <option selected>Approved</option> } else { <option>Approved</option> }
+                    @if(ViewBag.Status == "Pending") { <option selected>Pending</option> } else { <option>Pending</option> }
+                </select>
+
+                <select name="brand" class="form-select" style="width: 140px;" onchange="this.form.submit()">
+                    @if(ViewBag.Brand == "All Brands" || string.IsNullOrEmpty(ViewBag.Brand)) { <option selected>All Brands</option> } else { <option>All Brands</option> }
+                    @if(ViewBag.Brand == "Toyota") { <option selected>Toyota</option> } else { <option>Toyota</option> }
+                    @if(ViewBag.Brand == "Ford") { <option selected>Ford</option> } else { <option>Ford</option> }
+                    @if(ViewBag.Brand == "BMW") { <option selected>BMW</option> } else { <option>BMW</option> }
+                    @if(ViewBag.Brand == "Honda") { <option selected>Honda</option> } else { <option>Honda</option> }
+                    @if(ViewBag.Brand == "Mercedes-Benz") { <option selected>Mercedes-Benz</option> } else { <option>Mercedes-Benz</option> }
+                    @if(ViewBag.Brand == "Audi") { <option selected>Audi</option> } else { <option>Audi</option> }
+                    @if(ViewBag.Brand == "Tesla") { <option selected>Tesla</option> } else { <option>Tesla</option> }
+                    @if(ViewBag.Brand == "Porsche") { <option selected>Porsche</option> } else { <option>Porsche</option> }
+                </select>
+
+                <button type="submit" class="d-none"></button>
+
+                <!-- Add Button -->
+                <a asp-action="AddListing" class="btn btn-add-listing ms-auto d-flex align-items-center gap-2 text-decoration-none">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Add Listing
+                </a>
+            </form>
 
             <div class="table-responsive">
                 <table class="table mb-0">
                     <thead>
                         <tr>
-                            <th>Car</th>
-                            <th>Seller ID</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Date Posted</th>
-                            <th class="text-end">Actions</th>
+                            <th>CAR</th>
+                            <th>SELLER</th>
+                            <th>PRICE</th>
+                            <th>STATUS</th>
+                            <th>DATE POSTED</th>
+                            <th class="text-end">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,40 +71,52 @@
                         {
                             <tr>
                                 <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img src="@Url.Action("GetImage", "Cars", new { id = car.Id })" class="car-thumbnail" onerror="this.src='/images/suv.jpg'" />
+                                    <div class="car-info d-flex align-items-center gap-3">
+                                        <div class="car-image text-center">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b7aea5" stroke-width="2"><path d="M3 13h18"/><path d="M16 8l-2-4H10L8 8H4v9h16V8h-4z"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg>
+                                        </div>
                                         <div>
                                             <div class="fw-semibold">@car.Title</div>
-                                            <div class="text-muted car-description">@car.Year • @car.Transmission</div>
+                                            <div class="text-muted car-details">@car.Year • @(car.Condition == "Used" ? "old" : "new")</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>@(car.SellerId != null ? "User" : "Admin")</td>
-                                <td class="price-text">₹@car.Price.ToString("N0")</td>
                                 <td>
-                                    @if(car.IsHidden) {
-                                        <span class="status-badge bg-danger text-white border-0 px-2 py-1 rounded small">Hidden</span>
-                                    } else {
-                                        <span class="status-badge badge-approved"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#138a4a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>Approved</span>
-                                    }
+                                    <div class="seller-info d-flex align-items-center gap-2">
+                                        <div class="avatar-circle" style="background:#e5ded3; color:#1a1008; width:28px; height:28px; font-size:10px;">KR</div>
+                                        <span class="fw-medium" style="font-size:12px;">kriss</span>
+                                    </div>
                                 </td>
-                                <td class="date-text">@car.CreatedAt.ToString("MMM dd, yyyy")</td>
-                                <td class="text-end d-flex justify-content-end gap-2">
-                                    <a href="@Url.Action("Details", "Cars", new { id = car.Id })" class="action-btn text-primary" title="View">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <td class="price">₹@car.Price.ToString("N0")</td>
+                                <td>
+                                    <span class="status-badge badge-approved">
+                                        Approved
+                                    </span>
+                                </td>
+                                <td class="date">@car.CreatedAt.ToString("d MMM yyyy")</td>
+                                <td class="text-end">
+                                    <a href="@Url.Action(car.Condition == "Used" ? "OldDetails" : "Details", "Cars", new { id = car.Id })" class="btn action-btn text-decoration-none d-inline-flex align-items-center justify-content-center" title="View" style="border: 1px solid #e5ded3; width: 32px; height: 32px; padding: 0;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8c8273" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                     </a>
-                                    <form asp-action="HideListing" asp-route-id="@car.Id" method="post" style="display:inline;">
-                                        <button type="submit" class="action-btn text-warning border-0 bg-transparent" title="@(car.IsHidden ? "Unhide" : "Hide")">
-                                            @if (car.IsHidden) {
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                                            } else {
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                            }
-                                        </button>
-                                    </form>
+                                    <button class="action-btn mx-1 edit-btn" title="Edit" style="border: 1px solid #e5ded3;"
+                                            data-bs-toggle="modal" data-bs-target="#editListingModal"
+                                            data-id="@car.Id"
+                                            data-title="@car.Title"
+                                            data-brand="@car.Brand"
+                                            data-model="@car.Model"
+                                            data-price="@car.Price"
+                                            data-condition="@car.Condition"
+                                            data-year="@car.Year"
+                                            data-mileage="@car.Mileage"
+                                            data-fuel="@car.FuelType"
+                                            data-transmission="@car.Transmission"
+                                            data-location="@car.Location"
+                                            data-description="@Uri.EscapeDataString(car.Description ?? "")">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8c8273" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    </button>
                                     <form asp-action="DeleteListing" asp-route-id="@car.Id" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this listing?');">
-                                        <button type="submit" class="action-btn text-danger border-0 bg-transparent" title="Delete">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                        <button type="submit" class="action-btn del" title="Delete" style="border: 1px solid #e5ded3;">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d9534f" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
                                         </button>
                                     </form>
                                 </td>
@@ -98,3 +134,118 @@
         </div>
     </div>
 </section>
+</section>
+
+<!-- Edit Listing Modal -->
+<div class="modal fade" id="editListingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 650px;">
+        <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+            <div class="modal-header border-0 pb-0" style="padding: 24px 32px;">
+                <h5 class="modal-title fw-bold" style="color:#1a1008; font-size: 18px;">Edit Listing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="font-size: 14px; opacity: 0.5;"></button>
+            </div>
+            <div class="modal-body" style="padding: 24px 32px;">
+                <form id="editForm" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Car Name</label>
+                            <input id="edit_Title" name="Title" class="form-control form-control-sm" style="padding: 10px 14px; border-radius: 8px !important;" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Brand</label>
+                            <select id="edit_Brand" name="Brand" class="form-select form-select-sm" style="padding: 10px 14px; border-radius: 8px !important;">
+                                <option>Toyota</option>
+                                <option>Ford</option>
+                                <option>BMW</option>
+                                <option>Honda</option>
+                                <option>Mercedes-Benz</option>
+                                <option>Audi</option>
+                                <option>Tesla</option>
+                                <option>Porsche</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Price (₹)</label>
+                            <input id="edit_Price" name="Price" type="number" class="form-control form-control-sm" style="padding: 10px 14px; border-radius: 8px !important;" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Model</label>
+                            <input id="edit_Model" name="Model" class="form-control form-control-sm" style="padding: 10px 14px; border-radius: 8px !important;" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Type (New/Old)</label>
+                            <select id="edit_Condition" name="Condition" class="form-select form-select-sm" style="padding: 10px 14px; border-radius: 8px !important;">
+                                <option value="New">New Car</option>
+                                <option value="Used">Used/Old Car</option>
+                                <option value="Old">Old Car</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Year</label>
+                            <input id="edit_Year" name="Year" type="number" class="form-control form-control-sm" style="padding: 10px 14px; border-radius: 8px !important;" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Mileage (km)</label>
+                            <input id="edit_Mileage" name="Mileage" type="number" class="form-control form-control-sm" style="padding: 10px 14px; border-radius: 8px !important;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Fuel Type</label>
+                            <select id="edit_FuelType" name="FuelType" class="form-select form-select-sm" style="padding: 10px 14px; border-radius: 8px !important;">
+                                <option>Gasoline</option>
+                                <option>Petrol</option>
+                                <option>Diesel</option>
+                                <option>Electric</option>
+                                <option>Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Transmission</label>
+                            <select id="edit_Transmission" name="Transmission" class="form-select form-select-sm" style="padding: 10px 14px; border-radius: 8px !important;">
+                                <option>Automatic</option>
+                                <option>Manual</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Location</label>
+                            <input id="edit_Location" name="Location" class="form-control form-control-sm" style="padding: 10px 14px; border-radius: 8px !important;" required />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label mb-1" style="font-size: 13px; font-weight: 600; color: #1a1008;">Description</label>
+                            <textarea id="edit_Description" name="Description" class="form-control form-control-sm" rows="3" style="padding: 10px 14px; border-radius: 8px !important;" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-3 d-flex justify-content-end gap-3 align-items-center">
+                        <button type="button" class="btn btn-light bg-white border" data-bs-dismiss="modal" style="border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 600; color: #1a1008;">Cancel</button>
+                        <button type="submit" class="btn" style="border-radius: 999px; padding: 10px 24px; font-size: 14px; font-weight: 600; background: #f97316; color: white;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var editBtns = document.querySelectorAll('.edit-btn');
+        editBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var id = this.getAttribute('data-id');
+                document.getElementById('editForm').action = '/Admin/EditListingAction/' + id;
+                document.getElementById('edit_Title').value = this.getAttribute('data-title');
+                document.getElementById('edit_Brand').value = this.getAttribute('data-brand');
+                document.getElementById('edit_Model').value = this.getAttribute('data-model');
+                document.getElementById('edit_Price').value = this.getAttribute('data-price');
+                document.getElementById('edit_Condition').value = this.getAttribute('data-condition');
+                document.getElementById('edit_Year').value = this.getAttribute('data-year');
+                document.getElementById('edit_Mileage').value = this.getAttribute('data-mileage');
+                document.getElementById('edit_FuelType').value = this.getAttribute('data-fuel');
+                document.getElementById('edit_Transmission').value = this.getAttribute('data-transmission');
+                document.getElementById('edit_Location').value = this.getAttribute('data-location');
+                var desc = this.getAttribute('data-description');
+                document.getElementById('edit_Description').value = desc ? decodeURIComponent(desc) : '';
+            });
+        });
+    });
+</script>

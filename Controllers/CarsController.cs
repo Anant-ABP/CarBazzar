@@ -39,14 +39,16 @@ public class CarsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Browse(string brand, int? minPrice, int? maxPrice, string fuel)
+    public async Task<IActionResult> Browse(string search, string brand, int? minPrice, int? maxPrice, string fuel)
     {
         var userId = _userManager.GetUserId(User);
         ViewBag.WishlistCarIds = await GetUserWishlistAsync(userId);
+        ViewBag.Search = search;
 
         var query = _context.Cars.Include(c => c.Seller)
             .Where(c => !c.IsHidden && c.Condition == "New");
 
+        if (!string.IsNullOrEmpty(search)) query = query.Where(c => c.Title.Contains(search) || c.Brand.Contains(search) || c.Model.Contains(search));
         if (!string.IsNullOrEmpty(brand)) query = query.Where(c => c.Brand == brand);
         if (!string.IsNullOrEmpty(fuel))  query = query.Where(c => c.FuelType == fuel);
         if (minPrice.HasValue) query = query.Where(c => c.Price >= minPrice.Value);
@@ -57,14 +59,16 @@ public class CarsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> OldBrowse(string brand, int? minPrice, int? maxPrice, string fuel)
+    public async Task<IActionResult> OldBrowse(string search, string brand, int? minPrice, int? maxPrice, string fuel)
     {
         var userId = _userManager.GetUserId(User);
         ViewBag.WishlistCarIds = await GetUserWishlistAsync(userId);
+        ViewBag.Search = search;
 
         var query = _context.Cars.Include(c => c.Seller)
             .Where(c => !c.IsHidden && c.Condition == "Old");
 
+        if (!string.IsNullOrEmpty(search)) query = query.Where(c => c.Title.Contains(search) || c.Brand.Contains(search) || c.Model.Contains(search));
         if (!string.IsNullOrEmpty(userId)) query = query.Where(c => c.SellerId != userId);
         if (!string.IsNullOrEmpty(brand)) query = query.Where(c => c.Brand == brand);
         if (!string.IsNullOrEmpty(fuel))  query = query.Where(c => c.FuelType == fuel);
