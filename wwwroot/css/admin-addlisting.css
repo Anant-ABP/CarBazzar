@@ -3,7 +3,7 @@
 .add-shell {
     background: #ffffff;
     border-radius: 16px;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.10);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.10);
     padding: 46px 54px;
     max-width: 980px;
     margin: 28px auto 0;
@@ -52,7 +52,7 @@
 
 .add-input:focus {
     border-color: #f59e0b;
-    box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
 }
 
 .add-image-row {
@@ -124,17 +124,21 @@
         padding: 36px 22px;
         margin: 18px 12px 0;
     }
+
     .add-grid {
         grid-template-columns: 1fr;
         gap: 22px;
     }
+
     .add-image-row {
         grid-template-columns: 1fr;
     }
+
     .add-actions {
         flex-direction: column;
         align-items: center;
     }
+
     .add-btn {
         width: 100%;
         max-width: 320px;
